@@ -83,7 +83,8 @@ def src_carfromjapan():
     out, page, pages = [], 1, 1
     while page <= pages:
         url = ("https://carfromjapan.com/cheap-used-honda-acty-truck-for-sale-drive-type-4wd"
-               f"?minYear={MIN_YEAR}&maxYear={MAX_YEAR}&maxMonth=dec" + (f"&page={page}" if page > 1 else ""))
+               f"?minYear={MIN_YEAR}&maxYear={MAX_YEAR}&maxMonth=dec&country=USA&port=Long%20Beach%2FLos%20Angeles"
+               + (f"&page={page}" if page > 1 else ""))
         h = get(url)
         chunks = re.findall(r'self\.__next_f\.push\(\[1,"(.*?)"\]\)</script>', h, re.S)
         t = "".join(json.loads('"' + c + '"') for c in chunks)
@@ -121,7 +122,7 @@ def src_sbt():
     out, page = [], 1
     while page <= 5:
         url = (f"https://www.sbtjapan.com/used-cars/honda/acty-truck?year__from={MIN_YEAR}"
-               f"&year__to={MAX_YEAR}&page={page}")
+               f"&year__to={MAX_YEAR}&country=85&port=212&page={page}")  # 85/212 = USA, Long Beach
         s = BeautifulSoup(get(url), "lxml")
         infos = [c for c in s.select("div.card-product__infos") if "Model Code" in c.get_text()]
         if not infos:
@@ -138,12 +139,13 @@ def src_sbt():
             ry, rm = (re.findall(r"\d+", reg) + [None, None])[:2]
             img = card.find("img", src=re.compile("img.sbtjapan.com"))
             out.append(dict(
-                source="SBT Japan", sid=a["href"].rstrip("/").split("/")[-1],
+                source="SBT Japan", sid=a["href"].split("?")[0].rstrip("/").split("/")[-1],
                 url="https://www.sbtjapan.com" + a["href"],
                 title=(re.search(r"\d{4}(?:/\d+)? HONDA ACTY TRUCK[^|]*", t).group(0).strip().title() if re.search(r"\d{4}(?:/\d+)? HONDA ACTY TRUCK[^|]*", t) else "Honda Acty Truck"), reg_year=num(ry), reg_month=num(rm),
                 mfg_year=num(field(t, "Manufacture:")), km=num(field(t, "Mileage") and re.search(r"([\d,]+)km \| Mileage", t) and re.search(r"([\d,]+)km \| Mileage", t).group(1)),
                 price_usd=num(re.search(r"Vehicle Price \| USD \| ([\d,]+)", t) and re.search(r"Vehicle Price \| USD \| ([\d,]+)", t).group(1)),
                 delivered_usd=num(re.search(r"Total Price \| USD \| ([\d,]+)", t) and re.search(r"Total Price \| USD \| ([\d,]+)", t).group(1)),
+                delivered_to="Long Beach",
                 ac=ac_from(t), drive=re.search(r"\| (4WD|2WD) \| Drive", t) and re.search(r"\| (4WD|2WD) \| Drive", t).group(1),
                 chassis=chassis_of(re.search(r"\| (\S+) \| Model Code", t) and re.search(r"\| (\S+) \| Model Code", t).group(1)),
                 reserved="RESERVED" in t, image=img["src"] if img else None,
@@ -229,7 +231,9 @@ def src_goonet():
 
 def src_beforward():
     out = []
-    url = f"https://www.beforward.jp/stocklist/make=2/model=287/model_code=HA7/mfg_year_to={MAX_YEAR}/"
+    url = (f"https://www.beforward.jp/stocklist/make=2/model=287/model_code=HA7/mfg_year_to={MAX_YEAR}/"
+           "tp_country_id=90/tp_port_id=338/alt_port_id=338/certificate=1/insurance=1/protection=1/"
+           "shipping_method=1/currency=USD/")  # 90/338 = USA, Los Angeles
     for page in range(1, 6):
         u = url if page == 1 else url + f"page={page}/"
         try:
