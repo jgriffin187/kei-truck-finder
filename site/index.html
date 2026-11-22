@@ -151,7 +151,7 @@ function card(t){
   const also=(t.also_on||[]).filter(x=>x.url).map(x=>`<a href="${esc(safe(x.url))}" target="_blank" rel="noopener">${esc(x.source)}</a>${x.usd?' '+money(x.usd):''}`).join(', ');
   const deliv=t.delivered_usd?`<span class="sub">${money(t.delivered_usd)} delivered${t.delivered_to?' to '+esc(t.delivered_to):''}</span>`:'';
   return `<article class="card" id="t-${esc(t.key.replace(/\W+/g,'-'))}">
-  <div class="ph">${t.img?`<img referrerpolicy="no-referrer" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">New</span>':''}</div>
+  <div class="ph">${t.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">New</span>':''}</div>
   <div class="b">
    <h3>${esc(t.title||'Honda Acty truck')}</h3>
    <div class="row"><span class="price">${money(t.usd)}</span>${deliv}${t.price_drop?'<span class="chip ok">Price dropped</span>':''}</div>
@@ -178,7 +178,7 @@ function render(){
   $('#kpis').innerHTML=[[now.length,'Legal now'],[arr.length,'Legal on arrival'],[us.length,'In the US'],[lowNow,'Under 48,000 km'],[D.first_run?'—':D.new_keys.length,'New today']].map(([n,l])=>`<div class="kpi"><div class="big">${n}</div><span>${l}</span></div>`).join('');
   $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'.';
   const best=[...now,...us].filter(t=>!saved.hidden[t.key]).sort((a,b)=>{const x=rankKey(a),y=rankKey(b);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]-y[i];return 0})[0];
-  $('#hero').innerHTML=best?`${best.img?`<img referrerpolicy="no-referrer" src="${esc(best.img)}" alt="${esc(best.title)}">`:''}${plate(best)}<div class="body"><div class="tag">Best match today · ${esc(statusText(best))}</div><h2>${esc(best.title)}</h2><div class="row"><span class="price">${money(best.usd)}</span><span class="km">${best.km!=null?best.km.toLocaleString('en-US')+' km':''}</span><span class="sub">${best.ac?'A/C':'A/C not listed'} · ${esc(best.seller||best.source)}, ${esc(best.location||'')}</span></div><div class="acts"><a class="go" href="${esc(safe(best.url))}" target="_blank" rel="noopener">View listing</a></div></div>`:'';
+  $('#hero').innerHTML=best?`${best.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(best.img)}" alt="${esc(best.title)}">`:''}${plate(best)}<div class="body"><div class="tag">Best match today · ${esc(statusText(best))}</div><h2>${esc(best.title)}</h2><div class="row"><span class="price">${money(best.usd)}</span><span class="km">${best.km!=null?best.km.toLocaleString('en-US')+' km':''}</span><span class="sub">${best.ac?'A/C':'A/C not listed'} · ${esc(best.seller||best.source)}, ${esc(best.location||'')}</span></div><div class="acts"><a class="go" href="${esc(safe(best.url))}" target="_blank" rel="noopener">View listing</a></div></div>`:'';
   $('#p-now').textContent=`Built ${cut} or earlier. Prices are the exporter's price in Japan; shipping, duty and fees come on top.`;
   $('#p-arr').textContent=`Turns 25 within two months. Shipping takes about 4 to 8 weeks and the rule is checked when the truck lands, so time the arrival date with your shipper.`;
   fill('#g-now',filt(now),'Nothing matches your filters.');
