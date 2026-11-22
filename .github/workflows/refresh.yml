@@ -1,0 +1,49 @@
+name: Daily truck refresh
+
+on:
+  schedule:
+    # 09:17 UTC = 2:17 AM MST / 3:17 AM MDT, well before the 5 AM check.
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["site/index.html", "us_leads.json", ".github/workflows/refresh.yml"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4 lxml pillow
+      - name: Collect listings
+        run: python collector.py --dir .
+      - name: Build site data
+        run: python build.py --dir . --remote-images
+      - name: Save history
+        run: |
+          git config user.name "kei-truck-bot"
+          git config user.email "kei-truck-bot@users.noreply.github.com"
+          git add state.json listings.json site/data.json
+          git diff --cached --quiet || git commit -m "Daily listings $(date -u +%F)"
+          git push
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
