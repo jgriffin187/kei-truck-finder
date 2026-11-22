@@ -101,7 +101,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
 
 <section class="band plan" id="plan"><div class="wrap">
   <h2>Import plan</h2>
-  <p class="note" style="max-width:75ch">From the DIY import guide you shared (written 2016, updated 2021). Tick steps off and note which business you hire. Ticks and notes save in this browser only.</p>
+  <p class="note" style="max-width:75ch">From the DIY import guide you shared (written 2016, updated 2021). Tick steps off and note which business you hire. Ticks and notes save in this browser, or on all your devices once sync is on (bottom of the page).</p>
   <p class="note" id="savestate"></p>
   <ol class="steps" id="steps"></ol>
   <h2 style="margin-top:28px">Costs to budget beyond the truck price</h2>
@@ -110,6 +110,11 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
 </div></section>
 
 <footer class="band"><div class="wrap">
+  <details class="more" id="sync"><summary>Sync stars and notes across devices</summary>
+   <p class="note" style="max-width:70ch">Paste a GitHub token that can only manage gists. Your stars, hidden trucks and import notes are then saved to a secret gist in your account, and every device with the same token sees them. <a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=Kei%20Truck%20Finder%20sync" target="_blank" rel="noopener">Create a gist-only token</a> (classic, scope "gist").</p>
+   <form id="syncform" class="row" style="gap:8px"><input type="text" id="tok" placeholder="ghp_…" autocomplete="off" style="flex:1 1 260px"><button class="icon" style="padding:0 16px" type="submit">Connect</button><button class="icon" style="padding:0 16px" type="button" id="unsync">Disconnect</button></form>
+   <p class="note" id="syncstate"></p>
+  </details>
   <h2 style="font-size:20px">Sources today</h2>
   <table id="srcs"><thead><tr><th>Site</th><th>Acty listings read</th><th>Status</th></tr></thead><tbody></tbody></table>
   <p class="note">HA7 "confirmed" means the chassis number shows HA7. "Likely" means a 2000 or later Acty truck listed as 4WD, which is always an HA7. When a listing gives only a year, the build month is assumed to be December, so the legal date shown is the latest it could be. Ask the seller for the exact build month before you pay. Exchange rate: <span id="fx"></span> yen per dollar.</p>
@@ -195,7 +200,24 @@ function renderPlan(){
    <div class="f"><input type="text" data-vendor="${id}" placeholder="Business hired" value="${esc(s.vendor||'')}" aria-label="Business hired for ${esc(h)}"><input type="text" data-note="${id}" placeholder="Notes, quote, contact" value="${esc(s.note||'')}" aria-label="Notes for ${esc(h)}"></div></li>`}).join('');
   $('#costs').innerHTML=COSTS.map(([b,t])=>`<div class="cost"><b>${esc(b)}</b><span class="note">${esc(t)}</span></div>`).join('');
 }
-function save(path,obj){try{localStorage.setItem('kei:'+path,JSON.stringify(obj));$('#savestate').textContent='Saved in this browser.'}catch(e){$('#savestate').textContent='This browser is not letting the page save.'}}
+const GH='https://api.github.com',DESC='Kei Truck Finder prefs',FILE='kei-prefs.json';
+let tok=null,gid=null,timer=null;try{tok=localStorage.getItem('kei:tok');gid=localStorage.getItem('kei:gid')}catch(e){}
+const gh=(path,opt={})=>fetch(GH+path,{...opt,headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'}}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
+const syncMsg=t=>{$('#syncstate').textContent=t};
+async function findGist(){for(let pg=1;pg<=5;pg++){const l=await gh('/gists?per_page=100&page='+pg);const g=l.find(x=>x.description===DESC);if(g)return g.id;if(l.length<100)break}return null}
+async function pull(){if(!tok)return;try{gid=gid||await findGist();if(!gid){await push();return}
+  const g=await gh('/gists/'+gid);const v=JSON.parse(g.files[FILE]?.content||'{}');
+  if(v.trucks)saved={stars:{...saved.stars,...(v.trucks.stars||{})},hidden:{...saved.hidden,...(v.trucks.hidden||{})}};if(v.plan)plan=v.plan;
+  try{localStorage.setItem('kei:gid',gid);localStorage.setItem('kei:prefs/trucks',JSON.stringify(saved));localStorage.setItem('kei:prefs/plan',JSON.stringify(plan))}catch(e){}
+  syncMsg('Synced. Changes save to your secret gist.');renderPlan();D&&render()}catch(e){syncMsg('Could not reach your gist ('+e.message+'). Check the token.')}}
+async function push(){if(!tok)return;const content=JSON.stringify({trucks:saved,plan,updated:new Date().toISOString()},null,1);
+  try{if(!gid){const g=await gh('/gists',{method:'POST',body:JSON.stringify({description:DESC,public:false,files:{[FILE]:{content}}})});gid=g.id;try{localStorage.setItem('kei:gid',gid)}catch(e){}}
+  else await gh('/gists/'+gid,{method:'PATCH',body:JSON.stringify({files:{[FILE]:{content}}})});syncMsg('Synced '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})+'.')}
+  catch(e){syncMsg('Sync failed ('+e.message+'). Saved in this browser.')}}
+function save(path,obj){try{localStorage.setItem('kei:'+path,JSON.stringify(obj));$('#savestate').textContent=tok?'Saved.':'Saved in this browser. Turn on sync at the bottom of the page to use it on other devices.'}catch(e){$('#savestate').textContent='This browser is not letting the page save.'}
+  if(tok){clearTimeout(timer);timer=setTimeout(push,800)}}
+$('#syncform').addEventListener('submit',e=>{e.preventDefault();const v=$('#tok').value.trim();if(!v)return;tok=v;gid=null;try{localStorage.setItem('kei:tok',tok);localStorage.removeItem('kei:gid')}catch(x){}$('#tok').value='';syncMsg('Connecting…');pull()});
+$('#unsync').addEventListener('click',()=>{tok=gid=null;try{localStorage.removeItem('kei:tok');localStorage.removeItem('kei:gid')}catch(e){}syncMsg('Sync is off on this device. Stars and notes stay in this browser.')});
 document.addEventListener('click',e=>{const s=e.target.closest('[data-star]'),h=e.target.closest('[data-hide]');
   if(s){const k=s.dataset.star;saved.stars[k]?delete saved.stars[k]:saved.stars[k]=1;save('prefs/trucks',saved);render()}
   if(h){const k=h.dataset.hide;saved.hidden[k]?delete saved.hidden[k]:saved.hidden[k]=1;save('prefs/trucks',saved);render()}});
@@ -207,6 +229,7 @@ renderPlan();
 fetch('data.json').then(r=>r.json()).then(d=>{D=d;render()}).catch(()=>{$('#headline').textContent='Could not load today’s listings.'});
 try{const a=JSON.parse(localStorage.getItem('kei:prefs/trucks')||'null');if(a)saved={stars:a.stars||{},hidden:a.hidden||{}};plan=JSON.parse(localStorage.getItem('kei:prefs/plan')||'{}')||{}}catch(e){}
 renderPlan();
+if(tok){syncMsg('Syncing…');pull()}else syncMsg('Sync is off. Stars and notes are saved in this browser only.');
 }
 </script>
 </body>
