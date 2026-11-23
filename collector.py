@@ -361,8 +361,16 @@ def usd(t):
 
 
 def main():
+    global JPY_PER_USD
     today = dt.date.today()
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes")
+    # Last run's results: if a site can't be read today (bot check, outage),
+    # keep showing its trucks from last time instead of dropping them.
+    prev_p = os.path.join(OUT_DIR, "listings.json")
+    try:
+        prev = json.load(open(prev_p))
+    except Exception:
+        prev = {}
     raw, counts = [], {}
     for name, fn in SOURCES:
         try:
@@ -372,7 +380,14 @@ def main():
         except Exception as e:
             ERRORS[name] = str(e)[:200]
             counts[name] = None
+            kept = [dict(t, stale=True) for t in prev.get("trucks", []) if t.get("source") == name]
+            raw += kept
+            if kept:
+                print(f"{name}: kept {len(kept)} trucks from last run", file=sys.stderr)
         print(f"{name}: {counts[name]}", file=sys.stderr)
+
+    if "CAR FROM JAPAN" in ERRORS and prev.get("jpy_per_usd"):
+        JPY_PER_USD = prev["jpy_per_usd"]  # the live rate comes from that site; reuse the last good one
 
     trucks = []
     for t in raw:
