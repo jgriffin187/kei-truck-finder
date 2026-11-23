@@ -409,7 +409,7 @@ def main():
     for g in groups.values():
         g.sort(key=lambda x: (x.get("usd") is None, x.get("usd") or 0))
         best = dict(g[0])
-        best["also_on"] = [{"source": x["source"], "url": x["url"], "usd": x.get("usd")} for x in g[1:]]
+        best["also_on"] = [{"source": x["source"], "url": x["url"], "usd": x.get("usd"), "key": x["key"]} for x in g[1:]]
         if best.get("ac") is None and any(x.get("ac") for x in g):
             best["ac"] = True
         merged.append(best)
