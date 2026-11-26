@@ -80,11 +80,16 @@ details.more>summary::after{content:"›";font-size:22px;color:var(--mute);trans
 @media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
 .tr{background:var(--card);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;overflow:hidden}
 .tr.isnew{box-shadow:inset 3px 0 0 var(--red)}
-.tr.gone{opacity:.75}.tr.gone img{filter:grayscale(1)}
+.tr.gone{opacity:.9}.tr.gone img{filter:grayscale(1)}
 .tr-main{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:none;border:0;padding:8px 0 8px 8px;min-height:96px}
 .th{position:relative;display:block;width:104px;height:78px;border-radius:8px;overflow:hidden;background:var(--panel)}
 .th img{width:100%;height:100%;object-fit:cover;display:block}
 .th .plate{position:absolute;left:4px;bottom:4px;font-size:11px;padding:0 4px;border-width:1px}
+/* Reserved / sold: a stamp across the photo and a colored edge so it stands out in any list. */
+.stamp{position:absolute;left:0;right:0;top:50%;transform:translateY(-62%) rotate(-12deg);text-align:center;font-weight:900;font-size:14px;letter-spacing:.08em;color:#fff;padding:3px 0;box-shadow:0 1px 4px #0006;z-index:1}
+.stamp.res{background:#d97706}.stamp.sold{background:#c81e1e}
+.tr.isres{box-shadow:inset 5px 0 0 #d97706;background:light-dark(#fff8eb,#2a2110)}.tr.issold{box-shadow:inset 5px 0 0 #c81e1e;background:light-dark(#fdeeee,#2a1416)}
+.tag.resv{background:#d97706;border-color:#d97706;color:#fff;font-weight:800}.tag.sold{background:#c81e1e;border-color:#c81e1e;color:#fff;font-weight:800}
 .tx{display:flex;flex-direction:column;gap:2px}
 .l1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .pr{font-size:20px;font-weight:700;letter-spacing:-.01em}.pr small{font-size:12px;font-weight:500;color:var(--mute);margin-left:4px;letter-spacing:0}
@@ -289,13 +294,13 @@ const rid=k=>'t-'+k.replace(/\W+/g,'-');
 function row(t,extra=''){
   const st=isStar(t),open=opened.has(t.key);
   const chassis=t.ha7==='confirmed'?`<span class="tag ok">${esc(t.chassis_code||'HA7')} ✓</span>`:t.ha7==='likely'?'':`<span class="tag warn">Check chassis</span>`;
-  return `<article class="tr${t.is_new?' isnew':''}" id="${esc(rid(t.key))}">
+  return `<article class="tr${t.is_new?' isnew':''}${t.reserved?' isres':''}" id="${esc(rid(t.key))}">
   <button type="button" class="tr-main" data-open="${esc(t.key)}" aria-expanded="${open}">
-   <span class="th">${thumb(t.img,clean(t.title))}${plate(t)}</span>
+   <span class="th">${thumb(t.img,clean(t.title))}${t.reserved?'<span class="stamp res">RESERVED</span>':''}${plate(t)}</span>
    <span class="tx">
     <span class="l1"><span class="pr">${priceHTML(t)}</span></span>
     <span class="l2">${kmHTML(t)}</span>
-    <span class="l3"><span class="tag mk ${esc(mdl(t))}">${mdl(t)==='sambar'?'Subaru':'Honda'}</span>${statusTag(t)}${t.ac===true?'<span class="tag ok">A/C</span>':''}${chassis}${t.price_drop?'<span class="tag ok">Price ↓</span>':''}${t.reserved?'<span class="tag warn">Reserved</span>':''}${extra}</span>
+    <span class="l3"><span class="tag mk ${esc(mdl(t))}">${mdl(t)==='sambar'?'Subaru':'Honda'}</span>${statusTag(t)}${t.ac===true?'<span class="tag ok">A/C</span>':''}${chassis}${t.price_drop?'<span class="tag ok">Price ↓</span>':''}${t.reserved?'<span class="tag resv">Reserved</span>':''}${extra}</span>
    </span>
   </button>
   <button type="button" class="star" data-star="${esc(t.key)}" aria-pressed="${st}" aria-label="${st?'Remove from saved':'Save'}">★</button>
@@ -321,10 +326,10 @@ function detail(t){
 function goneRow(k,v,kind){
   const o=typeof v==='object'&&v?v:{},title=clean(o.t||k.split('|').pop().replace(/-/g,' '));
   const pl=o.b?`<span class="plate">${esc(o.b.replace('-','·'))}</span>`:o.y?`<span class="plate">${esc(o.y)}</span>`:'';
-  return `<article class="tr gone"><div class="tr-main" style="cursor:default"><span class="th">${thumb(o.i,title)}${pl}</span><span class="tx">
+  return `<article class="tr gone issold"><div class="tr-main" style="cursor:default"><span class="th">${thumb(o.i,title)}<span class="stamp sold">SOLD</span>${pl}</span><span class="tx">
    <span class="l1"><span class="pr">${o.p!=null?money(o.p)+'<small>was</small>':''}</span></span>
    <span class="l2">${o.k!=null?`<b>${fmtN(miles(o.k))} mi</b>`:''}</span>
-   <span class="l3"><span class="tag warn">Sold or no longer listed</span>${o.u?`<a class="tag" href="${esc(safe(o.u))}" target="_blank" rel="noopener">Old listing ↗</a>`:''}</span></span></div>
+   <span class="l3"><span class="tag sold">Sold</span><span class="tag warn">No longer listed</span>${o.u?`<a class="tag" href="${esc(safe(o.u))}" target="_blank" rel="noopener">Old listing ↗</a>`:''}</span></span></div>
    ${kind==='hide'?`<button type="button" class="star" style="font-size:14px;color:inherit;width:72px" data-hide="${esc(k)}">Unhide</button>`:`<button type="button" class="star" data-star="${esc(k)}" aria-pressed="true" aria-label="Remove from saved">★</button>`}</article>`}
 function fill(id,list,emptyMsg){$(id).innerHTML=list.length?list.map(t=>row(t)).join(''):`<div class="empty">${emptyMsg}</div>`}
 function rankCmp(a,b){const p=rankKey(a),q=rankKey(b);for(let i=0;i<3;i++)if(p[i]!==q[i])return p[i]-q[i];return 0}
