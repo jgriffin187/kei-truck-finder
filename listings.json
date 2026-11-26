@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-26T04:11+00:00",
+ "generated_at": "2026-11-26T04:26+00:00",
  "today": "2026-11-26",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.34,
@@ -96,7 +96,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -130,12 +130,13 @@
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2001-for-sale-6ad18f9c0e8c78eaad971fab",
-     "usd": 3600
+     "usd": 3600,
+     "key": "CAR FROM JAPAN|6ad18f9c0e8c78eaad971fab"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "url": "https://www.jdmbuysell.com/ad/mayberryminitrucks-2001-honda-acty-ha7-1301628/",
@@ -240,12 +241,13 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/44829988/",
-     "usd": 3500
+     "usd": 3500,
+     "key": "TCV|44829988"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -311,7 +313,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -486,7 +488,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -523,7 +525,8 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/honda/acty%20truck/44753060/",
-     "usd": 3000
+     "usd": 3000,
+     "key": "TCV|44753060"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -564,22 +567,25 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700104006330261030006/",
-     "usd": 3311
+     "usd": 3311,
+     "key": "Goo-net Exchange|700104006330261030006"
     },
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAF6726?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3410
+     "usd": 3410,
+     "key": "SBT Japan|DAF6726"
     },
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2001-for-sale-6aed9778b3d482ac292ff1e3",
-     "usd": 4114
+     "usd": 4114,
+     "key": "CAR FROM JAPAN|6aed9778b3d482ac292ff1e3"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -615,7 +621,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -651,7 +657,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "TCV",
@@ -685,7 +691,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -721,22 +727,25 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAG6947?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2180
+     "usd": 2180,
+     "key": "SBT Japan|DAG6947"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700052063530261120001/",
-     "usd": 2366
+     "usd": 2366,
+     "key": "Goo-net Exchange|700052063530261120001"
     },
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2001-for-sale-6b00d3b01336ed5c412c10f8",
-     "usd": 2429
+     "usd": 2429,
+     "key": "CAR FROM JAPAN|6b00d3b01336ed5c412c10f8"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -809,7 +818,8 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700070313430261021001/",
-     "usd": 8848
+     "usd": 8848,
+     "key": "Goo-net Exchange|700070313430261021001"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -850,7 +860,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -887,12 +897,13 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/44906514/",
-     "usd": 2200
+     "usd": 2200,
+     "key": "TCV|44906514"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -929,12 +940,13 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/45154431/",
-     "usd": 2300
+     "usd": 2300,
+     "key": "TCV|45154431"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -967,7 +979,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1003,7 +1015,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1073,7 +1085,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1142,7 +1154,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1211,7 +1223,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -1247,7 +1259,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "TCV",
@@ -1281,7 +1293,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -1317,7 +1329,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1354,7 +1366,8 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/honda/acty%20truck/45154452/",
-     "usd": 2200
+     "usd": 2200,
+     "key": "TCV|45154452"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -1395,7 +1408,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1431,7 +1444,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -1464,7 +1477,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -1497,7 +1510,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1606,7 +1619,8 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/honda/acty%20truck/44195118/",
-     "usd": 2400
+     "usd": 2400,
+     "key": "TCV|44195118"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -1684,12 +1698,13 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700040329130260822001/",
-     "usd": 4194
+     "usd": 4194,
+     "key": "Goo-net Exchange|700040329130260822001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1725,7 +1740,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -1761,17 +1776,19 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700094006430260825004/",
-     "usd": 2617
+     "usd": 2617,
+     "key": "Goo-net Exchange|700094006430260825004"
     },
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBQ9936?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2830
+     "usd": 2830,
+     "key": "SBT Japan|DBQ9936"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1807,7 +1824,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1843,7 +1860,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -1879,17 +1896,19 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBP9759?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3120
+     "usd": 3120,
+     "key": "SBT Japan|DBP9759"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700055109630261107001/",
-     "usd": 3151
+     "usd": 3151,
+     "key": "Goo-net Exchange|700055109630261107001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -1956,12 +1975,13 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBK7447?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2380
+     "usd": 2380,
+     "key": "SBT Japan|DBK7447"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -1998,12 +2018,13 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/44829991/",
-     "usd": 2350
+     "usd": 2350,
+     "key": "TCV|44829991"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -2039,12 +2060,13 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700012668530260817001/",
-     "usd": 3561
+     "usd": 3561,
+     "key": "Goo-net Exchange|700012668530260817001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -2117,7 +2139,8 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700050801230260906002/",
-     "usd": 1859
+     "usd": 1859,
+     "key": "Goo-net Exchange|700050801230260906002"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -2296,7 +2319,8 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DBK3534?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3080
+     "usd": 3080,
+     "key": "SBT Japan|DBK3534"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -2370,7 +2394,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -2443,12 +2467,13 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/45228911/",
-     "usd": 2200
+     "usd": 2200,
+     "key": "TCV|45228911"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -2481,7 +2506,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -2547,7 +2572,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -2755,7 +2780,8 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DCM8648?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2690
+     "usd": 2690,
+     "key": "SBT Japan|DCM8648"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -2831,17 +2857,20 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DAK6463?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 5230
+     "usd": 5230,
+     "key": "SBT Japan|DAK6463"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/962026061801300047018/",
-     "usd": 5305
+     "usd": 5305,
+     "key": "Goo-net Exchange|962026061801300047018"
     },
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-honda-acty-truck-1999-for-sale-6a35ce8aee76996b50368eb1",
-     "usd": 5662
+     "usd": 5662,
+     "key": "CAR FROM JAPAN|6a35ce8aee76996b50368eb1"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -2986,7 +3015,8 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DST5723?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 4430
+     "usd": 4430,
+     "key": "SBT Japan|DST5723"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -3061,12 +3091,13 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBG8785?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3300
+     "usd": 3300,
+     "key": "SBT Japan|DBG8785"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -3138,7 +3169,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3174,7 +3205,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3351,7 +3382,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3387,7 +3418,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3423,7 +3454,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3568,12 +3599,13 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/45186221/",
-     "usd": 2300
+     "usd": 2300,
+     "key": "TCV|45186221"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3609,7 +3641,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3679,7 +3711,8 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DCC2258?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 4390
+     "usd": 4390,
+     "key": "SBT Japan|DCC2258"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -3717,7 +3750,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -3825,22 +3858,25 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBQ4977?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 7140
+     "usd": 7140,
+     "key": "SBT Japan|DBQ4977"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/962026092401300047011/",
-     "usd": 7389
+     "usd": 7389,
+     "key": "Goo-net Exchange|962026092401300047011"
     },
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2001-for-sale-6ab6febba271f33c898c180b",
-     "usd": 7954
+     "usd": 7954,
+     "key": "CAR FROM JAPAN|6ab6febba271f33c898c180b"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -3876,7 +3912,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -3912,7 +3948,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -4019,17 +4055,19 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBM2336?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 6020
+     "usd": 6020,
+     "key": "SBT Japan|DBM2336"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700100275330260702001/",
-     "usd": 6139
+     "usd": 6139,
+     "key": "Goo-net Exchange|700100275330260702001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -4065,7 +4103,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -4101,12 +4139,13 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700090382930260819001/",
-     "usd": 3846
+     "usd": 3846,
+     "key": "Goo-net Exchange|700090382930260819001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -4139,7 +4178,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -4176,7 +4215,8 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700050023830231023001/",
-     "usd": 12912
+     "usd": 12912,
+     "key": "Goo-net Exchange|700050023830231023001"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -4214,7 +4254,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -4356,7 +4396,8 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DPU6765?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 4090
+     "usd": 4090,
+     "key": "SBT Japan|DPU6765"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -4398,12 +4439,13 @@
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2002-for-sale-68607bda46c3e259dfb1ae7b",
-     "usd": 7572
+     "usd": 7572,
+     "key": "CAR FROM JAPAN|68607bda46c3e259dfb1ae7b"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -4439,17 +4481,19 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700120137330260609001/",
-     "usd": 3568
+     "usd": 3568,
+     "key": "Goo-net Exchange|700120137330260609001"
     },
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBE2425?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3600
+     "usd": 3600,
+     "key": "SBT Japan|DBE2425"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -4485,7 +4529,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -4551,7 +4595,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -4588,12 +4632,13 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/43869577/",
-     "usd": 7467
+     "usd": 7467,
+     "key": "TCV|43869577"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -4626,7 +4671,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -4659,7 +4704,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -4692,7 +4737,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -4728,7 +4773,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -4764,17 +4809,19 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700040411030260623001/",
-     "usd": 2353
+     "usd": 2353,
+     "key": "Goo-net Exchange|700040411030260623001"
     },
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAZ8268?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2370
+     "usd": 2370,
+     "key": "SBT Japan|DAZ8268"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -4807,7 +4854,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -4942,7 +4989,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -4978,17 +5025,19 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DDV9398?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3010
+     "usd": 3010,
+     "key": "SBT Japan|DDV9398"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700080519430260718001/",
-     "usd": 3068
+     "usd": 3068,
+     "key": "Goo-net Exchange|700080519430260718001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -5024,17 +5073,19 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBK6778?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3890
+     "usd": 3890,
+     "key": "SBT Japan|DBK6778"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700081003630261119001/",
-     "usd": 3916
+     "usd": 3916,
+     "key": "Goo-net Exchange|700081003630261119001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -5071,7 +5122,8 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700070900030260904004/",
-     "usd": 4958
+     "usd": 4958,
+     "key": "Goo-net Exchange|700070900030260904004"
     }
    ],
    "first_seen": "2026-11-22T14:48+00:00",
@@ -5112,7 +5164,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -5148,17 +5200,19 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700084038130260205002/",
-     "usd": 2735
+     "usd": 2735,
+     "key": "Goo-net Exchange|700084038130260205002"
     },
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAW8762?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2780
+     "usd": 2780,
+     "key": "SBT Japan|DAW8762"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "SBT Japan",
@@ -5263,7 +5317,7 @@
    "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -5299,17 +5353,19 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAU3542?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2840
+     "usd": 2840,
+     "key": "SBT Japan|DAU3542"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700040399230260829002/",
-     "usd": 2874
+     "usd": 2874,
+     "key": "Goo-net Exchange|700040399230260829002"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -5345,17 +5401,19 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAR3964?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 5450
+     "usd": 5450,
+     "key": "SBT Japan|DAR3964"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700100298930261121001/",
-     "usd": 5513
+     "usd": 5513,
+     "key": "Goo-net Exchange|700100298930261121001"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -5391,17 +5449,19 @@
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBP8785?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2000
+     "usd": 2000,
+     "key": "SBT Japan|DBP8785"
     },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700080359130261009004/",
-     "usd": 2109
+     "usd": 2109,
+     "key": "Goo-net Exchange|700080359130261009004"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -5437,17 +5497,19 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700110115530260728001/",
-     "usd": 2318
+     "usd": 2318,
+     "key": "Goo-net Exchange|700110115530260728001"
     },
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBK2859?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2400
+     "usd": 2400,
+     "key": "SBT Japan|DBK2859"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "CAR FROM JAPAN",
@@ -5484,12 +5546,14 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700050361230261115003/",
-     "usd": 1470
+     "usd": 1470,
+     "key": "Goo-net Exchange|700050361230261115003"
     },
     {
      "source": "SBT Japan",
      "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DAB7632?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": null
+     "usd": null,
+     "key": "SBT Japan|DAB7632"
     }
    ],
    "first_seen": "2026-11-25T19:17+00:00",
