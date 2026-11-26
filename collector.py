@@ -35,13 +35,13 @@ MODELS = {
         min_year=1999, max_year=MAX_YEAR,  # HA7 launched 1999
         cfj="honda-acty-truck-for-sale-drive-type-4wd", sbt="honda/acty-truck",
         tcv="honda/acty%20truck", goo=("1020", "10204111", "HONDA/ACTY_TRUCK"),
-        bf="make=2/model=287/model_code=HA7", bf_path="/honda/acty"),
+        bf="make=2/model=287", bf_path="/honda/acty"),
     "sambar": dict(
         name="Subaru Sambar", chassis="TT2", manual_only=True,
         min_year=2000, max_year=MAX_YEAR,  # Josh: 2000 and newer, rolling like the Acty (2026-11-26)
         cfj="subaru-sambar-truck-for-sale-drive-type-4wd-transmission-manual", sbt="subaru/sambar-truck",
         tcv="subaru/sambar%20truck", goo=("1045", "10454111", "SUBARU/SAMBAR_TRUCK"),
-        bf="make=94/model=13236/model_code=TT2", bf_path="/subaru/sambar"),
+        bf="make=94/model=13236", bf_path="/subaru/sambar"),
 }
 LOW_KM = 48280  # 30,000 miles
 # Josh looks at the page every morning at 5 AM Mountain. A truck counts as new
@@ -280,10 +280,12 @@ def src_goonet(M):
 
 def src_beforward(M):
     out = []
-    url = (f"https://www.beforward.jp/stocklist/{M['bf']}/mfg_year_to={M['max_year']}/"
+    # No model_code filter: BE FORWARD's TT2/HA7 filter skips trucks listed as
+    # "GD-TT2" or with no code (17 Sambars missed, 2026-11-26). classify() checks chassis.
+    url = (f"https://www.beforward.jp/stocklist/{M['bf']}/mfg_year_from={M['min_year']}/mfg_year_to={M['max_year']}/"
            "tp_country_id=90/tp_port_id=338/alt_port_id=338/certificate=1/insurance=1/protection=1/"
            "shipping_method=1/currency=USD/")  # 90/338 = USA, Los Angeles
-    for page in range(1, 6):
+    for page in range(1, 11):
         u = url if page == 1 else url + f"page={page}/"
         try:
             s = BeautifulSoup(get(u), "lxml")
@@ -482,7 +484,10 @@ def main():
             rec = {"first_seen": now, "first_usd": t.get("usd")}
             # The first run of a newly added model finds trucks that were listed
             # all along: record them, but don't call them new.
-            if first_run or t["model"] not in known_models:
+            # Also not new when the same truck (same year and km) was already
+            # seen on another site: only the cheapest copy's site changed.
+            if first_run or t["model"] not in known_models or any(
+                    a["key"] in state["seen"] for a in t.get("also_on", [])):
                 rec["baseline"] = True
             else:
                 new.append(t["key"])
