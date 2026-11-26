@@ -95,12 +95,21 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
  .mini{display:grid;grid-template-columns:116px minmax(0,1fr)}.mini .ph{min-height:150px}.mini img{position:absolute;inset:0;height:100%;aspect-ratio:auto}
  .mini .ph .plate{left:6px;bottom:6px;font-size:13px}.mini .plate small{display:none}.mini .b{padding:10px 10px 10px 12px;gap:4px}.mini .price{font-size:18px}.mini .acts a.go{padding:8px;font-size:15px}
  .saved{padding-block:12px 14px}.savedhead h2{font-size:20px}}
+@media(max-width:600px){.bar{padding-block:6px}.bar .wrap{flex-wrap:nowrap;overflow-x:auto;gap:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.bar .wrap::-webkit-scrollbar{display:none}label.ctl{flex:none;white-space:nowrap}}
 @media(max-width:820px){.top{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.step .f{grid-template-columns:minmax(0,1fr)}.price{font-size:20px}}
 @media(prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:hover{transform:translateY(-2px)}}
 </style>
 </head>
 <body>
+<div class="bar"><div class="wrap">
+  <label class="ctl">Model <select id="fmodel"><option value="all">Acty and Sambar</option><option value="acty">Honda Acty only</option><option value="sambar">Subaru Sambar only</option></select></label>
+  <label class="ctl">Max km <select id="fkm"><option value="0">Any</option><option value="48300">48,000 (30k mi)</option><option value="80000">80,000</option><option value="120000">120,000</option></select></label>
+  <label class="ctl"><input type="checkbox" id="fac"> A/C listed</label>
+  <label class="ctl"><input type="checkbox" id="fstar"> Saved only</label>
+  <label class="ctl"><input type="checkbox" id="fhid"> Show hidden</label>
+  <label class="ctl">Sort <select id="fsort"><option value="best">Best match</option><option value="price">Lowest price</option><option value="km">Lowest km</option><option value="recent">Newest listed</option></select></label>
+</div></div>
 <section class="band fresh" id="fresh" aria-labelledby="new-h"><div class="wrap">
   <div class="savedhead"><h2 id="new-h">New today</h2><span class="sub" id="new-n"></span></div>
   <div class="grid" id="g-new"></div>
@@ -119,14 +128,6 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
   <div class="hero" id="hero"></div>
 </div></header>
 
-<div class="bar"><div class="wrap">
-  <label class="ctl">Model <select id="fmodel"><option value="all">Acty and Sambar</option><option value="acty">Honda Acty only</option><option value="sambar">Subaru Sambar only</option></select></label>
-  <label class="ctl">Max km <select id="fkm"><option value="0">Any</option><option value="48300">48,000 (30k mi)</option><option value="80000">80,000</option><option value="120000">120,000</option></select></label>
-  <label class="ctl"><input type="checkbox" id="fac"> A/C listed</label>
-  <label class="ctl"><input type="checkbox" id="fstar"> Saved only</label>
-  <label class="ctl"><input type="checkbox" id="fhid"> Show hidden</label>
-  <label class="ctl">Sort <select id="fsort"><option value="best">Best match</option><option value="price">Lowest price</option><option value="km">Lowest km</option><option value="recent">Newest listed</option></select></label>
-</div></div>
 
 <main class="band" style="padding-top:8px"><div class="wrap">
   <section class="sec" id="sec-us"><h2>Already in the US</h2><p>Imported and titled already, so the 25-year check, shipping and customs are done. Prices are dealer retail. These come from a daily web search, so they are leads, not a full list.</p><div class="grid" id="g-us"></div></section>
