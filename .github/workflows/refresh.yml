@@ -1,9 +1,13 @@
-name: Daily truck refresh
+name: Truck refresh and watcher
 
 on:
   schedule:
-    # 09:17 UTC = 2:17 AM MST / 3:17 AM MDT, well before the 5 AM check.
+    # 09:17 UTC = 2:17 AM MST / 3:17 AM MDT, well before the 5 AM check. This
+    # is the daily run that always emails a summary.
     - cron: "17 9 * * *"
+    # The watcher: every 2 hours, all day, so a new truck is alerted soon
+    # after it's listed. GitHub often starts scheduled runs late or skips one.
+    - cron: "47 */2 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -37,12 +41,13 @@ jobs:
       - name: Collect listings
         run: python collector.py --dir .
       - name: Write new-truck alert
-        # The daily (scheduled) run and manual runs always write a summary, so
-        # Josh hears from every daily run even when nothing is new. Runs started
-        # by a merge only write one when they find new trucks.
+        # The daily 09:17 run and manual runs always write a summary, so Josh
+        # hears from every daily run even when nothing is new. Watcher runs
+        # (every 2 hours) and runs started by a merge only write one when they
+        # find new trucks that are legal now or within 2 months.
         run: >-
-          python alert.py --dir . --out "$RUNNER_TEMP/alert.md"
-          ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '--summary' || '' }}
+          python alert.py --dir . --out "$RUNNER_TEMP/alert.md" --warn-out "$RUNNER_TEMP/warn.md"
+          ${{ ((github.event_name == 'schedule' && github.event.schedule == '17 9 * * *') || github.event_name == 'workflow_dispatch') && '--summary' || '' }}
       - name: Email Josh about new trucks
         # An issue assigned to Josh makes GitHub email him, the same way its
         # run-failure emails reach him.
@@ -57,8 +62,13 @@ jobs:
               title="$n new kei truck$([ "$n" = 1 ] || echo s)"
             fi
             gh issue create --repo "$GITHUB_REPOSITORY" --assignee jgriffin187 \
-              --title "$title $(TZ=America/Denver date +'%a %b %-d')" \
+              --title "$title $(TZ=America/Denver date +'%a %b %-d, %-I:%M %p MT')" \
               --body-file "$RUNNER_TEMP/alert.md" || echo "Could not open the alert issue"
+          fi
+          if [ -s "$RUNNER_TEMP/warn.md" ]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --assignee jgriffin187 \
+              --title "$(cat "$RUNNER_TEMP/warn.md.title")" \
+              --body-file "$RUNNER_TEMP/warn.md" || echo "Could not open the warning issue"
           fi
       - name: Check saved trucks
         # Reads Josh's saved trucks from his secret sync gist (secret
@@ -100,7 +110,7 @@ jobs:
               echo "No listing changes to save"
               exit 0
             fi
-            git commit --quiet -m "Daily listings $(date -u +%F)"
+            git commit --quiet -m "Listings $(date -u +'%F %H:%M') UTC"
             if git push origin HEAD:main; then
               exit 0
             fi
