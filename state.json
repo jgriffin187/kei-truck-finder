@@ -1092,6 +1092,60 @@
    "last_seen": "2026-11-26T19:00+00:00",
    "model": "sambar",
    "avail": "available"
+  },
+  "BE FORWARD|CB081675": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CF641562": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CF596709": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CF496810": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CF332587": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CF152811": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CE724119": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CE017389": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
+  },
+  "BE FORWARD|CE026503": {
+   "first_seen": "2026-11-26T18:34+00:00",
+   "first_usd": null,
+   "model": "sambar",
+   "baseline": true
   }
  }
 }
