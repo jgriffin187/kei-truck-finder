@@ -14,166 +14,209 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* VOICE: a buyer's working sheet, plain and exact, like an exporter's stock list.
-   IDEA: the yellow kei license plate; every truck carries one showing its build month.
-   PICTURE: the best legal match, large, with its plate; then the stock list as cards.
-   COLOUR and TYPE: white and ink, kei-plate yellow accent, Honda red for alerts; Zen Kaku Gothic New + IBM Plex Sans.
-   LAYOUT: finding and figures on top, best match beside, sections by import status, then the import plan. */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#14161a);--ink:light-dark(#16181c,#eef0f3);--mute:light-dark(#5d636c,#9aa2ad);--line:light-dark(#e3e5e8,#2b2f36);--panel:light-dark(#f4f5f6,#1c1f25);--plate:#f5c518;--plateInk:#1b1b1b;--red:light-dark(#c8102e,#ff5a6e);--green:light-dark(#18794e,#4cc38a)}
+/* VOICE: a buyer's shortlist, calm and scannable; the numbers that decide a purchase come first.
+   IDEA: the yellow kei plate stays as a small build-month tag on every truck.
+   LAYOUT (phone first): pinned filters, a one-line status header, New with a swipe review,
+   Saved with Compare, then compact rows by import status. Tap a row for details. */
+:root{color-scheme:light dark;--bg:light-dark(#f4f5f7,#101216);--card:light-dark(#ffffff,#1a1d23);--ink:light-dark(#16181c,#eef0f3);--mute:light-dark(#646a73,#9aa2ad);--line:light-dark(#e2e4e8,#2b2f36);--panel:light-dark(#eceef1,#20242b);--plate:#f5c518;--plateInk:#1b1b1b;--red:light-dark(#c8102e,#ff5a6e);--green:light-dark(#18794e,#4cc38a);--amber:light-dark(#9a6200,#f0b44c);--blue:light-dark(#1d4f91,#7fb0ff);--honda:#b3261e;--subaru:#1d4f91}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "IBM Plex Sans",system-ui,sans-serif;overflow-x:clip}
-h1,h2,h3,.plate,.big{font-family:"Zen Kaku Gothic New","IBM Plex Sans",sans-serif}
-h1{font-size:clamp(32px,4.6vw,50px);line-height:1.05;margin:0 0 12px;font-weight:900;text-wrap:balance}
-h2{font-size:26px;line-height:1.15;margin:0 0 4px;font-weight:900}
-h3{font-size:17px;margin:0;font-weight:700;line-height:1.3}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "IBM Plex Sans",system-ui,sans-serif;overflow-x:clip;-webkit-text-size-adjust:100%}
+h1,h2,h3,.plate{font-family:"Zen Kaku Gothic New","IBM Plex Sans",sans-serif}
+h2{font-size:20px;line-height:1.2;margin:0;font-weight:900}
+h3{font-size:16px;margin:0;font-weight:700;line-height:1.3}
 a{color:inherit}
-.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1240px;margin:0 auto}
-.top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:start}
-.lede{color:var(--mute);max-width:60ch;margin:0 0 20px}
-.kpis{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.kpi{flex:1 1 105px;padding:12px 14px;box-shadow:1px 1px 0 var(--line)}.kpi .big{font-size:32px;font-weight:900;line-height:1.1}.kpi span{font-size:13px;color:var(--mute)}
-.hero{background:var(--panel);border-radius:14px;overflow:hidden;position:relative}
-.hero img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--line)}
-.hero .body{padding:14px 18px 18px}.hero .tag{font-size:13px;font-weight:600;color:var(--mute)}
-.hero .plate{position:absolute;top:14px;left:14px;font-size:22px}
-.plate{display:inline-flex;align-items:center;gap:6px;background:var(--plate);color:var(--plateInk);border:2px solid #1b1b1b;border-radius:6px;padding:2px 10px;font-weight:900;font-size:17px;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.25)}
-.plate small{font-size:11px;font-weight:700;opacity:.75}
-.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-block:1px solid var(--line);padding:10px max(5vw,16px)}
-.bar .wrap{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
-label.ctl{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mute)}
-select,input[type=text],textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:44px}
-input[type=checkbox]{width:20px;height:20px;accent-color:var(--ink)}
-button{font:inherit;cursor:pointer}
+.wrap{max-width:900px;margin:0 auto;padding-inline:max(4vw,14px)}
+.band{padding-block:20px}
+.note,.sub{font-size:13px;color:var(--mute)}
+button{font:inherit;cursor:pointer;color:inherit}
 :focus-visible{outline:3px solid var(--plate);outline-offset:2px}
-.sec{margin-top:36px}.sec>p{color:var(--mute);margin:0 0 14px;max-width:75ch}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
-.card{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
-.card .ph{position:relative}.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--panel)}
-.card .ph .plate{position:absolute;left:10px;bottom:10px}
-.card .new{position:absolute;right:10px;top:10px;background:var(--red);color:#fff;font-size:13px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:99px;box-shadow:0 1px 4px rgb(0 0 0/.3)}
-.card.isnew{border:2px solid var(--red)}
-.fresh{padding-block:16px 20px;border-bottom:1px solid var(--line)}.fresh .savedhead h2::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);margin-right:8px;vertical-align:middle}
-@media(max-width:600px){.fresh{padding-block:12px 16px}}
-.card .b{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
-.row{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
-.price{font-size:22px;font-weight:700;white-space:nowrap}.sub{font-size:13px;color:var(--mute)}
-.km{font-weight:600;white-space:nowrap}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{font-size:13px;border:1px solid var(--line);border-radius:99px;padding:1px 9px;white-space:nowrap}
-.mdl{display:inline-block;align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:1px 8px;margin-bottom:4px;color:#fff;background:#b3261e}.mdl.sambar{background:#1d4f91}
-.chip.ok{border-color:var(--green);color:var(--green)}.chip.warn{border-color:var(--red);color:var(--red)}
-.acts{display:flex;gap:8px;margin-top:auto;padding-top:6px;align-items:center}
-.acts a.go{flex:1;text-align:center;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;border-radius:8px;padding:10px;min-height:44px}
-.icon{min-width:44px;min-height:44px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font-size:18px}
-.icon[aria-pressed=true]{background:var(--plate);color:var(--plateInk);border-color:#1b1b1b}
-.empty{padding:20px;border:1px dashed var(--line);border-radius:12px;color:var(--mute)}
-details.more>summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
-.plan{background:var(--panel)}
-.steps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:12px}
-.step{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
-.step .n{grid-row:span 3;padding-top:2px}.step p{margin:0;color:var(--mute);font-size:15px}
-.step .f{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:8px;margin-top:8px}
-.step.done h3{text-decoration:line-through;opacity:.6}
-.costs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
-.cost{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px}.cost b{display:block}
-.note{font-size:13px;color:var(--mute)}
-table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}td.n{text-align:right}
-.saved{background:var(--panel);border-bottom:1px solid var(--line);padding-block:16px 18px}
-.savedhead{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}.savedhead h2{font-size:22px;margin:0}
-.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px,280px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:max(5vw,16px);padding-bottom:6px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-.strip>*{scroll-snap-align:start}
-.mini{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
-.mini .ph{position:relative}.mini img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:var(--line)}
-.mini .ph .plate{position:absolute;left:8px;bottom:8px;font-size:15px;padding:1px 8px}
-.mini .b{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
-.mini h3{font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.mini .price{font-size:19px}.mini .acts{padding-top:2px}.mini .acts a.go{padding:9px}
-.mini.gone{opacity:.8}.mini.gone img{filter:grayscale(1)}
-.savedempty{color:var(--mute);font-size:15px;margin:0}
-@media(max-width:600px){.strip{grid-auto-columns:86vw;margin-inline:calc(-1 * max(5vw,16px));padding-inline:max(5vw,16px)}
- .mini{display:grid;grid-template-columns:116px minmax(0,1fr)}.mini .ph{min-height:150px}.mini img{position:absolute;inset:0;height:100%;aspect-ratio:auto}
- .mini .ph .plate{left:6px;bottom:6px;font-size:13px}.mini .plate small{display:none}.mini .b{padding:10px 10px 10px 12px;gap:4px}.mini .price{font-size:18px}.mini .acts a.go{padding:8px;font-size:15px}
- .saved{padding-block:12px 14px}.savedhead h2{font-size:20px}}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.seg button{border:0;background:var(--bg);color:var(--ink);padding:0 16px;min-height:44px;font-weight:600;font-size:15px}.seg button+button{border-left:1px solid var(--line)}
+select,input[type=text]{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:44px}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--ink)}
+.plate{display:inline-flex;align-items:center;gap:4px;background:var(--plate);color:var(--plateInk);border:1.5px solid #1b1b1b;border-radius:5px;padding:0 6px;font-weight:900;font-size:13px;line-height:1.5;white-space:nowrap}
+.plate small{font-size:10px;font-weight:700;opacity:.7}
+
+/* Filters */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding-block:8px}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+label.ctl{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mute)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;padding:0 16px;min-height:40px;font-weight:600;font-size:15px}.seg button+button{border-left:1px solid var(--line)}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
-.morebtn{min-height:44px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:0 14px;font-weight:600;font-size:15px;white-space:nowrap}
+.morebtn{min-height:44px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:0 14px;font-weight:600;font-size:15px;white-space:nowrap}
 .morebtn[aria-expanded=true]{background:var(--panel)}.morebtn .n{display:inline-block;margin-left:6px;background:var(--plate);color:var(--plateInk);border-radius:99px;padding:0 7px;font-size:13px}
 .morebtn .n[hidden],.morebtn .st{display:none}
-.fpanel{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding-top:10px;margin-top:10px;border-top:1px solid var(--line)}.fpanel[hidden]{display:none}
+.fpanel{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding-top:10px;margin-top:8px;border-top:1px solid var(--line)}.fpanel[hidden]{display:none}
 .fpanel fieldset{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}.fpanel legend{float:left;font-size:14px;color:var(--mute);margin-right:4px}
-.linkbtn{background:none;border:0;color:var(--ink);text-decoration:underline;min-height:44px;padding:0 4px;font-size:14px}
-@media(max-width:600px){.bar{padding-block:8px}.bar .wrap{gap:8px}.seg{flex:1 1 100%}.seg button{flex:1;padding:0 8px}label.ctl{gap:6px;font-size:13px}.bar>.wrap:first-child>label.ctl{flex:1 1 0}.bar>.wrap:first-child>label.ctl select{width:100%}.bar .lt{display:none}.morebtn .st{display:inline}.bar label.ctl select{padding:6px 8px}.fpanel{max-height:60vh;overflow:auto;gap:10px 16px}.fpanel fieldset{gap:4px 12px}}
-@media(max-width:820px){.top{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:600px){.step .f{grid-template-columns:minmax(0,1fr)}.price{font-size:20px}}
-@media(prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:hover{transform:translateY(-2px)}}
+.linkbtn{background:none;border:0;text-decoration:underline;min-height:44px;padding:0 4px;font-size:14px}
+@media(max-width:600px){.bar .wrap{gap:8px}.seg{flex:1 1 100%}.seg button{flex:1;padding:0 8px}label.ctl{gap:6px;font-size:13px}
+ .bar>.wrap:first-child>label.ctl{flex:1 1 0}.bar>.wrap:first-child>label.ctl select{width:100%;padding:6px 8px;min-height:40px}.bar .lt{display:none}.morebtn{min-height:40px}.morebtn .st{display:inline}
+ .fpanel{max-height:60vh;overflow:auto;gap:10px 16px}.fpanel fieldset{gap:4px 12px}}
+
+/* Header */
+.hd{padding-block:14px 4px}
+.hdrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:22px}
+.stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.stat{font-size:13px;font-weight:600;border-radius:99px;padding:3px 10px;background:var(--card);border:1px solid var(--line)}
+.stat b{font-size:15px;margin-right:3px}
+
+/* Section heads */
+.blk{padding-block:14px 6px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.sh .sub{flex:1}
+.btn{min-height:40px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:0 16px;font-weight:600;font-size:14px;white-space:nowrap}
+.btn.pri{background:var(--red);border-color:var(--red);color:#fff}
+.btn[disabled]{opacity:.45;cursor:default}
+.dotred{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);margin-right:6px;vertical-align:middle}
+.sec{margin-top:22px}.sec>.note{margin:2px 0 10px}
+details.more>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;list-style:none}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"›";font-size:22px;color:var(--mute);transition:transform .15s}details.more[open]>summary::after{transform:rotate(90deg)}
+.empty{padding:14px;border:1px dashed var(--line);border-radius:12px;color:var(--mute);font-size:14px}
+
+/* Truck rows */
+.list{display:grid;gap:8px}
+@media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
+.tr{background:var(--card);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;overflow:hidden}
+.tr.isnew{box-shadow:inset 3px 0 0 var(--red)}
+.tr.gone{opacity:.75}.tr.gone img{filter:grayscale(1)}
+.tr-main{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:none;border:0;padding:8px 0 8px 8px;min-height:96px}
+.th{position:relative;display:block;width:104px;height:78px;border-radius:8px;overflow:hidden;background:var(--panel)}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th .plate{position:absolute;left:4px;bottom:4px;font-size:11px;padding:0 4px;border-width:1px}
+.tx{display:flex;flex-direction:column;gap:2px}
+.l1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pr{font-size:20px;font-weight:700;letter-spacing:-.01em}.pr small{font-size:12px;font-weight:500;color:var(--mute);margin-left:4px;letter-spacing:0}
+.l2{font-size:15px}.l2 b{font-weight:600}.l2 small{color:var(--mute);font-size:12px}
+.l3{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:3px;align-items:center}
+.tag{font-size:12px;font-weight:600;border-radius:6px;padding:1px 7px;border:1px solid var(--line);white-space:nowrap}
+.tag.mk{color:#fff;border:0;text-transform:uppercase;letter-spacing:.03em;font-size:11px;font-weight:700}.tag.mk.acty{background:var(--honda)}.tag.mk.sambar{background:var(--subaru)}
+.tag.now{color:var(--green);border-color:currentColor}.tag.arr{color:var(--amber);border-color:currentColor}.tag.us{color:var(--blue);border-color:currentColor}.tag.warn{color:var(--red);border-color:currentColor}.tag.ok{color:var(--green);border-color:currentColor}
+.star{border:0;background:none;width:48px;font-size:22px;color:var(--line);align-self:stretch}
+.star[aria-pressed=true]{color:var(--plate);text-shadow:0 0 1px #1b1b1b}
+.det{grid-column:1/-1;border-top:1px solid var(--line);padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;background:color-mix(in srgb,var(--panel) 40%,var(--card))}
+.det[hidden]{display:none}
+.det .big{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:var(--panel)}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;font-size:14px;margin:0}.kv dt{color:var(--mute)}.kv dd{margin:0}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.go{flex:1 1 160px;text-align:center;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;border-radius:10px;padding:10px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.ghost{min-height:44px;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:0 14px;font-weight:600}
+
+/* Sheets: swipe review and compare */
+.sheet{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column}
+.sheet[hidden]{display:none}
+.sheet-h{display:flex;align-items:center;gap:10px;padding:10px max(4vw,14px);border-bottom:1px solid var(--line)}
+.sheet-h h2{flex:1;font-size:18px}
+.x{min-width:44px;min-height:44px;border:1px solid var(--line);background:var(--card);border-radius:99px;font-size:18px}
+.deck{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:12px max(4vw,14px);overflow:hidden}
+.dcard{width:min(100%,480px);max-height:100%;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgb(0 0 0/.12);touch-action:pan-y;user-select:none;transition:transform .2s ease,opacity .2s}
+.dcard img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--panel);pointer-events:none}
+.dcard .b{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px}
+.dcard .pr{font-size:28px}.dcard .go{flex:none;margin-top:6px}.dcard img{aspect-ratio:16/11}
+.hint{position:absolute;top:24px;font-weight:900;font-size:22px;padding:4px 12px;border:3px solid;border-radius:8px;opacity:0;transform:rotate(-8deg)}
+.hint.yes{left:24px;color:var(--green)}.hint.no{right:24px;color:var(--red);transform:rotate(8deg)}
+.dbtns{display:flex;justify-content:center;gap:14px;padding:10px 14px max(16px,env(safe-area-inset-bottom))}
+.dbtns button{min-width:64px;min-height:64px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:24px;box-shadow:0 2px 8px rgb(0 0 0/.08)}
+.dbtns .no{color:var(--red)}.dbtns .yes{color:#b88a00}.dbtns .skip{font-size:15px;font-weight:600;padding:0 16px}
+.done{text-align:center;color:var(--mute);padding:20px}
+.cmpwrap{flex:1;overflow:auto;padding:12px max(4vw,14px) 24px}
+.cmp{border-collapse:separate;border-spacing:0;font-size:14px;min-width:100%}
+.cmp th,.cmp td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;min-width:150px;max-width:220px}
+.cmp th{position:sticky;left:0;background:var(--bg);color:var(--mute);font-weight:500;min-width:92px;z-index:1}
+.cmp td img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:var(--panel)}
+.cmp td.best{font-weight:700;color:var(--green)}
+
+/* Plan and footer */
+.plan{background:var(--card);border-top:1px solid var(--line);margin-top:28px}
+.plan h2{font-size:22px}
+.steps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.step{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px}
+.step .n{grid-row:span 3;padding-top:2px}.step p{margin:0;color:var(--mute);font-size:14px}
+.step .f{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:8px;margin-top:8px}
+.step.done h3{text-decoration:line-through;opacity:.6}
+.costs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px}
+.cost{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.cost b{display:block}
+.icon{min-width:44px;min-height:44px;border:1px solid var(--line);background:var(--card);border-radius:8px}
+table.src{border-collapse:collapse;width:100%;font-size:14px}table.src td,table.src th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}table.src td.n{text-align:right}
+.row{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+@media(max-width:600px){.step .f{grid-template-columns:minmax(0,1fr)}.tr-main{grid-template-columns:96px minmax(0,1fr);gap:10px}.th{width:96px;height:72px}}
+@media(prefers-reduced-motion:reduce){.dcard{transition:none}}
 </style>
+
 </head>
 <body>
 <div class="bar"><div class="wrap">
   <div class="seg" role="group" aria-label="Make"><button type="button" data-make="all" aria-pressed="true">All</button><button type="button" data-make="acty" aria-pressed="false">Honda</button><button type="button" data-make="sambar" aria-pressed="false">Subaru</button></div>
   <input type="hidden" id="fmodel" value="all">
   <label class="ctl"><span class="lt">Max delivered</span> <select id="fprice" aria-label="Max delivered price"><option value="0">Any price</option><option value="4000">Under $4,000</option><option value="5000">Under $5,000</option><option value="6000">Under $6,000</option><option value="7000">Under $7,000</option><option value="8000">Under $8,000</option><option value="10000">Under $10,000</option></select></label>
-  <label class="ctl"><span class="lt">Sort</span> <select id="fsort" aria-label="Sort"><option value="best">Best match</option><option value="price">Lowest price</option><option value="km">Lowest km</option><option value="recent">Newest listed</option></select></label>
+  <label class="ctl"><span class="lt">Sort</span> <select id="fsort" aria-label="Sort"><option value="best">Best match</option><option value="price">Lowest price</option><option value="km">Lowest miles</option><option value="recent">Newest listed</option></select></label>
   <button type="button" class="morebtn" id="fmore" aria-expanded="false" aria-controls="fpanel"><span class="lt">More filters</span><span class="st">More</span><span class="n" id="fmore-n" hidden></span></button>
  </div>
  <div class="wrap fpanel" id="fpanel" hidden>
   <fieldset><legend>Show</legend><label class="ctl"><input type="checkbox" data-st="in_us" checked> In the US</label><label class="ctl"><input type="checkbox" data-st="legal_now" checked> Legal now</label><label class="ctl"><input type="checkbox" data-st="on_arrival" checked> Legal on arrival</label><label class="ctl"><input type="checkbox" data-st="watch" checked> Coming up</label></fieldset>
   <label class="ctl">Year <select id="fy0" aria-label="Year from"><option value="0">Any</option></select> to <select id="fy1" aria-label="Year to"><option value="0">Any</option></select></label>
-  <label class="ctl">Max km <select id="fkm"><option value="0">Any</option><option value="48300">48,000 (30k mi)</option><option value="80000">80,000</option><option value="120000">120,000</option></select></label>
+  <label class="ctl">Max miles <select id="fkm"><option value="0">Any</option><option value="48300">30,000 mi</option><option value="80000">50,000 mi</option><option value="120000">75,000 mi</option></select></label>
   <label class="ctl"><input type="checkbox" id="fconf"> Chassis confirmed only</label>
   <label class="ctl"><input type="checkbox" id="fac"> A/C listed</label>
   <label class="ctl"><input type="checkbox" id="fstar"> Saved only</label>
   <button type="button" class="linkbtn" id="freset">Clear filters</button>
 </div></div>
-<section class="band fresh" id="fresh" aria-labelledby="new-h"><div class="wrap">
-  <div class="savedhead"><h2 id="new-h">New today</h2><span class="sub" id="new-n"></span></div>
-  <div class="grid" id="g-new"></div>
-</div></section>
-<section class="band saved" id="saved" aria-labelledby="saved-h"><div class="wrap">
-  <div class="savedhead"><h2 id="saved-h">Saved trucks</h2><span class="sub" id="saved-n"></span></div>
-  <div id="g-saved"><p class="savedempty">Tap ★ on any truck below to save it here.</p></div>
-</div></section>
-<header class="band"><div class="wrap top">
-  <div>
-    <h1 id="headline">Loading today's trucks…</h1>
-    <p class="lede" id="lede">Honda Acty HA7 and Subaru Sambar TT2 4WD trucks that are 25 years old by build month, from Japanese exporters and US dealers. Refreshed every morning.</p>
-    <div class="kpis" id="kpis"></div>
-    <p class="note" id="updated"></p>
-  </div>
-  <div class="hero" id="hero"></div>
+<header class="hd"><div class="wrap">
+  <div class="hdrow"><div class="brand"><span class="plate" style="font-size:15px">軽</span>Kei Truck Finder</div><span class="note" id="updated">Loading today's trucks…</span></div>
+  <div class="stats" id="kpis"></div>
 </div></header>
 
+<section class="blk" id="fresh" aria-labelledby="new-h"><div class="wrap">
+  <div class="sh"><h2 id="new-h"><span class="dotred"></span>New today</h2><span class="sub" id="new-n"></span><button type="button" class="btn pri" id="review" hidden>Review new</button></div>
+  <div class="list" id="g-new"></div>
+</div></section>
 
-<main class="band" style="padding-top:8px"><div class="wrap">
-  <section class="sec" id="sec-us"><h2>Already in the US</h2><p>Imported and titled already, so the 25-year check, shipping and customs are done. Prices are dealer retail. These come from a daily web search, so they are leads, not a full list.</p><div class="grid" id="g-us"></div></section>
-  <section class="sec" id="sec-now"><h2>Legal to import now</h2><p id="p-now"></p><div class="grid" id="g-now"></div></section>
-  <section class="sec" id="sec-arr"><h2>Legal on arrival</h2><p id="p-arr"></p><div class="grid" id="g-arr"></div></section>
-  <section class="sec" id="sec-watch"><details class="more"><summary id="s-watch">Coming up later</summary><p class="note">Newer trucks that turn 25 within the next year. Worth watching if you can wait for a newer build.</p><div class="grid" id="g-watch"></div></details></section>
-  <section class="sec" id="sec-hid"><details class="more" id="d-hid"><summary id="s-hid">Hidden trucks (0)</summary><p class="note">Trucks you removed with ✕. They stay hidden after each morning's refresh, also when the same truck shows up on another site. Tap Unhide to bring one back.</p><div class="strip" id="g-hid"></div></details></section>
+<section class="blk" id="saved" aria-labelledby="saved-h"><div class="wrap">
+  <div class="sh"><h2 id="saved-h">★ Saved</h2><span class="sub" id="saved-n"></span><button type="button" class="btn" id="cmpbtn" hidden>Compare</button></div>
+  <div class="list" id="g-saved"></div>
+</div></section>
+
+<main><div class="wrap">
+  <section class="sec" id="sec-us"><h2>In the US</h2><p class="note">Already imported and titled. Dealer retail prices from a daily web search, so these are leads.</p><div class="list" id="g-us"></div></section>
+  <section class="sec" id="sec-now"><h2>Legal to import now</h2><p class="note" id="p-now"></p><div class="list" id="g-now"></div></section>
+  <section class="sec" id="sec-arr"><h2>Legal on arrival</h2><p class="note">Turns 25 within two months, before a truck bought now would land. Time the arrival with your shipper.</p><div class="list" id="g-arr"></div></section>
+  <section class="sec" id="sec-watch"><details class="more"><summary><h2 id="s-watch">Coming up later</h2></summary><p class="note">Newer trucks that turn 25 within the next year.</p><div class="list" id="g-watch"></div></details></section>
+  <section class="sec" id="sec-hid"><details class="more" id="d-hid"><summary><h2 id="s-hid">Hidden trucks</h2></summary><p class="note">Trucks you hid. They stay hidden after each refresh, also when the same truck shows up on another site.</p><div class="list" id="g-hid"></div></details></section>
 </div></main>
 
 <section class="band plan" id="plan"><div class="wrap">
-  <h2>Import plan</h2>
+  <details class="more"><summary><h2>Import plan</h2></summary>
   <p class="note" style="max-width:75ch">From the DIY import guide you shared (written 2016, updated 2021). Tick steps off and note which business you hire. Ticks and notes save in this browser, or on all your devices once sync is on (bottom of the page).</p>
   <p class="note" id="savestate"></p>
   <ol class="steps" id="steps"></ol>
-  <h2 style="margin-top:28px">Costs to budget beyond the truck price</h2>
+  <h3 style="margin-top:22px">Costs to budget beyond the truck price</h3>
   <div class="costs" id="costs"></div>
   <p class="note">Figures are from the guide and its readers and may be out of date. Confirm duty and any new tariffs on Japanese imports with your customs broker before you buy.</p>
+  </details>
 </div></section>
 
 <footer class="band"><div class="wrap">
-  <details class="more" id="sync"><summary>Sync stars and notes across devices</summary>
-   <p class="note" style="max-width:70ch">Paste a GitHub token that can only manage gists. Your stars, hidden trucks and import notes are then saved to a secret gist in your account, and every device with the same token sees them. <a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=Kei%20Truck%20Finder%20sync" target="_blank" rel="noopener">Create a gist-only token</a> (classic, scope "gist").</p>
+  <details class="more" id="sync"><summary><h3>Sync saved trucks and notes across devices</h3></summary>
+   <p class="note" style="max-width:70ch">Paste a GitHub token that can only manage gists. Your saved and hidden trucks and import notes are then saved to a secret gist in your account, and every device with the same token sees them. <a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=Kei%20Truck%20Finder%20sync" target="_blank" rel="noopener">Create a gist-only token</a> (classic, scope "gist").</p>
    <form id="syncform" class="row" style="gap:8px"><input type="text" id="tok" placeholder="ghp_…" autocomplete="off" style="flex:1 1 260px"><button class="icon" style="padding:0 16px" type="submit">Connect</button><button class="icon" style="padding:0 16px" type="button" id="unsync">Disconnect</button></form>
    <p class="note" id="syncstate"></p>
   </details>
-  <h2 style="font-size:20px">Sources today</h2>
-  <table id="srcs"><thead><tr><th>Site</th><th>Listings read</th><th>Status</th></tr></thead><tbody></tbody></table>
-  <p class="note">HA7 or TT2 "confirmed" means the chassis number shows HA7 (Acty) or TT2 (Sambar). "Likely" means a 2000 or later Acty truck listed as 4WD, which is always an HA7, or a 4WD Sambar truck, which is always a TT2. Sambars are limited to 2000 and newer trucks with a manual gearbox. When a listing gives only a year, the build month is assumed to be December, so the legal date shown is the latest it could be. Ask the seller for the exact build month before you pay. Exchange rate: <span id="fx"></span> yen per dollar.</p>
+  <details class="more"><summary><h3>Sources and notes</h3></summary>
+  <table class="src" id="srcs"><thead><tr><th>Site</th><th>Listings read</th><th>Status</th></tr></thead><tbody></tbody></table>
+  <p class="note">HA7 or TT2 "confirmed" means the chassis number shows HA7 (Acty) or TT2 (Sambar). "Likely" means a 2000 or later Acty truck listed as 4WD, which is always an HA7, or a 4WD Sambar truck, which is always a TT2. Sambars are limited to 2000 and newer trucks with a manual gearbox. When a listing gives only a year, the build month is assumed to be December, so the legal date shown is the latest it could be. Ask the seller for the exact build month before you pay. Delivered prices are to Long Beach/Los Angeles. Exchange rate: <span id="fx"></span> yen per dollar.</p>
+  </details>
 </div></footer>
+
+<div class="sheet" id="deck" role="dialog" aria-modal="true" aria-labelledby="deck-h" hidden>
+  <div class="sheet-h"><h2 id="deck-h">Review new trucks</h2><span class="sub" id="deck-n"></span><button type="button" class="x" data-close="deck" aria-label="Close">✕</button></div>
+  <div class="deck" id="deck-area"></div>
+  <div class="dbtns" id="deck-btns"><button type="button" class="no" data-deck="hide" aria-label="Hide">✕</button><button type="button" class="skip" data-deck="skip">Skip</button><button type="button" class="yes" data-deck="save" aria-label="Save">★</button></div>
+</div>
+<div class="sheet" id="cmp" role="dialog" aria-modal="true" aria-labelledby="cmp-h" hidden>
+  <div class="sheet-h"><h2 id="cmp-h">Compare saved trucks</h2><button type="button" class="x" data-close="cmp" aria-label="Close">✕</button></div>
+  <div class="cmpwrap" id="cmp-body"></div>
+</div>
 
 <script>
 {
@@ -223,35 +266,171 @@ function fillYears(){const ys=[...new Set(D.trucks.map(t=>t.reg_year).filter(Boo
 
 function rankKey(t){return [-(t.reg_year||0),t.km??1e9,t.ac?0:1]}
 function cmp(a,b){const s=$('#fsort').value;
-  if(s==='price')return (a.usd??1e9)-(b.usd??1e9);
+  if(s==='price')return (priceOf(a)??1e9)-(priceOf(b)??1e9);
   if(s==='km')return (a.km??1e9)-(b.km??1e9);
   if(s==='recent')return String(b.first_seen).localeCompare(String(a.first_seen));
   const x=rankKey(a),y=rankKey(b);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]-y[i];return 0}
-function card(t){
-  const st=isStar(t),hid=isHid(t);
-  const ha=t.ha7==='confirmed'?'<span class="chip ok">HA7 confirmed</span>':t.ha7==='likely'?'<span class="chip">HA7 likely</span>':'<span class="chip warn">Check chassis is HA7</span>';
-  const ac=t.ac===true?'<span class="chip ok">A/C</span>':t.ac===false?'<span class="chip">A/C not listed</span>':'<span class="chip">A/C unknown</span>';
+const miles=km=>Math.round(km*0.621371);
+const fmtN=n=>Number(n).toLocaleString('en-US');
+// Photos are decorative here (the row text says it all), so a photo that fails to load leaves a plain grey box.
+const thumb=(img,alt,cls='')=>img?`<img class="${cls}" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'" src="${esc(img)}" alt="" loading="lazy">`:'';
+const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
+function priceHTML(t){
+  if(t.status==='in_us')return `${money(t.usd)}<small>US dealer</small>`;
+  if(t.delivered_usd)return `${money(t.delivered_usd)}<small>delivered</small>`;
+  return t.usd==null?'Ask for price':`${money(t.usd)}<small>in Japan</small>`}
+function statusTag(t){
+  if(t.status==='in_us')return '<span class="tag us">In the US</span>';
+  if(t.status==='legal_now')return '<span class="tag now">Legal now</span>';
+  return `<span class="tag ${t.status==='on_arrival'?'arr':''}">Legal ${esc(ym(t.legal_from))}</span>`}
+const acHTML=t=>t.ac===true?' · <b>A/C</b>':t.ac===false?' · <small>no A/C</small>':' · <small>A/C ?</small>';
+const kmHTML=t=>t.km!=null?`<b>${fmtN(miles(t.km))} mi</b> <small>${fmtN(t.km)} km</small>`:'<small>miles unknown</small>';
+const opened=new Set();
+const rid=k=>'t-'+k.replace(/\W+/g,'-');
+function row(t,extra=''){
+  const st=isStar(t),open=opened.has(t.key);
+  const chassis=t.ha7==='confirmed'?`<span class="tag ok">${esc(t.chassis_code||'HA7')} ✓</span>`:t.ha7==='likely'?'':`<span class="tag warn">Check chassis</span>`;
+  return `<article class="tr${t.is_new?' isnew':''}" id="${esc(rid(t.key))}">
+  <button type="button" class="tr-main" data-open="${esc(t.key)}" aria-expanded="${open}">
+   <span class="th">${thumb(t.img,clean(t.title))}${plate(t)}</span>
+   <span class="tx">
+    <span class="l1"><span class="pr">${priceHTML(t)}</span></span>
+    <span class="l2">${kmHTML(t)}</span>
+    <span class="l3"><span class="tag mk ${esc(mdl(t))}">${mdl(t)==='sambar'?'Subaru':'Honda'}</span>${statusTag(t)}${t.ac===true?'<span class="tag ok">A/C</span>':''}${chassis}${t.price_drop?'<span class="tag ok">Price ↓</span>':''}${t.reserved?'<span class="tag warn">Reserved</span>':''}${extra}</span>
+   </span>
+  </button>
+  <button type="button" class="star" data-star="${esc(t.key)}" aria-pressed="${st}" aria-label="${st?'Remove from saved':'Save'}">★</button>
+  <div class="det"${open?'':' hidden'}>${open?detail(t):''}</div>
+ </article>`}
+function detail(t){
   const also=(t.also_on||[]).filter(x=>x.url).map(x=>`<a href="${esc(safe(x.url))}" target="_blank" rel="noopener">${esc(x.source)}</a>${x.usd?' '+money(x.usd):''}`).join(', ');
-  const deliv=t.delivered_usd?`<span class="sub">${money(t.delivered_usd)} delivered${t.delivered_to?' to '+esc(t.delivered_to):''}</span>`:'';
-  return `<article class="card${t.is_new?' isnew':''}" id="t-${esc(t.key.replace(/\W+/g,'-'))}">
-  <div class="ph">${t.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">NEW</span>':''}</div>
-  <div class="b">
-   <span class="mdl ${esc(mdl(t))}">${esc(MODEL_NAMES[mdl(t)]||mdl(t))}</span><h3>${esc(t.title||MODEL_NAMES[mdl(t)]+' truck')}</h3>
-   <div class="row"><span class="price">${money(t.usd)}</span>${deliv}${t.price_drop?'<span class="chip ok">Price dropped</span>':''}</div>
-   <div class="row"><span class="km">${t.km!=null?t.km.toLocaleString('en-US')+' km':'km unknown'}</span>${t.km!=null?`<span class="sub">${Math.round(t.km*0.621371).toLocaleString('en-US')} mi</span>`:''}</div>
-   <div class="chips">${chassisChip(t)}${ac}${t.low_km?'<span class="chip ok">Low km</span>':''}${t.reserved?'<span class="chip warn">Reserved</span>':''}<span class="chip">${esc(statusText(t))}</span></div>
-   <div class="sub">${esc(t.seller||t.source)} · ${esc(t.location||t.country)}${t.vin?' · '+esc(t.vin):''}</div>
-   ${also?`<div class="sub">Also on ${also}</div>`:''}
-   <div class="sub">First seen ${esc(new Date(t.first_seen).toLocaleDateString('en-US',{month:'short',day:'numeric'}))} on ${esc(t.source)}</div>
-   <div class="acts"><a class="go" href="${esc(safe(t.url))}" target="_blank" rel="noopener">View listing</a>
-    <button class="icon" data-star="${esc(t.key)}" aria-pressed="${st}" title="${st?'Remove from saved':'Save'}" aria-label="${st?'Remove from saved':'Save'}">★</button>
-    <button class="icon" data-hide="${esc(t.key)}" aria-pressed="${hid}" title="${hid?'Unhide':'Hide'}">${hid?'↺':'✕'}</button></div>
-  </div></article>`}
+  const hid=isHid(t);
+  const kv=[
+    ['Listing',esc(clean(t.title)||MODEL_NAMES[mdl(t)]+' truck')],
+    ['Price',t.status==='in_us'?money(t.usd)+' US dealer retail':`${money(t.usd)} in Japan${t.delivered_usd?` · ${money(t.delivered_usd)} delivered to ${esc(t.delivered_to||'Long Beach')}`:''}`],
+    ['Built',t.build_month_known?esc(ym(t.build_latest)):esc(t.reg_year)+' (month not stated)'],
+    ['Legal',esc(statusText(t))],
+    ['Mileage',t.km!=null?`${fmtN(miles(t.km))} mi (${fmtN(t.km)} km)`:'Not listed'],
+    ['A/C',t.ac===true?'Yes':t.ac===false?'Not listed':'Unknown'],
+    ['Chassis',t.ha7==='confirmed'?`${esc(t.chassis_code||'HA7')} confirmed${t.vin?' · '+esc(t.vin):''}`:t.ha7==='likely'?`${esc(t.chassis_code||'HA7')} likely`:`Check it is ${esc(t.chassis_code||'HA7')}`],
+    ['Seller',`${esc(clean(t.seller||t.source))}, ${esc(clean(t.location||t.country))}`],
+    ...(also?[['Also on',also]]:[]),
+    ['First seen',`${esc(new Date(t.first_seen).toLocaleDateString('en-US',{month:'short',day:'numeric'}))} on ${esc(t.source)}`]];
+  return `${t.img?thumb(t.img,clean(t.title),'big'):''}<dl class="kv">${kv.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
+   <div class="acts"><a class="go" href="${esc(safe(t.url))}" target="_blank" rel="noopener">View listing ↗</a><button type="button" class="ghost" data-hide="${esc(t.key)}">${hid?'Unhide':'Hide'}</button></div>`}
+// A saved or hidden truck that is no longer listed, from the snapshot kept when it was saved.
+function goneRow(k,v,kind){
+  const o=typeof v==='object'&&v?v:{},title=clean(o.t||k.split('|').pop().replace(/-/g,' '));
+  const pl=o.b?`<span class="plate">${esc(o.b.replace('-','·'))}</span>`:o.y?`<span class="plate">${esc(o.y)}</span>`:'';
+  return `<article class="tr gone"><div class="tr-main" style="cursor:default"><span class="th">${thumb(o.i,title)}${pl}</span><span class="tx">
+   <span class="l1"><span class="pr">${o.p!=null?money(o.p)+'<small>was</small>':''}</span></span>
+   <span class="l2">${o.k!=null?`<b>${fmtN(miles(o.k))} mi</b>`:''}</span>
+   <span class="l3"><span class="tag warn">No longer listed</span>${o.u?`<a class="tag" href="${esc(safe(o.u))}" target="_blank" rel="noopener">Old listing ↗</a>`:''}</span></span></div>
+   ${kind==='hide'?`<button type="button" class="star" style="font-size:14px;color:inherit;width:72px" data-hide="${esc(k)}">Unhide</button>`:`<button type="button" class="star" data-star="${esc(k)}" aria-pressed="true" aria-label="Remove from saved">★</button>`}</article>`}
+function fill(id,list,emptyMsg){$(id).innerHTML=list.length?list.map(t=>row(t)).join(''):`<div class="empty">${emptyMsg}</div>`}
+function rankCmp(a,b){const p=rankKey(a),q=rankKey(b);for(let i=0;i<3;i++)if(p[i]!==q[i])return p[i]-q[i];return 0}
+function orderKeys(map,res){return Object.keys(map).sort((a,b)=>{const x=res.get(a),y=res.get(b);if(!x!==!y)return x?-1:1;return x?rankCmp(x,y):0})}
+let savedLive=[];
+function renderSaved(){
+  const [rs,f1]=resolve(saved.stars),[rh,f2]=resolve(saved.hidden);
+  if(f1||f2)persistLocal();
+  const keys=orderKeys(saved.stars,rs),gone=keys.filter(k=>!rs.has(k)).length;
+  savedLive=keys.map(k=>rs.get(k)).filter(Boolean);
+  $('#saved-n').textContent=keys.length?`${keys.length}${gone?` · ${gone} no longer listed`:''}`:'';
+  $('#cmpbtn').hidden=savedLive.length<2;
+  $('#g-saved').innerHTML=keys.length?keys.map(k=>{const t=rs.get(k),o=saved.stars[k];if(!t)return goneRow(k,o,'star');
+    const was=o&&o.p&&t.usd&&Math.round(o.p)!==Math.round(t.usd)?`<span class="tag ${t.usd<o.p?'ok':'warn'}">was ${money(o.p)}</span>`:'';return row(t,was)}).join(''):'<div class="empty">Tap ★ on any truck to save it here. Save two or more to compare them.</div>';
+  const hk=orderKeys(saved.hidden,rh),hl=hk.filter(k=>rh.has(k)).length;
+  $('#s-hid').textContent=`Hidden trucks (${hl})`;
+  $('#sec-hid').hidden=!hk.length;
+  $('#g-hid').innerHTML=hk.map(k=>{const t=rh.get(k);return t?row(t):goneRow(k,saved.hidden[k],'hide')}).join('');
+}
+function render(){
+  renderSaved();
+  renderNew();
+  [['in_us','#sec-us'],['legal_now','#sec-now'],['on_arrival','#sec-arr'],['watch','#sec-watch']].forEach(([k,id])=>$(id).hidden=!stOn(k));
+  const T=D.trucks.filter(byModel),by=s=>T.filter(t=>t.status===s);
+  const now=by('legal_now'),arr=by('on_arrival'),us=by('in_us'),watch=by('watch');
+  const cut=ym(D.cutoff_build);
+  const n=(l)=>filt(l).filter(old).length;
+  $('#kpis').innerHTML=[[n(now),'legal now','now'],[n(arr),'on arrival','arr'],[n(us),'in the US','us']].map(([v,l])=>`<span class="stat"><b>${v}</b>${l}</span>`).join('');
+  $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'});
+  $('#p-now').textContent=`Built ${cut} or earlier, so it passes the 25-year rule today.`;
+  fill('#g-now',filt(now).filter(old),'Nothing matches your filters.');
+  fill('#g-arr',filt(arr).filter(old),'Nothing matches your filters.');
+  fill('#g-us',filt(us).filter(old),'No US dealer leads match your filters today.');
+  const w=filt(watch).filter(old);$('#s-watch').textContent=`Coming up later (${w.length})`;fill('#g-watch',w,'Nothing matches your filters.');
+  $('#srcs tbody').innerHTML=Object.entries(D.source_counts).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v??'—'}</td><td>${D.errors[k]?'Could not read today':'OK'}</td></tr>`).join('');
+  $('#fx').textContent=Math.round(D.jpy_per_usd*100)/100;
+}
+// New trucks (first seen since the last 5 AM Mountain check) show at the top, not in the sections below.
+const old=t=>!t.is_new;
+let newList=[];
+function renderNew(){
+  const so={in_us:0,legal_now:0,on_arrival:1,watch:2};// legal ones first, then the chosen sort
+  newList=filt(D.trucks.filter(t=>t.is_new&&byModel(t))).sort((a,b)=>(so[a.status]??3)-(so[b.status]??3));
+  const since=D.new_since?new Date(D.new_since):null;
+  const when=since?since.toLocaleString('en-US',{timeZone:'America/Denver',weekday:'short',hour:'numeric'}).replace(/,/,''):'';
+  $('#new-h').innerHTML=`<span class="dotred"></span>${since?`New since ${esc(when)}`:'New today'}`;
+  $('#new-n').textContent=newList.length?`${newList.length} truck${newList.length>1?'s':''}`:'';
+  const left=newList.filter(t=>!reviewed.has(t.key)&&!isStar(t)).length;
+  $('#review').hidden=!newList.length;$('#review').textContent=left?`Review ${left} new`:'Review again';
+  $('#g-new').innerHTML=newList.length?newList.map(t=>row(t)).join(''):`<div class="empty">No new trucks${since?' since '+esc(when)+' Mountain':' today'}. The next check runs before 5 AM.</div>`;
+}
+
+// Swipe review: right saves, left hides, Skip moves on. Reviewed trucks are remembered on this device.
+let reviewed=new Set();try{reviewed=new Set(JSON.parse(localStorage.getItem('kei:reviewed')||'[]'))}catch(e){}
+let deck=[],di=0;
+function openDeck(){const left=newList.filter(t=>!reviewed.has(t.key)&&!isStar(t));deck=left.length?left:newList.slice();di=0;$('#deck').hidden=false;document.body.style.overflow='hidden';drawDeck()}
+function closeSheet(id){$('#'+id).hidden=true;document.body.style.overflow='';D&&render()}
+function drawDeck(){
+  const a=$('#deck-area');$('#deck-btns').hidden=di>=deck.length;
+  if(di>=deck.length){a.innerHTML=`<div class="done"><h2>All caught up</h2><p>${Object.keys(saved.stars).length} saved so far.</p><button type="button" class="btn" data-close="deck">Back to the list</button></div>`;$('#deck-n').textContent='';return}
+  const t=deck[di];$('#deck-n').textContent=`${di+1} of ${deck.length}`;
+  a.innerHTML=`<span class="hint yes">SAVE</span><span class="hint no">HIDE</span><article class="dcard" id="dcard">${thumb(t.img,clean(t.title))}<div class="b">
+   <div class="l1"><span class="pr">${priceHTML(t)}</span>${plate(t)}</div>
+   <div class="l2">${kmHTML(t)}${acHTML(t)}</div>
+   <div class="l3"><span class="tag mk ${esc(mdl(t))}">${mdl(t)==='sambar'?'Subaru':'Honda'}</span>${statusTag(t)}${t.ha7==='confirmed'?`<span class="tag ok">${esc(t.chassis_code||'HA7')} ✓</span>`:''}</div>
+   <div class="sub">${esc(clean(t.title))} · ${esc(clean(t.seller||t.source))}, ${esc(clean(t.location||t.country))}</div>
+   <a class="go" href="${esc(safe(t.url))}" target="_blank" rel="noopener">View listing ↗</a></div></article>`;
+  const c=$('#dcard');let x0=null,dx=0;
+  c.addEventListener('pointerdown',e=>{if(e.target.closest('a'))return;x0=e.clientX;dx=0;c.setPointerCapture(e.pointerId);c.style.transition='none'});
+  c.addEventListener('pointermove',e=>{if(x0==null)return;dx=e.clientX-x0;c.style.transform=`translateX(${dx}px) rotate(${dx/20}deg)`;$('.hint.yes').style.opacity=Math.max(0,dx/100);$('.hint.no').style.opacity=Math.max(0,-dx/100)});
+  const end=()=>{if(x0==null)return;x0=null;c.style.transition='';if(dx>90)deckAct('save');else if(dx<-90)deckAct('hide');else{c.style.transform='';$('.hint.yes').style.opacity=0;$('.hint.no').style.opacity=0}};
+  c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end);
+}
+function deckAct(act){const t=deck[di];if(!t)return;const c=$('#dcard');
+  if(act==='save'&&!isStar(t))saved.stars[t.key]=snap(t);
+  if(act==='hide'&&!isHid(t))saved.hidden[t.key]=snap(t);
+  if(act!=='skip')save('prefs/trucks',saved);
+  reviewed.add(t.key);try{localStorage.setItem('kei:reviewed',JSON.stringify([...reviewed].slice(-500)))}catch(e){}
+  const dir=act==='save'?1:act==='hide'?-1:0;
+  if(c&&dir){c.style.transform=`translateX(${dir*120}%) rotate(${dir*12}deg)`;c.style.opacity=0}
+  di++;setTimeout(drawDeck,dir?180:0)}
+
+// Compare: saved trucks still listed, side by side. Best value in each row is highlighted.
+function openCompare(){
+  const L=savedLive;if(L.length<2)return;
+  const best=(f,lowIsBest=true)=>{const v=L.map(f).filter(x=>x!=null);if(!v.length)return null;return lowIsBest?Math.min(...v):Math.max(...v)};
+  const dp=t=>t.status==='in_us'?t.usd:t.delivered_usd,bDp=best(dp),bKm=best(t=>t.km),bY=best(t=>t.reg_year,false);
+  const rows=[
+    ['',t=>`${thumb(t.img,clean(t.title))}<div style="margin-top:6px">${plate(t)} <span class="tag mk ${esc(mdl(t))}">${mdl(t)==='sambar'?'Subaru':'Honda'}</span></div>`],
+    ['Delivered',t=>dp(t)!=null?money(dp(t)):'Not listed',t=>dp(t)!=null&&dp(t)===bDp],
+    ['Price in Japan',t=>t.status==='in_us'?'—':money(t.usd)],
+    ['Built',t=>t.build_month_known?esc(ym(t.build_latest)):esc(t.reg_year)+' (month ?)',t=>t.reg_year===bY],
+    ['Mileage',t=>t.km!=null?`${fmtN(miles(t.km))} mi<br><span class="sub">${fmtN(t.km)} km</span>`:'Not listed',t=>t.km!=null&&t.km===bKm],
+    ['A/C',t=>t.ac===true?'Yes':t.ac===false?'Not listed':'Unknown',t=>t.ac===true],
+    ['Legal',t=>esc(statusText(t))],
+    ['Chassis',t=>t.ha7==='confirmed'?`${esc(t.chassis_code||'HA7')} confirmed`:t.ha7==='likely'?'Likely':'Check'],
+    ['Seller',t=>`${esc(clean(t.seller||t.source))}<br><span class="sub">${esc(clean(t.location||t.country))}</span>`],
+    ['',t=>`<a class="go" href="${esc(safe(t.url))}" target="_blank" rel="noopener">View ↗</a>`]];
+  $('#cmp-body').innerHTML=`<table class="cmp"><tbody>${rows.map(([h,f,b])=>`<tr><th scope="row">${h}</th>${L.map(t=>`<td class="${b&&b(t)?'best':''}">${f(t)}</td>`).join('')}</tr>`).join('')}</tbody></table>
+   <p class="note">Green marks the lowest price, lowest mileage, newest year and A/C. Swipe sideways if you saved more than two.</p>`;
+  $('#cmp').hidden=false;document.body.style.overflow='hidden'}
 function filt(list){const km=+$('#fkm').value,ac=$('#fac').checked,so=$('#fstar').checked,pr=+$('#fprice').value,cf=$('#fconf').checked;
   let y0=+$('#fy0').value,y1=+$('#fy1').value;if(y0&&y1&&y0>y1)[y0,y1]=[y1,y0];
   return list.filter(t=>(!km||(t.km!=null&&t.km<=km))&&(!ac||t.ac===true)&&(!so||isStar(t))&&!isHid(t)
     &&(!pr||(priceOf(t)!=null&&priceOf(t)<=pr))&&(!cf||t.ha7==='confirmed')&&(!y0||t.reg_year>=y0)&&(!y1||t.reg_year<=y1)&&stOn(t.status)).sort(cmp)}
-function fill(id,list,emptyMsg){$(id).innerHTML=list.length?list.map(card).join(''):`<div class="empty">${emptyMsg}</div>`}
 const fp=t=>t&&t.km?`${t.reg_year}|${t.km}|${t.country}`:null;
 const snap=t=>({t:t.title,u:t.url,i:t.img,p:t.usd,k:t.km,y:t.reg_year,b:t.build_month_known?t.build_latest:null,f:fp(t),ks:[t.key,...(t.also_on||[]).map(x=>x.key).filter(Boolean)],at:new Date().toISOString().slice(0,10)});
 // A truck can come back under another key when its cheapest listing moves to a different site,
@@ -265,72 +444,6 @@ const isStar=t=>!!matchKey(saved.stars,t),isHid=t=>!!matchKey(saved.hidden,t);
 function resolve(map){const out=new Map();for(const t of D.trucks){const k=matchKey(map,t);if(k&&!out.has(k))out.set(k,t)}
   let fixed=false;for(const [k,v] of Object.entries(map)){const t=out.get(k);if(t&&(typeof v!=='object'||!v||!v.ks))fixed=map[k]={...snap(t),at:(v&&v.at)||snap(t).at}}
   return [out,fixed]}
-function mini(k,t,v,kind='star'){
-  const gone=!t,o=typeof v==='object'&&v?v:{};
-  const title=t?t.title:(o.t||k.split('|').pop().replace(/-/g,' '));
-  const url=t?t.url:o.u,img=t?t.img:o.i,usd=t?t.usd:o.p,km=t?t.km:o.k;
-  const pl=t?plate(t):(o.b?`<span class="plate">${esc(o.b.replace('-','·'))}</span>`:o.y?`<span class="plate">${esc(o.y)} <small>month ?</small></span>`:'');
-  const was=t&&o.p&&t.usd&&Math.round(o.p)!==Math.round(t.usd)?`<span class="chip ${t.usd<o.p?'ok':'warn'}">was ${money(o.p)}</span>`:'';
-  const chip=gone?'<span class="chip warn">No longer listed</span>':`<span class="chip">${esc(statusText(t))}</span>${t.reserved?'<span class="chip warn">Reserved</span>':''}${t.ac===true?'<span class="chip ok">A/C</span>':''}`;
-  return `<article class="mini${gone?' gone':''}">
-  <div class="ph">${img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(img)}" alt="${esc(title)}" loading="lazy">`:'<img alt="">'}${pl}</div>
-  <div class="b"><h3>${esc(title||'Honda Acty truck')}</h3>
-   <div class="row"><span class="price">${gone&&usd==null?'':money(usd)}</span>${km!=null?`<span class="km">${Number(km).toLocaleString('en-US')} km</span>`:''}</div>
-   <div class="chips">${chip}${was}</div>
-   ${gone&&o.at?`<div class="sub">Saved ${esc(new Date(o.at+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}))}</div>`:''}
-   <div class="acts">${url?`<a class="go" href="${esc(safe(url))}" target="_blank" rel="noopener">View listing</a>`:'<span style="flex:1"></span>'}
-    ${kind==='hide'?`<button class="icon" style="padding:0 14px" data-hide="${esc(k)}" aria-label="Unhide ${esc(title)}">Unhide</button>`:`<button class="icon" data-star="${esc(k)}" aria-pressed="true" title="Remove from saved" aria-label="Remove ${esc(title)} from saved">★</button>`}</div>
-  </div></article>`}
-function rankCmp(a,b){const p=rankKey(a),q=rankKey(b);for(let i=0;i<3;i++)if(p[i]!==q[i])return p[i]-q[i];return 0}
-function orderKeys(map,res){return Object.keys(map).sort((a,b)=>{const x=res.get(a),y=res.get(b);if(!x!==!y)return x?-1:1;return x?rankCmp(x,y):0})}
-function renderSaved(){
-  const [rs,f1]=resolve(saved.stars),[rh,f2]=resolve(saved.hidden);
-  if(f1||f2)persistLocal();
-  const keys=orderKeys(saved.stars,rs),gone=keys.filter(k=>!rs.has(k)).length;
-  $('#saved-n').textContent=keys.length?`${keys.length}${gone?` · ${gone} no longer listed`:''}`:'';
-  $('#g-saved').className=keys.length?'strip':'';
-  $('#g-saved').innerHTML=keys.length?keys.map(k=>mini(k,rs.get(k),saved.stars[k])).join(''):'<p class="savedempty">Tap ★ on any truck below to save it here.</p>';
-  const hk=orderKeys(saved.hidden,rh),hl=hk.filter(k=>rh.has(k)).length;
-  $('#s-hid').textContent=`Hidden trucks (${hl}${hk.length>hl?`, plus ${hk.length-hl} no longer listed`:''})`;
-  $('#sec-hid').hidden=!hk.length;
-  $('#g-hid').innerHTML=hk.map(k=>mini(k,rh.get(k),saved.hidden[k],'hide')).join('');
-}
-function render(){
-  renderSaved();
-  renderNew();
-  [['in_us','#sec-us'],['legal_now','#sec-now'],['on_arrival','#sec-arr'],['watch','#sec-watch']].forEach(([k,id])=>$(id).hidden=!stOn(k));
-  const T=D.trucks.filter(byModel),by=s=>T.filter(t=>t.status===s);
-  const now=by('legal_now'),arr=by('on_arrival'),us=by('in_us'),watch=by('watch');
-  const cut=ym(D.cutoff_build);
-  $('#headline').textContent=`${now.length} ${{all:'Acty and Sambar',acty:'Honda Acty HA7',sambar:'Subaru Sambar TT2'}[$('#fmodel').value]} 4WD trucks you can import now, built ${cut} or earlier`;
-  const newest=[...now].sort((a,b)=>b.build_latest.localeCompare(a.build_latest))[0];
-  $('#lede').textContent=`Trucks built in ${cut} or earlier pass the 25-year rule this month. ${arr.length} more turn 25 in the next two months, in time for a truck bought now to arrive legal. Ranked by newest year, then lowest km, then A/C.`;
-  const lowNow=[...now,...us].filter(t=>t.low_km).length;
-  $('#kpis').innerHTML=[[now.length,'Legal now'],[arr.length,'Legal on arrival'],[us.length,'In the US'],[lowNow,'Under 48,000 km'],[D.first_run?'—':D.trucks.filter(t=>t.is_new&&byModel(t)).length,'New']].map(([n,l])=>`<div class="kpi"><div class="big">${n}</div><span>${l}</span></div>`).join('');
-  $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'.';
-  const best=[...now,...us].filter(t=>!isHid(t)).sort(rankCmp)[0];
-  $('#hero').innerHTML=best?`${best.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(best.img)}" alt="${esc(best.title)}">`:''}${plate(best)}<div class="body"><div class="tag">Best match today · ${esc(statusText(best))}</div><h2>${esc(best.title)}</h2><div class="row"><span class="price">${money(best.usd)}</span><span class="km">${best.km!=null?best.km.toLocaleString('en-US')+' km':''}</span><span class="sub">${best.ac?'A/C':'A/C not listed'} · ${esc(best.seller||best.source)}, ${esc(best.location||'')}</span></div><div class="acts"><a class="go" href="${esc(safe(best.url))}" target="_blank" rel="noopener">View listing</a></div></div>`:'';
-  $('#p-now').textContent=`Built ${cut} or earlier. Prices are the exporter's price in Japan; shipping, duty and fees come on top.`;
-  $('#p-arr').textContent=`Turns 25 within two months. Shipping takes about 4 to 8 weeks and the rule is checked when the truck lands, so time the arrival date with your shipper.`;
-  fill('#g-now',filt(now).filter(old),'Nothing matches your filters.');
-  fill('#g-arr',filt(arr).filter(old),'Nothing matches your filters.');
-  fill('#g-us',filt(us).filter(old),'No US dealer leads match your filters today.');
-  const w=filt(watch).filter(old);$('#s-watch').textContent=`Coming up later (${w.length})`;fill('#g-watch',w,'Nothing matches your filters.');
-  $('#srcs tbody').innerHTML=Object.entries(D.source_counts).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v??'—'}</td><td>${D.errors[k]?'Could not read today':'OK'}</td></tr>`).join('');
-  $('#fx').textContent=Math.round(D.jpy_per_usd*100)/100;
-}
-// New trucks (first seen since the last 5 AM Mountain check) show at the top, not in the sections below.
-const old=t=>!t.is_new;
-function renderNew(){
-  const so={in_us:0,legal_now:0,on_arrival:1,watch:2};// legal ones first, then the chosen sort
-  const list=filt(D.trucks.filter(t=>t.is_new&&byModel(t))).sort((a,b)=>(so[a.status]??3)-(so[b.status]??3));
-  const since=D.new_since?new Date(D.new_since):null;
-  const when=since?since.toLocaleString('en-US',{timeZone:'America/Denver',weekday:'short',hour:'numeric'}).replace(/,/,''):'';
-  $('#new-h').textContent=since?`New since ${when}`:'New today';
-  $('#new-n').textContent=list.length?`${list.length} truck${list.length>1?'s':''}`:'';
-  $('#g-new').className=list.length?'grid':'';
-  $('#g-new').innerHTML=list.length?list.map(card).join(''):`<p class="savedempty">No new trucks${since?' since '+esc(when)+' Mountain':' today'}. The next check runs before 5 AM.</p>`;
-}
 function renderPlan(){
   $('#steps').innerHTML=STEPS.map(([id,h,p],i)=>{const s=plan[id]||{};return `<li class="step${s.done?' done':''}" id="step-${id}">
    <div class="n"><input type="checkbox" data-step="${id}" ${s.done?'checked':''} aria-label="Done: ${esc(h)}"></div>
@@ -357,16 +470,24 @@ function save(path,obj){try{localStorage.setItem('kei:'+path,JSON.stringify(obj)
   if(tok){clearTimeout(timer);timer=setTimeout(push,800)}}
 $('#syncform').addEventListener('submit',e=>{e.preventDefault();const v=$('#tok').value.trim();if(!v)return;tok=v;gid=null;try{localStorage.setItem('kei:tok',tok);localStorage.removeItem('kei:gid')}catch(x){}$('#tok').value='';syncMsg('Connecting…');pull()});
 $('#unsync').addEventListener('click',()=>{tok=gid=null;try{localStorage.removeItem('kei:tok');localStorage.removeItem('kei:gid')}catch(e){}syncMsg('Sync is off on this device. Stars and notes stay in this browser.')});
-document.addEventListener('click',e=>{const s=e.target.closest('[data-star]'),h=e.target.closest('[data-hide]');
+document.addEventListener('click',e=>{const s=e.target.closest('[data-star]'),h=e.target.closest('[data-hide]'),o=e.target.closest('[data-open]'),c=e.target.closest('[data-close]'),d=e.target.closest('[data-deck]');
   const tog=(map,k)=>{const t=D&&D.trucks.find(x=>x.key===k),m=map[k]?k:matchKey(map,t);if(m)delete map[m];else map[k]=t?snap(t):1;save('prefs/trucks',saved);render()};
   if(s)tog(saved.stars,s.dataset.star);
-  if(h)tog(saved.hidden,h.dataset.hide)});
+  if(h)tog(saved.hidden,h.dataset.hide);
+  if(o){const k=o.dataset.open,t=D.trucks.find(x=>x.key===k),art=o.closest('.tr'),det=art.querySelector('.det');
+    if(opened.has(k)){opened.delete(k);det.hidden=true;det.innerHTML='';o.setAttribute('aria-expanded','false')}
+    else{opened.add(k);det.innerHTML=detail(t);det.hidden=false;o.setAttribute('aria-expanded','true')}}
+  if(c)closeSheet(c.dataset.close);
+  if(d)deckAct(d.dataset.deck)});
+$('#review').addEventListener('click',openDeck);
+$('#cmpbtn').addEventListener('click',openCompare);
+document.addEventListener('keydown',e=>{if(!$('#deck').hidden){if(e.key==='Escape')closeSheet('deck');if(e.key==='ArrowRight')deckAct('save');if(e.key==='ArrowLeft')deckAct('hide')}else if(!$('#cmp').hidden&&e.key==='Escape')closeSheet('cmp')});
 document.addEventListener('change',e=>{const t=e.target;let id=t.dataset.step||t.dataset.vendor||t.dataset.note;if(!id)return;
   plan[id]=plan[id]||{};if(t.dataset.step){plan[id].done=t.checked;t.closest('.step').classList.toggle('done',t.checked)}
   if(t.dataset.vendor!=null)plan[id].vendor=t.value;if(t.dataset.note!=null)plan[id].note=t.value;save('prefs/plan',plan)});
 
 renderPlan();
-fetch('data.json').then(r=>r.json()).then(d=>{D=d;fillYears();onFilter()}).catch(()=>{$('#headline').textContent='Could not load today’s listings.'});
+fetch('data.json').then(r=>r.json()).then(d=>{D=d;fillYears();onFilter()}).catch(()=>{$('#updated').textContent='Could not load today’s listings.'});
 try{const a=JSON.parse(localStorage.getItem('kei:prefs/trucks')||'null');if(a)saved={stars:a.stars||{},hidden:a.hidden||{}};plan=JSON.parse(localStorage.getItem('kei:prefs/plan')||'{}')||{}}catch(e){}
 renderPlan();
 if(tok){syncMsg('Syncing…');pull()}else syncMsg('Sync is off. Stars and notes are saved in this browser only.');
