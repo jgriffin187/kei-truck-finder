@@ -58,6 +58,7 @@ button{font:inherit;cursor:pointer}
 .km{font-weight:600;white-space:nowrap}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font-size:13px;border:1px solid var(--line);border-radius:99px;padding:1px 9px;white-space:nowrap}
+.mdl{display:inline-block;align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:1px 8px;margin-bottom:4px;color:#fff;background:#b3261e}.mdl.sambar{background:#1d4f91}
 .chip.ok{border-color:var(--green);color:var(--green)}.chip.warn{border-color:var(--red);color:var(--red)}
 .acts{display:flex;gap:8px;margin-top:auto;padding-top:6px;align-items:center}
 .acts a.go{flex:1;text-align:center;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;border-radius:8px;padding:10px;min-height:44px}
@@ -104,7 +105,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
 <header class="band"><div class="wrap top">
   <div>
     <h1 id="headline">Loading today's trucks…</h1>
-    <p class="lede" id="lede">Honda Acty HA7 4WD trucks that are 25 years old by build month, from Japanese exporters and US dealers. Refreshed every morning.</p>
+    <p class="lede" id="lede">Honda Acty HA7 and Subaru Sambar TT2 4WD trucks that are 25 years old by build month, from Japanese exporters and US dealers. Refreshed every morning.</p>
     <div class="kpis" id="kpis"></div>
     <p class="note" id="updated"></p>
   </div>
@@ -112,6 +113,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
 </div></header>
 
 <div class="bar"><div class="wrap">
+  <label class="ctl">Model <select id="fmodel"><option value="all">Acty and Sambar</option><option value="acty">Honda Acty only</option><option value="sambar">Subaru Sambar only</option></select></label>
   <label class="ctl">Max km <select id="fkm"><option value="0">Any</option><option value="48300">48,000 (30k mi)</option><option value="80000">80,000</option><option value="120000">120,000</option></select></label>
   <label class="ctl"><input type="checkbox" id="fac"> A/C listed</label>
   <label class="ctl"><input type="checkbox" id="fstar"> Saved only</label>
@@ -143,8 +145,8 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
    <p class="note" id="syncstate"></p>
   </details>
   <h2 style="font-size:20px">Sources today</h2>
-  <table id="srcs"><thead><tr><th>Site</th><th>Acty listings read</th><th>Status</th></tr></thead><tbody></tbody></table>
-  <p class="note">HA7 "confirmed" means the chassis number shows HA7. "Likely" means a 2000 or later Acty truck listed as 4WD, which is always an HA7. When a listing gives only a year, the build month is assumed to be December, so the legal date shown is the latest it could be. Ask the seller for the exact build month before you pay. Exchange rate: <span id="fx"></span> yen per dollar.</p>
+  <table id="srcs"><thead><tr><th>Site</th><th>Listings read</th><th>Status</th></tr></thead><tbody></tbody></table>
+  <p class="note">HA7 or TT2 "confirmed" means the chassis number shows HA7 (Acty) or TT2 (Sambar). "Likely" means a 2000 or later Acty truck listed as 4WD, which is always an HA7, or a 4WD Sambar truck, which is always a TT2. Sambars are limited to 2000 and newer trucks with a manual gearbox. When a listing gives only a year, the build month is assumed to be December, so the legal date shown is the latest it could be. Ask the seller for the exact build month before you pay. Exchange rate: <span id="fx"></span> yen per dollar.</p>
 </div></footer>
 
 <script>
@@ -170,6 +172,10 @@ let D=null,db=null,saved={stars:{},hidden:{}},plan={};
 
 const statusText=t=>t.status==='in_us'?'In the US':t.status==='legal_now'?'Legal now':t.status==='on_arrival'?'Legal from '+ym(t.legal_from):'Legal from '+ym(t.legal_from);
 function plate(t){return `<span class="plate">${t.build_month_known?esc(t.build_latest.replace('-','·')):esc(t.reg_year)+' <small>month ?</small>'}</span>`}
+const chassisChip=t=>{const c=esc(t.chassis_code||'HA7');return t.ha7==='confirmed'?`<span class="chip ok">${c} confirmed</span>`:t.ha7==='likely'?`<span class="chip">${c} likely</span>`:`<span class="chip warn">Check chassis is ${c}</span>`};
+const MODEL_NAMES={acty:'Honda Acty',sambar:'Subaru Sambar'},mdl=t=>t.model||'acty',byModel=t=>{const m=$('#fmodel').value;return m==='all'||mdl(t)===m};
+try{const m=localStorage.getItem('kei:model');if(m)$('#fmodel').value=m}catch(e){}
+$('#fmodel').addEventListener('change',e=>{try{localStorage.setItem('kei:model',e.target.value)}catch(x){}D&&render()});
 function rankKey(t){return [-(t.reg_year||0),t.km??1e9,t.ac?0:1]}
 function cmp(a,b){const s=$('#fsort').value;
   if(s==='price')return (a.usd??1e9)-(b.usd??1e9);
@@ -185,10 +191,10 @@ function card(t){
   return `<article class="card" id="t-${esc(t.key.replace(/\W+/g,'-'))}">
   <div class="ph">${t.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">New</span>':''}</div>
   <div class="b">
-   <h3>${esc(t.title||'Honda Acty truck')}</h3>
+   <span class="mdl ${esc(mdl(t))}">${esc(MODEL_NAMES[mdl(t)]||mdl(t))}</span><h3>${esc(t.title||MODEL_NAMES[mdl(t)]+' truck')}</h3>
    <div class="row"><span class="price">${money(t.usd)}</span>${deliv}${t.price_drop?'<span class="chip ok">Price dropped</span>':''}</div>
    <div class="row"><span class="km">${t.km!=null?t.km.toLocaleString('en-US')+' km':'km unknown'}</span>${t.km!=null?`<span class="sub">${Math.round(t.km*0.621371).toLocaleString('en-US')} mi</span>`:''}</div>
-   <div class="chips">${ha}${ac}${t.low_km?'<span class="chip ok">Low km</span>':''}${t.reserved?'<span class="chip warn">Reserved</span>':''}<span class="chip">${esc(statusText(t))}</span></div>
+   <div class="chips">${chassisChip(t)}${ac}${t.low_km?'<span class="chip ok">Low km</span>':''}${t.reserved?'<span class="chip warn">Reserved</span>':''}<span class="chip">${esc(statusText(t))}</span></div>
    <div class="sub">${esc(t.seller||t.source)} · ${esc(t.location||t.country)}${t.vin?' · '+esc(t.vin):''}</div>
    ${also?`<div class="sub">Also on ${also}</div>`:''}
    <div class="sub">First seen ${esc(new Date(t.first_seen).toLocaleDateString('en-US',{month:'short',day:'numeric'}))} on ${esc(t.source)}</div>
@@ -228,10 +234,10 @@ function renderSaved(){
 }
 function render(){
   renderSaved();
-  const T=D.trucks,by=s=>T.filter(t=>t.status===s);
+  const T=D.trucks.filter(byModel),by=s=>T.filter(t=>t.status===s);
   const now=by('legal_now'),arr=by('on_arrival'),us=by('in_us'),watch=by('watch');
   const cut=ym(D.cutoff_build);
-  $('#headline').textContent=`${now.length} HA7 4WD trucks you can import now, built ${cut} or earlier`;
+  $('#headline').textContent=`${now.length} ${{all:'Acty and Sambar',acty:'Honda Acty HA7',sambar:'Subaru Sambar TT2'}[$('#fmodel').value]} 4WD trucks you can import now, built ${cut} or earlier`;
   const newest=[...now].sort((a,b)=>b.build_latest.localeCompare(a.build_latest))[0];
   $('#lede').textContent=`Trucks built in ${cut} or earlier pass the 25-year rule this month. ${arr.length} more turn 25 in the next two months, in time for a truck bought now to arrive legal. Ranked by newest year, then lowest km, then A/C.`;
   const lowNow=[...now,...us].filter(t=>t.low_km).length;
