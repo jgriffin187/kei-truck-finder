@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-26T20:24+00:00",
+ "generated_at": "2026-11-26T20:46+00:00",
  "today": "2026-11-26",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.34,
@@ -53,9 +53,7 @@
   }
  },
  "errors": {},
- "new_keys": [
-  "SBT Japan|DAK6788"
- ],
+ "new_keys": [],
  "new_since": "2026-11-26T12:00+00:00",
  "first_run": false,
  "trucks": [
@@ -4369,7 +4367,7 @@
    "chassis": "TT2",
    "trans": "MANUAL",
    "reserved": false,
-   "image": null,
+   "image": "https://img.sbtjapan.com/dealercarphoto/DAK6788/f.jpg?v=20261127&imwidth=300",
    "location": "Ehime, JAPAN",
    "country": "Japan",
    "seller": "SBT Japan",
