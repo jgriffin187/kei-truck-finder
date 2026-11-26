@@ -37,7 +37,12 @@ jobs:
       - name: Collect listings
         run: python collector.py --dir .
       - name: Write new-truck alert
-        run: python alert.py --dir . --out "$RUNNER_TEMP/alert.md"
+        # The daily (scheduled) run and manual runs always write a summary, so
+        # Josh hears from every daily run even when nothing is new. Runs started
+        # by a merge only write one when they find new trucks.
+        run: >-
+          python alert.py --dir . --out "$RUNNER_TEMP/alert.md"
+          ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && '--summary' || '' }}
       - name: Email Josh about new trucks
         # An issue assigned to Josh makes GitHub email him, the same way its
         # run-failure emails reach him.
@@ -45,9 +50,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ -s "$RUNNER_TEMP/alert.md" ]; then
-            n=$(grep -c '^- ' "$RUNNER_TEMP/alert.md")
+            n=$(grep -c '^- ' "$RUNNER_TEMP/alert.md" || true)
+            if [ "$n" = 0 ]; then
+              title="No new kei trucks"
+            else
+              title="$n new kei truck$([ "$n" = 1 ] || echo s)"
+            fi
             gh issue create --repo "$GITHUB_REPOSITORY" --assignee jgriffin187 \
-              --title "$n new kei truck$([ "$n" = 1 ] || echo s) $(TZ=America/Denver date +'%a %b %-d')" \
+              --title "$title $(TZ=America/Denver date +'%a %b %-d')" \
               --body-file "$RUNNER_TEMP/alert.md" || echo "Could not open the alert issue"
           fi
       - name: Check saved trucks
