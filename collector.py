@@ -487,6 +487,12 @@ def main():
     # Records from before a model was added have no "model" (they are all Acty).
     known_models = {rec.get("model") or "acty" for rec in state["seen"].values()}
     since = last_check(dt.datetime.fromisoformat(now))
+    # Each model's earliest run found trucks that were listed all along (a model's
+    # first run, or the very first run), so those never count as new.
+    model_start = {}
+    for rec in state["seen"].values():
+        m = rec.get("model") or "acty"
+        model_start[m] = min(model_start.get(m, rec["first_seen"]), rec["first_seen"])
     new = []
     for t in merged:
         rec = state["seen"].get(t["key"])
@@ -499,17 +505,14 @@ def main():
             else:
                 new.append(t["key"])
             state["seen"][t["key"]] = rec
-        if "model" not in rec and t["model"] != "acty":
-            # Recorded before records kept a model: only a model's first runs did
-            # that (the Sambar on 2026-11-26), so it was listed all along.
-            rec["baseline"] = True
         rec["model"] = t["model"]
         rec["last_seen"] = now
         t["first_seen"] = rec["first_seen"]
         t["price_drop"] = bool(rec.get("first_usd") and t.get("usd") and t["usd"] < rec["first_usd"])
         # New since the last 5 AM check, so an extra run later in the day doesn't
         # clear the badge from trucks Josh hasn't seen yet.
-        t["is_new"] = not rec.get("baseline") and dt.datetime.fromisoformat(rec["first_seen"]) > since
+        t["is_new"] = (not rec.get("baseline") and rec["first_seen"] != model_start.get(t["model"])
+                       and dt.datetime.fromisoformat(rec["first_seen"]) > since)
 
     order = {"legal_now": 0, "in_us": 0, "on_arrival": 1, "watch": 2}
     merged.sort(key=lambda t: (order[t["status"]], -t["reg_year"],
