@@ -55,7 +55,7 @@ for t in data["trucks"]:
     if name not in published:
         new.append("img/" + name)
 
-slim_keys = ["key", "source", "url", "title", "reg_year", "reg_month", "mfg_year", "km", "usd",
+slim_keys = ["key", "model", "chassis_code", "source", "url", "title", "reg_year", "reg_month", "mfg_year", "km", "usd",
              "delivered_usd", "delivered_to", "ac", "ha7", "vin", "status", "build_latest",
              "build_month_known", "legal_from", "location", "country", "seller", "also_on",
              "first_seen", "is_new", "price_drop", "low_km", "img", "reserved"]

@@ -51,13 +51,17 @@ button{font:inherit;cursor:pointer}
 .card{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
 .card .ph{position:relative}.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--panel)}
 .card .ph .plate{position:absolute;left:10px;bottom:10px}
-.card .new{position:absolute;right:10px;top:10px;background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px}
+.card .new{position:absolute;right:10px;top:10px;background:var(--red);color:#fff;font-size:13px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:99px;box-shadow:0 1px 4px rgb(0 0 0/.3)}
+.card.isnew{border:2px solid var(--red)}
+.fresh{padding-block:16px 20px;border-bottom:1px solid var(--line)}.fresh .savedhead h2::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);margin-right:8px;vertical-align:middle}
+@media(max-width:600px){.fresh{padding-block:12px 16px}}
 .card .b{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
 .row{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
 .price{font-size:22px;font-weight:700;white-space:nowrap}.sub{font-size:13px;color:var(--mute)}
 .km{font-weight:600;white-space:nowrap}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font-size:13px;border:1px solid var(--line);border-radius:99px;padding:1px 9px;white-space:nowrap}
+.mdl{display:inline-block;align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:1px 8px;margin-bottom:4px;color:#fff;background:#b3261e}.mdl.sambar{background:#1d4f91}
 .chip.ok{border-color:var(--green);color:var(--green)}.chip.warn{border-color:var(--red);color:var(--red)}
 .acts{display:flex;gap:8px;margin-top:auto;padding-top:6px;align-items:center}
 .acts a.go{flex:1;text-align:center;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;border-radius:8px;padding:10px;min-height:44px}
@@ -91,12 +95,24 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
  .mini{display:grid;grid-template-columns:116px minmax(0,1fr)}.mini .ph{min-height:150px}.mini img{position:absolute;inset:0;height:100%;aspect-ratio:auto}
  .mini .ph .plate{left:6px;bottom:6px;font-size:13px}.mini .plate small{display:none}.mini .b{padding:10px 10px 10px 12px;gap:4px}.mini .price{font-size:18px}.mini .acts a.go{padding:8px;font-size:15px}
  .saved{padding-block:12px 14px}.savedhead h2{font-size:20px}}
+@media(max-width:600px){.bar{padding-block:6px}.bar .wrap{flex-wrap:nowrap;overflow-x:auto;gap:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.bar .wrap::-webkit-scrollbar{display:none}label.ctl{flex:none;white-space:nowrap}}
 @media(max-width:820px){.top{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.step .f{grid-template-columns:minmax(0,1fr)}.price{font-size:20px}}
 @media(prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:hover{transform:translateY(-2px)}}
 </style>
 </head>
 <body>
+<div class="bar"><div class="wrap">
+  <label class="ctl">Model <select id="fmodel"><option value="all">Acty and Sambar</option><option value="acty">Honda Acty only</option><option value="sambar">Subaru Sambar only</option></select></label>
+  <label class="ctl">Max km <select id="fkm"><option value="0">Any</option><option value="48300">48,000 (30k mi)</option><option value="80000">80,000</option><option value="120000">120,000</option></select></label>
+  <label class="ctl"><input type="checkbox" id="fac"> A/C listed</label>
+  <label class="ctl"><input type="checkbox" id="fstar"> Saved only</label>
+  <label class="ctl">Sort <select id="fsort"><option value="best">Best match</option><option value="price">Lowest price</option><option value="km">Lowest km</option><option value="recent">Newest listed</option></select></label>
+</div></div>
+<section class="band fresh" id="fresh" aria-labelledby="new-h"><div class="wrap">
+  <div class="savedhead"><h2 id="new-h">New today</h2><span class="sub" id="new-n"></span></div>
+  <div class="grid" id="g-new"></div>
+</div></section>
 <section class="band saved" id="saved" aria-labelledby="saved-h"><div class="wrap">
   <div class="savedhead"><h2 id="saved-h">Saved trucks</h2><span class="sub" id="saved-n"></span></div>
   <div id="g-saved"><p class="savedempty">Tap ★ on any truck below to save it here.</p></div>
@@ -104,19 +120,13 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
 <header class="band"><div class="wrap top">
   <div>
     <h1 id="headline">Loading today's trucks…</h1>
-    <p class="lede" id="lede">Honda Acty HA7 4WD trucks that are 25 years old by build month, from Japanese exporters and US dealers. Refreshed every morning.</p>
+    <p class="lede" id="lede">Honda Acty HA7 and Subaru Sambar TT2 4WD trucks that are 25 years old by build month, from Japanese exporters and US dealers. Refreshed every morning.</p>
     <div class="kpis" id="kpis"></div>
     <p class="note" id="updated"></p>
   </div>
   <div class="hero" id="hero"></div>
 </div></header>
 
-<div class="bar"><div class="wrap">
-  <label class="ctl">Max km <select id="fkm"><option value="0">Any</option><option value="48300">48,000 (30k mi)</option><option value="80000">80,000</option><option value="120000">120,000</option></select></label>
-  <label class="ctl"><input type="checkbox" id="fac"> A/C listed</label>
-  <label class="ctl"><input type="checkbox" id="fstar"> Saved only</label>
-  <label class="ctl">Sort <select id="fsort"><option value="best">Best match</option><option value="price">Lowest price</option><option value="km">Lowest km</option><option value="recent">Newest listed</option></select></label>
-</div></div>
 
 <main class="band" style="padding-top:8px"><div class="wrap">
   <section class="sec" id="sec-us"><h2>Already in the US</h2><p>Imported and titled already, so the 25-year check, shipping and customs are done. Prices are dealer retail. These come from a daily web search, so they are leads, not a full list.</p><div class="grid" id="g-us"></div></section>
@@ -143,8 +153,8 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
    <p class="note" id="syncstate"></p>
   </details>
   <h2 style="font-size:20px">Sources today</h2>
-  <table id="srcs"><thead><tr><th>Site</th><th>Acty listings read</th><th>Status</th></tr></thead><tbody></tbody></table>
-  <p class="note">HA7 "confirmed" means the chassis number shows HA7. "Likely" means a 2000 or later Acty truck listed as 4WD, which is always an HA7. When a listing gives only a year, the build month is assumed to be December, so the legal date shown is the latest it could be. Ask the seller for the exact build month before you pay. Exchange rate: <span id="fx"></span> yen per dollar.</p>
+  <table id="srcs"><thead><tr><th>Site</th><th>Listings read</th><th>Status</th></tr></thead><tbody></tbody></table>
+  <p class="note">HA7 or TT2 "confirmed" means the chassis number shows HA7 (Acty) or TT2 (Sambar). "Likely" means a 2000 or later Acty truck listed as 4WD, which is always an HA7, or a 4WD Sambar truck, which is always a TT2. Sambars are limited to 2000 and newer trucks with a manual gearbox. When a listing gives only a year, the build month is assumed to be December, so the legal date shown is the latest it could be. Ask the seller for the exact build month before you pay. Exchange rate: <span id="fx"></span> yen per dollar.</p>
 </div></footer>
 
 <script>
@@ -170,6 +180,10 @@ let D=null,db=null,saved={stars:{},hidden:{}},plan={};
 
 const statusText=t=>t.status==='in_us'?'In the US':t.status==='legal_now'?'Legal now':t.status==='on_arrival'?'Legal from '+ym(t.legal_from):'Legal from '+ym(t.legal_from);
 function plate(t){return `<span class="plate">${t.build_month_known?esc(t.build_latest.replace('-','·')):esc(t.reg_year)+' <small>month ?</small>'}</span>`}
+const chassisChip=t=>{const c=esc(t.chassis_code||'HA7');return t.ha7==='confirmed'?`<span class="chip ok">${c} confirmed</span>`:t.ha7==='likely'?`<span class="chip">${c} likely</span>`:`<span class="chip warn">Check chassis is ${c}</span>`};
+const MODEL_NAMES={acty:'Honda Acty',sambar:'Subaru Sambar'},mdl=t=>t.model||'acty',byModel=t=>{const m=$('#fmodel').value;return m==='all'||mdl(t)===m};
+try{const m=localStorage.getItem('kei:model');if(m)$('#fmodel').value=m}catch(e){}
+$('#fmodel').addEventListener('change',e=>{try{localStorage.setItem('kei:model',e.target.value)}catch(x){}D&&render()});
 function rankKey(t){return [-(t.reg_year||0),t.km??1e9,t.ac?0:1]}
 function cmp(a,b){const s=$('#fsort').value;
   if(s==='price')return (a.usd??1e9)-(b.usd??1e9);
@@ -182,13 +196,13 @@ function card(t){
   const ac=t.ac===true?'<span class="chip ok">A/C</span>':t.ac===false?'<span class="chip">A/C not listed</span>':'<span class="chip">A/C unknown</span>';
   const also=(t.also_on||[]).filter(x=>x.url).map(x=>`<a href="${esc(safe(x.url))}" target="_blank" rel="noopener">${esc(x.source)}</a>${x.usd?' '+money(x.usd):''}`).join(', ');
   const deliv=t.delivered_usd?`<span class="sub">${money(t.delivered_usd)} delivered${t.delivered_to?' to '+esc(t.delivered_to):''}</span>`:'';
-  return `<article class="card" id="t-${esc(t.key.replace(/\W+/g,'-'))}">
-  <div class="ph">${t.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">New</span>':''}</div>
+  return `<article class="card${t.is_new?' isnew':''}" id="t-${esc(t.key.replace(/\W+/g,'-'))}">
+  <div class="ph">${t.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">NEW</span>':''}</div>
   <div class="b">
-   <h3>${esc(t.title||'Honda Acty truck')}</h3>
+   <span class="mdl ${esc(mdl(t))}">${esc(MODEL_NAMES[mdl(t)]||mdl(t))}</span><h3>${esc(t.title||MODEL_NAMES[mdl(t)]+' truck')}</h3>
    <div class="row"><span class="price">${money(t.usd)}</span>${deliv}${t.price_drop?'<span class="chip ok">Price dropped</span>':''}</div>
    <div class="row"><span class="km">${t.km!=null?t.km.toLocaleString('en-US')+' km':'km unknown'}</span>${t.km!=null?`<span class="sub">${Math.round(t.km*0.621371).toLocaleString('en-US')} mi</span>`:''}</div>
-   <div class="chips">${ha}${ac}${t.low_km?'<span class="chip ok">Low km</span>':''}${t.reserved?'<span class="chip warn">Reserved</span>':''}<span class="chip">${esc(statusText(t))}</span></div>
+   <div class="chips">${chassisChip(t)}${ac}${t.low_km?'<span class="chip ok">Low km</span>':''}${t.reserved?'<span class="chip warn">Reserved</span>':''}<span class="chip">${esc(statusText(t))}</span></div>
    <div class="sub">${esc(t.seller||t.source)} · ${esc(t.location||t.country)}${t.vin?' · '+esc(t.vin):''}</div>
    ${also?`<div class="sub">Also on ${also}</div>`:''}
    <div class="sub">First seen ${esc(new Date(t.first_seen).toLocaleDateString('en-US',{month:'short',day:'numeric'}))} on ${esc(t.source)}</div>
@@ -244,25 +258,38 @@ function renderSaved(){
 }
 function render(){
   renderSaved();
-  const T=D.trucks,by=s=>T.filter(t=>t.status===s);
+  renderNew();
+  const T=D.trucks.filter(byModel),by=s=>T.filter(t=>t.status===s);
   const now=by('legal_now'),arr=by('on_arrival'),us=by('in_us'),watch=by('watch');
   const cut=ym(D.cutoff_build);
-  $('#headline').textContent=`${now.length} HA7 4WD trucks you can import now, built ${cut} or earlier`;
+  $('#headline').textContent=`${now.length} ${{all:'Acty and Sambar',acty:'Honda Acty HA7',sambar:'Subaru Sambar TT2'}[$('#fmodel').value]} 4WD trucks you can import now, built ${cut} or earlier`;
   const newest=[...now].sort((a,b)=>b.build_latest.localeCompare(a.build_latest))[0];
   $('#lede').textContent=`Trucks built in ${cut} or earlier pass the 25-year rule this month. ${arr.length} more turn 25 in the next two months, in time for a truck bought now to arrive legal. Ranked by newest year, then lowest km, then A/C.`;
   const lowNow=[...now,...us].filter(t=>t.low_km).length;
-  $('#kpis').innerHTML=[[now.length,'Legal now'],[arr.length,'Legal on arrival'],[us.length,'In the US'],[lowNow,'Under 48,000 km'],[D.first_run?'—':D.new_keys.length,'New today']].map(([n,l])=>`<div class="kpi"><div class="big">${n}</div><span>${l}</span></div>`).join('');
+  $('#kpis').innerHTML=[[now.length,'Legal now'],[arr.length,'Legal on arrival'],[us.length,'In the US'],[lowNow,'Under 48,000 km'],[D.first_run?'—':D.trucks.filter(t=>t.is_new&&byModel(t)).length,'New']].map(([n,l])=>`<div class="kpi"><div class="big">${n}</div><span>${l}</span></div>`).join('');
   $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'.';
   const best=[...now,...us].filter(t=>!isHid(t)).sort(rankCmp)[0];
   $('#hero').innerHTML=best?`${best.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(best.img)}" alt="${esc(best.title)}">`:''}${plate(best)}<div class="body"><div class="tag">Best match today · ${esc(statusText(best))}</div><h2>${esc(best.title)}</h2><div class="row"><span class="price">${money(best.usd)}</span><span class="km">${best.km!=null?best.km.toLocaleString('en-US')+' km':''}</span><span class="sub">${best.ac?'A/C':'A/C not listed'} · ${esc(best.seller||best.source)}, ${esc(best.location||'')}</span></div><div class="acts"><a class="go" href="${esc(safe(best.url))}" target="_blank" rel="noopener">View listing</a></div></div>`:'';
   $('#p-now').textContent=`Built ${cut} or earlier. Prices are the exporter's price in Japan; shipping, duty and fees come on top.`;
   $('#p-arr').textContent=`Turns 25 within two months. Shipping takes about 4 to 8 weeks and the rule is checked when the truck lands, so time the arrival date with your shipper.`;
-  fill('#g-now',filt(now),'Nothing matches your filters.');
-  fill('#g-arr',filt(arr),'Nothing matches your filters.');
-  fill('#g-us',filt(us),'No US dealer leads match your filters today.');
-  const w=filt(watch);$('#s-watch').textContent=`Coming up later (${w.length})`;fill('#g-watch',w,'Nothing matches your filters.');
+  fill('#g-now',filt(now).filter(old),'Nothing matches your filters.');
+  fill('#g-arr',filt(arr).filter(old),'Nothing matches your filters.');
+  fill('#g-us',filt(us).filter(old),'No US dealer leads match your filters today.');
+  const w=filt(watch).filter(old);$('#s-watch').textContent=`Coming up later (${w.length})`;fill('#g-watch',w,'Nothing matches your filters.');
   $('#srcs tbody').innerHTML=Object.entries(D.source_counts).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v??'—'}</td><td>${D.errors[k]?'Could not read today':'OK'}</td></tr>`).join('');
   $('#fx').textContent=Math.round(D.jpy_per_usd*100)/100;
+}
+// New trucks (first seen since the last 5 AM Mountain check) show at the top, not in the sections below.
+const old=t=>!t.is_new;
+function renderNew(){
+  const so={in_us:0,legal_now:0,on_arrival:1,watch:2};// legal ones first, then the chosen sort
+  const list=filt(D.trucks.filter(t=>t.is_new&&byModel(t))).sort((a,b)=>(so[a.status]??3)-(so[b.status]??3));
+  const since=D.new_since?new Date(D.new_since):null;
+  const when=since?since.toLocaleString('en-US',{timeZone:'America/Denver',weekday:'short',hour:'numeric'}).replace(/,/,''):'';
+  $('#new-h').textContent=since?`New since ${when}`:'New today';
+  $('#new-n').textContent=list.length?`${list.length} truck${list.length>1?'s':''}`:'';
+  $('#g-new').className=list.length?'grid':'';
+  $('#g-new').innerHTML=list.length?list.map(card).join(''):`<p class="savedempty">No new trucks${since?' since '+esc(when)+' Mountain':' today'}. The next check runs before 5 AM.</p>`;
 }
 function renderPlan(){
   $('#steps').innerHTML=STEPS.map(([id,h,p],i)=>{const s=plan[id]||{};return `<li class="step${s.done?' done':''}" id="step-${id}">
