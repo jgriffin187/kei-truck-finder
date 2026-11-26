@@ -51,7 +51,10 @@ button{font:inherit;cursor:pointer}
 .card{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
 .card .ph{position:relative}.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--panel)}
 .card .ph .plate{position:absolute;left:10px;bottom:10px}
-.card .new{position:absolute;right:10px;top:10px;background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px}
+.card .new{position:absolute;right:10px;top:10px;background:var(--red);color:#fff;font-size:13px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:99px;box-shadow:0 1px 4px rgb(0 0 0/.3)}
+.card.isnew{border:2px solid var(--red)}
+.fresh{padding-block:16px 20px;border-bottom:1px solid var(--line)}.fresh .savedhead h2::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);margin-right:8px;vertical-align:middle}
+@media(max-width:600px){.fresh{padding-block:12px 16px}}
 .card .b{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
 .row{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
 .price{font-size:22px;font-weight:700;white-space:nowrap}.sub{font-size:13px;color:var(--mute)}
@@ -98,6 +101,10 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
 </style>
 </head>
 <body>
+<section class="band fresh" id="fresh" aria-labelledby="new-h"><div class="wrap">
+  <div class="savedhead"><h2 id="new-h">New today</h2><span class="sub" id="new-n"></span></div>
+  <div class="grid" id="g-new"></div>
+</div></section>
 <section class="band saved" id="saved" aria-labelledby="saved-h"><div class="wrap">
   <div class="savedhead"><h2 id="saved-h">Saved trucks</h2><span class="sub" id="saved-n"></span></div>
   <div id="g-saved"><p class="savedempty">Tap ★ on any truck below to save it here.</p></div>
@@ -188,8 +195,8 @@ function card(t){
   const ac=t.ac===true?'<span class="chip ok">A/C</span>':t.ac===false?'<span class="chip">A/C not listed</span>':'<span class="chip">A/C unknown</span>';
   const also=(t.also_on||[]).filter(x=>x.url).map(x=>`<a href="${esc(safe(x.url))}" target="_blank" rel="noopener">${esc(x.source)}</a>${x.usd?' '+money(x.usd):''}`).join(', ');
   const deliv=t.delivered_usd?`<span class="sub">${money(t.delivered_usd)} delivered${t.delivered_to?' to '+esc(t.delivered_to):''}</span>`:'';
-  return `<article class="card" id="t-${esc(t.key.replace(/\W+/g,'-'))}">
-  <div class="ph">${t.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">New</span>':''}</div>
+  return `<article class="card${t.is_new?' isnew':''}" id="t-${esc(t.key.replace(/\W+/g,'-'))}">
+  <div class="ph">${t.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(t.img)}" alt="${esc(t.title)}" loading="lazy">`:'<img alt="">'}${plate(t)}${t.is_new?'<span class="new">NEW</span>':''}</div>
   <div class="b">
    <span class="mdl ${esc(mdl(t))}">${esc(MODEL_NAMES[mdl(t)]||mdl(t))}</span><h3>${esc(t.title||MODEL_NAMES[mdl(t)]+' truck')}</h3>
    <div class="row"><span class="price">${money(t.usd)}</span>${deliv}${t.price_drop?'<span class="chip ok">Price dropped</span>':''}</div>
@@ -234,6 +241,7 @@ function renderSaved(){
 }
 function render(){
   renderSaved();
+  renderNew();
   const T=D.trucks.filter(byModel),by=s=>T.filter(t=>t.status===s);
   const now=by('legal_now'),arr=by('on_arrival'),us=by('in_us'),watch=by('watch');
   const cut=ym(D.cutoff_build);
@@ -241,18 +249,30 @@ function render(){
   const newest=[...now].sort((a,b)=>b.build_latest.localeCompare(a.build_latest))[0];
   $('#lede').textContent=`Trucks built in ${cut} or earlier pass the 25-year rule this month. ${arr.length} more turn 25 in the next two months, in time for a truck bought now to arrive legal. Ranked by newest year, then lowest km, then A/C.`;
   const lowNow=[...now,...us].filter(t=>t.low_km).length;
-  $('#kpis').innerHTML=[[now.length,'Legal now'],[arr.length,'Legal on arrival'],[us.length,'In the US'],[lowNow,'Under 48,000 km'],[D.first_run?'—':D.new_keys.length,'New today']].map(([n,l])=>`<div class="kpi"><div class="big">${n}</div><span>${l}</span></div>`).join('');
+  $('#kpis').innerHTML=[[now.length,'Legal now'],[arr.length,'Legal on arrival'],[us.length,'In the US'],[lowNow,'Under 48,000 km'],[D.first_run?'—':D.trucks.filter(t=>t.is_new&&byModel(t)).length,'New']].map(([n,l])=>`<div class="kpi"><div class="big">${n}</div><span>${l}</span></div>`).join('');
   $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'.';
   const best=[...now,...us].filter(t=>!saved.hidden[t.key]).sort((a,b)=>{const x=rankKey(a),y=rankKey(b);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]-y[i];return 0})[0];
   $('#hero').innerHTML=best?`${best.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(best.img)}" alt="${esc(best.title)}">`:''}${plate(best)}<div class="body"><div class="tag">Best match today · ${esc(statusText(best))}</div><h2>${esc(best.title)}</h2><div class="row"><span class="price">${money(best.usd)}</span><span class="km">${best.km!=null?best.km.toLocaleString('en-US')+' km':''}</span><span class="sub">${best.ac?'A/C':'A/C not listed'} · ${esc(best.seller||best.source)}, ${esc(best.location||'')}</span></div><div class="acts"><a class="go" href="${esc(safe(best.url))}" target="_blank" rel="noopener">View listing</a></div></div>`:'';
   $('#p-now').textContent=`Built ${cut} or earlier. Prices are the exporter's price in Japan; shipping, duty and fees come on top.`;
   $('#p-arr').textContent=`Turns 25 within two months. Shipping takes about 4 to 8 weeks and the rule is checked when the truck lands, so time the arrival date with your shipper.`;
-  fill('#g-now',filt(now),'Nothing matches your filters.');
-  fill('#g-arr',filt(arr),'Nothing matches your filters.');
-  fill('#g-us',filt(us),'No US dealer leads match your filters today.');
-  const w=filt(watch);$('#s-watch').textContent=`Coming up later (${w.length})`;fill('#g-watch',w,'Nothing matches your filters.');
+  fill('#g-now',filt(now).filter(old),'Nothing matches your filters.');
+  fill('#g-arr',filt(arr).filter(old),'Nothing matches your filters.');
+  fill('#g-us',filt(us).filter(old),'No US dealer leads match your filters today.');
+  const w=filt(watch).filter(old);$('#s-watch').textContent=`Coming up later (${w.length})`;fill('#g-watch',w,'Nothing matches your filters.');
   $('#srcs tbody').innerHTML=Object.entries(D.source_counts).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v??'—'}</td><td>${D.errors[k]?'Could not read today':'OK'}</td></tr>`).join('');
   $('#fx').textContent=Math.round(D.jpy_per_usd*100)/100;
+}
+// New trucks (first seen since the last 5 AM Mountain check) show at the top, not in the sections below.
+const old=t=>!t.is_new;
+function renderNew(){
+  const so={in_us:0,legal_now:0,on_arrival:1,watch:2};// legal ones first, then the chosen sort
+  const list=filt(D.trucks.filter(t=>t.is_new&&byModel(t))).sort((a,b)=>(so[a.status]??3)-(so[b.status]??3));
+  const since=D.new_since?new Date(D.new_since):null;
+  const when=since?since.toLocaleString('en-US',{timeZone:'America/Denver',weekday:'short',hour:'numeric'}).replace(/,/,''):'';
+  $('#new-h').textContent=since?`New since ${when}`:'New today';
+  $('#new-n').textContent=list.length?`${list.length} truck${list.length>1?'s':''}`:'';
+  $('#g-new').className=list.length?'grid':'';
+  $('#g-new').innerHTML=list.length?list.map(card).join(''):`<p class="savedempty">No new trucks${since?' since '+esc(when)+' Mountain':' today'}. The next check runs before 5 AM.</p>`;
 }
 function renderPlan(){
   $('#steps').innerHTML=STEPS.map(([id,h,p],i)=>{const s=plan[id]||{};return `<li class="step${s.done?' done':''}" id="step-${id}">
