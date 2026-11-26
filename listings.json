@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-11-26T04:41+00:00",
+ "generated_at": "2026-11-26T12:38+00:00",
  "today": "2026-11-26",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.34,
  "source_counts": {
   "CAR FROM JAPAN": 55,
-  "SBT Japan": 128,
+  "SBT Japan": 127,
   "TCV": 21,
-  "Goo-net Exchange": 99,
+  "Goo-net Exchange": 98,
   "BE FORWARD": 37
  },
  "model_counts": {
@@ -16,7 +16,7 @@
    "sambar": 26
   },
   "SBT Japan": {
-   "acty": 54,
+   "acty": 53,
    "sambar": 74
   },
   "TCV": {
@@ -24,7 +24,7 @@
    "sambar": 16
   },
   "Goo-net Exchange": {
-   "acty": 37,
+   "acty": 36,
    "sambar": 62
   },
   "BE FORWARD": {
@@ -52,9 +52,11 @@
    "manual_only": true
   }
  },
- "errors": {},
+ "errors": {
+  "Goo-net Exchange (some details)": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700070395430260823001/: HTTP 502"
+ },
  "new_keys": [],
- "new_since": "2026-11-25T12:00+00:00",
+ "new_since": "2026-11-26T12:00+00:00",
  "first_run": false,
  "trucks": [
   {
@@ -953,8 +955,8 @@
    "reg_month": null,
    "mfg_year": null,
    "km": 47966,
-   "price_usd": 3379,
-   "delivered_usd": 5769,
+   "price_usd": 3385,
+   "delivered_usd": 5775,
    "delivered_to": "Long Beach/Los Angeles",
    "ac": false,
    "drive": "4WD",
@@ -972,7 +974,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 3379,
+   "usd": 3385,
    "low_km": true,
    "key": "CAR FROM JAPAN|6b03e50cc15b58c1187259e6",
    "also_on": [],
@@ -2098,14 +2100,7 @@
    "usd": 1800,
    "low_km": false,
    "key": "SBT Japan|DBB3256",
-   "also_on": [
-    {
-     "source": "Goo-net Exchange",
-     "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700050801230260906002/",
-     "usd": 1859,
-     "key": "Goo-net Exchange|700050801230260906002"
-    }
-   ],
+   "also_on": [],
    "first_seen": "2026-11-22T14:48+00:00",
    "price_drop": true,
    "is_new": false
@@ -3204,7 +3199,7 @@
    "also_on": [],
    "first_seen": "2026-11-25T19:17+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "Goo-net Exchange",
@@ -3561,9 +3556,9 @@
    "also_on": [
     {
      "source": "TCV",
-     "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/45186221/",
+     "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/45238705/",
      "usd": 2300,
-     "key": "TCV|45186221"
+     "key": "TCV|45238705"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
@@ -3579,8 +3574,8 @@
    "reg_month": null,
    "mfg_year": null,
    "km": 104000,
-   "price_usd": 3410,
-   "delivered_usd": 5670,
+   "price_usd": 3416,
+   "delivered_usd": 5676,
    "delivered_to": "Long Beach/Los Angeles",
    "ac": true,
    "drive": "4WD",
@@ -3598,7 +3593,7 @@
    "build_month_known": false,
    "legal_from": "2026-12",
    "status": "on_arrival",
-   "usd": 3410,
+   "usd": 3416,
    "low_km": false,
    "key": "CAR FROM JAPAN|6afe7263f08df72f9c15cc5d",
    "also_on": [],
@@ -5521,7 +5516,7 @@
    ],
    "first_seen": "2026-11-25T19:17+00:00",
    "price_drop": true,
-   "is_new": true
+   "is_new": false
   }
  ]
 }
