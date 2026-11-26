@@ -1,0 +1,30 @@
+name: Probe CFJ status (temporary)
+on:
+  push:
+    branches: [claude/project-thread-vxgvfn]
+    paths: [".github/workflows/probe.yml"]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          curl -s -A "$UA" -o car.html -w "detail %{http_code}\n" "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2001-for-sale-6b00be07c15b58c1186def73"
+          curl -s -A "$UA" -o list.html -w "list %{http_code}\n" "https://carfromjapan.com/cheap-used-subaru-sambar-truck-for-sale-drive-type-4wd-transmission-manual?minYear=2000&maxYear=2001&maxMonth=dec&country=USA&port=Long%20Beach%2FLos%20Angeles"
+          python3 - <<'PY'
+          import re, json
+          for f in ("car.html", "list.html"):
+              h = open(f).read()
+              chunks = re.findall(r'self\.__next_f\.push\(\[1,"(.*?)"\]\)</script>', h, re.S)
+              t = "".join(json.loads('"' + c + '"') for c in chunks)
+              print("=====", f, len(h), len(t))
+              for m in re.finditer(r'(?i)reserv|sold|"status"|isSold|isReserved|stock', t):
+                  print(f, "...", t[max(0, m.start()-150):m.end()+150].replace("\n", " "))
+                  print()
+              i = t.find('{"id":"6b00be07c15b58c1186def73"')
+              if i >= 0:
+                  o, _ = json.JSONDecoder().raw_decode(t, i)
+                  print(f, "OBJECT", json.dumps(o)[:6000])
+              for m in re.finditer(r'(?i)reserv', h):
+                  print(f, "HTML", h[max(0, m.start()-200):m.end()+200].replace("\n", " "))
+          PY
