@@ -24,18 +24,21 @@ UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
       "Chrome/130.0 Safari/537.36")
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT_DIR = sys.argv[sys.argv.index("--dir") + 1] if "--dir" in sys.argv else HERE
+# Newest model year fetched: 23 years back, so trucks turning 25 in the next year or two
+# show up in "Coming up" (2003 in 2026). Rolls forward each January.
+MAX_YEAR = dt.date.today().year - 23
 # Models searched. Each source runs once per model. Truck keys stay "<source>|<id>",
 # so saved and hidden trucks from before the Sambar was added keep working.
 MODELS = {
     "acty": dict(
         name="Honda Acty", chassis="HA7", manual_only=False,
-        min_year=1999, max_year=2003,  # HA7 launched 1999; fetch past the cutoff for the watch list
+        min_year=1999, max_year=MAX_YEAR,  # HA7 launched 1999
         cfj="honda-acty-truck-for-sale-drive-type-4wd", sbt="honda/acty-truck",
         tcv="honda/acty%20truck", goo=("1020", "10204111", "HONDA/ACTY_TRUCK"),
         bf="make=2/model=287/model_code=HA7", bf_path="/honda/acty"),
     "sambar": dict(
         name="Subaru Sambar", chassis="TT2", manual_only=True,
-        min_year=2000, max_year=2001,  # Josh asked for 2000-2001, 4WD, manual (2026-11-26)
+        min_year=2000, max_year=MAX_YEAR,  # Josh: 2000 and newer, rolling like the Acty (2026-11-26)
         cfj="subaru-sambar-truck-for-sale-drive-type-4wd-transmission-manual", sbt="subaru/sambar-truck",
         tcv="subaru/sambar%20truck", goo=("1045", "10454111", "SUBARU/SAMBAR_TRUCK"),
         bf="make=94/model=13236/model_code=TT2", bf_path="/subaru/sambar"),
