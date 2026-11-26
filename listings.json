@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-26T04:26+00:00",
+ "generated_at": "2026-11-26T04:37+00:00",
  "today": "2026-11-26",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.34,
@@ -4478,6 +4478,12 @@
    "low_km": false,
    "key": "BE FORWARD|CD546021",
    "also_on": [
+    {
+     "source": "BE FORWARD",
+     "url": "https://www.beforward.jp/subaru/sambar-truck/cd546021/id/15501966/",
+     "usd": 2850,
+     "key": "BE FORWARD|CD546021"
+    },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700120137330260609001/",
