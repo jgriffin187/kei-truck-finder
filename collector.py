@@ -44,6 +44,23 @@ MODELS = {
         bf="make=94/model=13236/model_code=TT2", bf_path="/subaru/sambar"),
 }
 LOW_KM = 48280  # 30,000 miles
+# Josh looks at the page every morning at 5 AM Mountain. A truck counts as new
+# (NEW badge, shown at the top) when it was first seen after the last such check.
+CHECK_TZ, CHECK_HOUR = "America/Denver", 5
+
+
+def last_check(now_utc):
+    """The most recent 5 AM Mountain at or before now_utc, as a UTC datetime."""
+    try:
+        from zoneinfo import ZoneInfo
+        tz = ZoneInfo(CHECK_TZ)
+    except Exception:
+        tz = dt.timezone(dt.timedelta(hours=-7))
+    local = now_utc.astimezone(tz)
+    c = local.replace(hour=CHECK_HOUR, minute=0, second=0, microsecond=0)
+    if c > local:
+        c = (local - dt.timedelta(days=1)).replace(hour=CHECK_HOUR, minute=0, second=0, microsecond=0)
+    return c.astimezone(dt.timezone.utc)
 JPY_PER_USD = 155.0  # replaced at runtime from carfromjapan when available
 
 S = requests.Session()
@@ -467,18 +484,28 @@ def main():
     state_p = os.path.join(OUT_DIR, "state.json")
     state = json.load(open(state_p)) if os.path.exists(state_p) else {"seen": {}}
     first_run = not state["seen"]
+    # Records from before a model was added have no "model" (they are all Acty).
+    known_models = {rec.get("model") or "acty" for rec in state["seen"].values()}
+    since = last_check(dt.datetime.fromisoformat(now))
     new = []
     for t in merged:
         rec = state["seen"].get(t["key"])
         if rec is None:
             rec = {"first_seen": now, "first_usd": t.get("usd")}
-            state["seen"][t["key"]] = rec
-            if not first_run:
+            # The first run of a newly added model finds trucks that were listed
+            # all along: record them, but don't call them new.
+            if first_run or t["model"] not in known_models:
+                rec["baseline"] = True
+            else:
                 new.append(t["key"])
+            state["seen"][t["key"]] = rec
+        rec["model"] = t["model"]
         rec["last_seen"] = now
         t["first_seen"] = rec["first_seen"]
         t["price_drop"] = bool(rec.get("first_usd") and t.get("usd") and t["usd"] < rec["first_usd"])
-        t["is_new"] = t["key"] in new
+        # New since the last 5 AM check, so an extra run later in the day doesn't
+        # clear the badge from trucks Josh hasn't seen yet.
+        t["is_new"] = not rec.get("baseline") and dt.datetime.fromisoformat(rec["first_seen"]) > since
 
     order = {"legal_now": 0, "in_us": 0, "on_arrival": 1, "watch": 2}
     merged.sort(key=lambda t: (order[t["status"]], -t["reg_year"],
@@ -490,7 +517,7 @@ def main():
         "models": {k: {"name": M["name"], "chassis": M["chassis"], "years": [M["min_year"], M["max_year"]],
                        "manual_only": M["manual_only"]} for k, M in MODELS.items()},
         "errors": ERRORS,
-        "new_keys": new, "first_run": first_run, "trucks": merged,
+        "new_keys": new, "new_since": since.isoformat(timespec="minutes"), "first_run": first_run, "trucks": merged,
     }
     json.dump(data, open(os.path.join(OUT_DIR, "listings.json"), "w"), indent=1, default=str)
     json.dump(state, open(state_p, "w"), indent=1)
