@@ -505,10 +505,6 @@ def main():
             else:
                 new.append(t["key"])
             state["seen"][t["key"]] = rec
-        if "model" not in rec and t["model"] != "acty":
-            # Recorded before records kept a model: only a model's first runs did
-            # that (the Sambar on 2026-11-26), so it was listed all along.
-            rec["baseline"] = True
         rec["model"] = t["model"]
         rec["last_seen"] = now
         t["first_seen"] = rec["first_seen"]
