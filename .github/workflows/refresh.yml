@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pages: write
   id-token: write
 
@@ -29,6 +30,20 @@ jobs:
       - run: pip install requests beautifulsoup4 lxml pillow
       - name: Collect listings
         run: python collector.py --dir .
+      - name: Write new-truck alert
+        run: python alert.py --dir . --out "$RUNNER_TEMP/alert.md"
+      - name: Email Josh about new trucks
+        # An issue assigned to Josh makes GitHub email him, the same way its
+        # run-failure emails reach him.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -s "$RUNNER_TEMP/alert.md" ]; then
+            n=$(grep -c '^- ' "$RUNNER_TEMP/alert.md")
+            gh issue create --repo "$GITHUB_REPOSITORY" --assignee jgriffin187 \
+              --title "$n new kei truck$([ "$n" = 1 ] || echo s) $(TZ=America/Denver date +'%a %b %-d')" \
+              --body-file "$RUNNER_TEMP/alert.md" || echo "Could not open the alert issue"
+          fi
       - name: Build site data
         run: python build.py --dir . --remote-images
       - name: Save history
