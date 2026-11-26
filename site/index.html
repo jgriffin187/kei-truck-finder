@@ -172,6 +172,7 @@ let D=null,db=null,saved={stars:{},hidden:{}},plan={};
 
 const statusText=t=>t.status==='in_us'?'In the US':t.status==='legal_now'?'Legal now':t.status==='on_arrival'?'Legal from '+ym(t.legal_from):'Legal from '+ym(t.legal_from);
 function plate(t){return `<span class="plate">${t.build_month_known?esc(t.build_latest.replace('-','·')):esc(t.reg_year)+' <small>month ?</small>'}</span>`}
+const chassisChip=t=>{const c=esc(t.chassis_code||'HA7');return t.ha7==='confirmed'?`<span class="chip ok">${c} confirmed</span>`:t.ha7==='likely'?`<span class="chip">${c} likely</span>`:`<span class="chip warn">Check chassis is ${c}</span>`};
 const MODEL_NAMES={acty:'Honda Acty',sambar:'Subaru Sambar'},mdl=t=>t.model||'acty',byModel=t=>{const m=$('#fmodel').value;return m==='all'||mdl(t)===m};
 try{const m=localStorage.getItem('kei:model');if(m)$('#fmodel').value=m}catch(e){}
 $('#fmodel').addEventListener('change',e=>{try{localStorage.setItem('kei:model',e.target.value)}catch(x){}D&&render()});
@@ -183,7 +184,7 @@ function cmp(a,b){const s=$('#fsort').value;
   const x=rankKey(a),y=rankKey(b);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]-y[i];return 0}
 function card(t){
   const st=!!saved.stars[t.key],hid=!!saved.hidden[t.key];
-  const cc=esc(t.chassis_code||'HA7'),ha=t.ha7==='confirmed'?`<span class="chip ok">${cc} confirmed</span>`:t.ha7==='likely'?`<span class="chip">${cc} likely</span>`:`<span class="chip warn">Check chassis is ${cc}</span>`;
+  const ha=t.ha7==='confirmed'?'<span class="chip ok">HA7 confirmed</span>':t.ha7==='likely'?'<span class="chip">HA7 likely</span>':'<span class="chip warn">Check chassis is HA7</span>';
   const ac=t.ac===true?'<span class="chip ok">A/C</span>':t.ac===false?'<span class="chip">A/C not listed</span>':'<span class="chip">A/C unknown</span>';
   const also=(t.also_on||[]).filter(x=>x.url).map(x=>`<a href="${esc(safe(x.url))}" target="_blank" rel="noopener">${esc(x.source)}</a>${x.usd?' '+money(x.usd):''}`).join(', ');
   const deliv=t.delivered_usd?`<span class="sub">${money(t.delivered_usd)} delivered${t.delivered_to?' to '+esc(t.delivered_to):''}</span>`:'';
@@ -193,7 +194,7 @@ function card(t){
    <span class="mdl ${esc(mdl(t))}">${esc(MODEL_NAMES[mdl(t)]||mdl(t))}</span><h3>${esc(t.title||MODEL_NAMES[mdl(t)]+' truck')}</h3>
    <div class="row"><span class="price">${money(t.usd)}</span>${deliv}${t.price_drop?'<span class="chip ok">Price dropped</span>':''}</div>
    <div class="row"><span class="km">${t.km!=null?t.km.toLocaleString('en-US')+' km':'km unknown'}</span>${t.km!=null?`<span class="sub">${Math.round(t.km*0.621371).toLocaleString('en-US')} mi</span>`:''}</div>
-   <div class="chips">${ha}${ac}${t.low_km?'<span class="chip ok">Low km</span>':''}${t.reserved?'<span class="chip warn">Reserved</span>':''}<span class="chip">${esc(statusText(t))}</span></div>
+   <div class="chips">${chassisChip(t)}${ac}${t.low_km?'<span class="chip ok">Low km</span>':''}${t.reserved?'<span class="chip warn">Reserved</span>':''}<span class="chip">${esc(statusText(t))}</span></div>
    <div class="sub">${esc(t.seller||t.source)} · ${esc(t.location||t.country)}${t.vin?' · '+esc(t.vin):''}</div>
    ${also?`<div class="sub">Also on ${also}</div>`:''}
    <div class="sub">First seen ${esc(new Date(t.first_seen).toLocaleDateString('en-US',{month:'short',day:'numeric'}))} on ${esc(t.source)}</div>
