@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-26T04:37+00:00",
+ "generated_at": "2026-11-26T04:41+00:00",
  "today": "2026-11-26",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.34,
@@ -8,8 +8,7 @@
   "SBT Japan": 128,
   "TCV": 21,
   "Goo-net Exchange": 99,
-  "BE FORWARD": 38,
-  "US dealer leads": 1
+  "BE FORWARD": 37
  },
  "model_counts": {
   "CAR FROM JAPAN": {
@@ -30,11 +29,7 @@
   },
   "BE FORWARD": {
    "acty": 5,
-   "sambar": 33
-  },
-  "US dealer leads": {
-   "acty": 1,
-   "sambar": 0
+   "sambar": 32
   }
  },
  "models": {
@@ -135,38 +130,6 @@
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
-   "price_drop": false,
-   "is_new": false
-  },
-  {
-   "url": "https://www.jdmbuysell.com/ad/mayberryminitrucks-2001-honda-acty-ha7-1301628/",
-   "title": "2001 Honda Acty HA7 4WD (street legal in NC)",
-   "reg_year": 2001,
-   "km": 47199,
-   "price_usd": 9200,
-   "ac": true,
-   "chassis": "HA7",
-   "drive": "4WD",
-   "vin": "HA7-1301628",
-   "location": "Mount Airy, North Carolina",
-   "seller": "Mayberry Mini Trucks",
-   "image": "https://www.jdmbuysell.com/cdn-cgi/imagedelivery/xVw3QQK61KNpvKje82BSjw/d0a6a0a20f90b055-image-0/w=1200,h=900,fit=scale-down,metadata=none,quality=80",
-   "found": "2026-11-22",
-   "source": "US dealer",
-   "sid": "mayberryminitrucks-2001-honda-acty-ha7-1301628",
-   "country": "United States",
-   "model": "acty",
-   "chassis_code": "HA7",
-   "ha7": "confirmed",
-   "build_latest": "2001-12",
-   "build_month_known": false,
-   "legal_from": "2026-12",
-   "status": "in_us",
-   "usd": 9200,
-   "low_km": true,
-   "key": "US dealer|mayberryminitrucks-2001-honda-acty-ha7-1301628",
-   "also_on": [],
-   "first_seen": "2026-11-22T14:48+00:00",
    "price_drop": false,
    "is_new": false
   },
@@ -4478,12 +4441,6 @@
    "low_km": false,
    "key": "BE FORWARD|CD546021",
    "also_on": [
-    {
-     "source": "BE FORWARD",
-     "url": "https://www.beforward.jp/subaru/sambar-truck/cd546021/id/15501966/",
-     "usd": 2850,
-     "key": "BE FORWARD|CD546021"
-    },
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700120137330260609001/",
