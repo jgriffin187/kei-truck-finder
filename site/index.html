@@ -79,7 +79,14 @@ details.more>summary::after{content:"›";font-size:22px;color:var(--mute);trans
 .list{display:grid;gap:8px}
 @media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
 .tr{background:var(--card);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;overflow:hidden}
-.tr.isnew{box-shadow:inset 3px 0 0 var(--red)}
+/* New trucks: a big red NEW badge on the photo, a red outline and a pink tint, so they stand out in any list. */
+.tr.isnew{border:2px solid var(--red);box-shadow:inset 5px 0 0 var(--red);background:light-dark(#fff2f3,#2a1519)}
+.newb{position:absolute;left:0;top:0;z-index:2;background:#c8102e;color:#fff;font:900 15px/1 "Zen Kaku Gothic New","IBM Plex Sans",sans-serif;letter-spacing:.08em;padding:5px 9px 5px 7px;border-bottom-right-radius:9px;box-shadow:0 1px 4px #0006}
+.dcard{position:relative}.dcard .newb{font-size:24px;padding:9px 16px 9px 14px;border-bottom-right-radius:14px}
+button.stat{font:inherit;font-size:13px;font-weight:600;cursor:pointer;min-height:32px}
+.stat.newpill{background:#c8102e;border-color:#c8102e;color:#fff;font-weight:800}.stat.newpill b{font-weight:900}
+.stat.newpill[aria-pressed=true]{background:var(--card);color:var(--red);border-color:var(--red)}
+body.newonly #saved,body.newonly main{display:none}#allbtn[hidden]{display:none}
 .tr.gone{opacity:.9}.tr.gone img{filter:grayscale(1)}
 .tr-main{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:none;border:0;padding:8px 0 8px 8px;min-height:96px}
 .th{position:relative;display:block;width:104px;height:78px;border-radius:8px;overflow:hidden;background:var(--panel)}
@@ -172,7 +179,7 @@ table.src{border-collapse:collapse;width:100%;font-size:14px}table.src td,table.
 </div></header>
 
 <section class="blk" id="fresh" aria-labelledby="new-h"><div class="wrap">
-  <div class="sh"><h2 id="new-h"><span class="dotred"></span>New today</h2><span class="sub" id="new-n"></span><button type="button" class="btn pri" id="review" hidden>Review new</button></div>
+  <div class="sh"><h2 id="new-h"><span class="dotred"></span>New today</h2><span class="sub" id="new-n"></span><button type="button" class="btn pri" id="review" hidden>Review new</button><button type="button" class="btn" id="allbtn" hidden>Show all trucks</button></div>
   <div class="list" id="g-new"></div>
 </div></section>
 
@@ -296,7 +303,7 @@ function row(t,extra=''){
   const chassis=t.ha7==='confirmed'?`<span class="tag ok">${esc(t.chassis_code||'HA7')} ✓</span>`:t.ha7==='likely'?'':`<span class="tag warn">Check chassis</span>`;
   return `<article class="tr${t.is_new?' isnew':''}${t.reserved?' isres':''}" id="${esc(rid(t.key))}">
   <button type="button" class="tr-main" data-open="${esc(t.key)}" aria-expanded="${open}">
-   <span class="th">${thumb(t.img,clean(t.title))}${t.reserved?'<span class="stamp res">RESERVED</span>':''}${plate(t)}</span>
+   <span class="th">${thumb(t.img,clean(t.title))}${t.is_new?'<span class="newb">NEW</span>':''}${t.reserved?'<span class="stamp res">RESERVED</span>':''}${plate(t)}</span>
    <span class="tx">
     <span class="l1"><span class="pr">${priceHTML(t)}</span></span>
     <span class="l2">${kmHTML(t)}</span>
@@ -356,7 +363,10 @@ function render(){
   renderNew();
   const all=filt(D.trucks.filter(byModel)).filter(old);
   const cut=ym(D.cutoff_build);
-  $('#kpis').innerHTML=`<span class="stat"><b>${all.length}</b>truck${all.length===1?'':'s'}</span>`;
+  if(!newList.length)newOnly=false;
+  document.body.classList.toggle('newonly',newOnly);$('#allbtn').hidden=!newOnly;
+  $('#kpis').innerHTML=(newList.length?`<button type="button" class="stat newpill" id="newonly" aria-pressed="${newOnly}">${newOnly?'Showing new only ✕':`<b>${newList.length}</b>new`}</button>`:'')+
+   `<span class="stat"><b>${all.length}</b>${newList.length?'more ':''}truck${all.length===1?'':'s'}</span>`;
   $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'});
   $('#s-all').textContent=`All trucks (${all.length})`;
   $('#p-all').textContent=`Trucks built ${cut} or earlier pass the 25-year rule today. Each row shows the month a truck becomes legal to import.`;
@@ -365,8 +375,11 @@ function render(){
   $('#fx').textContent=Math.round(D.jpy_per_usd*100)/100;
 }
 // New trucks (first seen since the last 5 AM Mountain check) show at the top, not in the sections below.
+// The red "N new" pill in the header switches to a view of only the new ones; Show all trucks switches back.
 const old=t=>!t.is_new;
-let newList=[];
+let newList=[],newOnly=false;
+function setNewOnly(on){newOnly=on;render();window.scrollTo({top:0})}
+document.addEventListener('click',e=>{if(e.target.closest('#newonly'))setNewOnly(!newOnly);if(e.target.closest('#allbtn'))setNewOnly(false)});
 function renderNew(){
   newList=filt(D.trucks.filter(t=>t.is_new&&byModel(t)));
   const since=D.new_since?new Date(D.new_since):null;
@@ -375,7 +388,7 @@ function renderNew(){
   $('#new-n').textContent=newList.length?`${newList.length} truck${newList.length>1?'s':''}`:'';
   const left=newList.filter(t=>!reviewed.has(t.key)&&!isStar(t)).length;
   $('#review').hidden=!newList.length;$('#review').textContent=left?`Review ${left} new`:'Review again';
-  $('#g-new').innerHTML=newList.length?newList.map(t=>row(t)).join(''):`<div class="empty">No new trucks${since?' since '+esc(when)+' Mountain':' today'}. The next check runs before 5 AM.</div>`;
+  $('#g-new').innerHTML=newList.length?newList.map(t=>row(t)).join(''):`<div class="empty">No new trucks${since?' since '+esc(when)+' Mountain':' today'}. The page checks for new ones every 2 hours.</div>`;
 }
 
 // Swipe review: right saves, left hides, Skip moves on. Reviewed trucks are remembered on this device.
@@ -387,7 +400,7 @@ function drawDeck(){
   const a=$('#deck-area');$('#deck-btns').hidden=di>=deck.length;
   if(di>=deck.length){a.innerHTML=`<div class="done"><h2>All caught up</h2><p>${Object.keys(saved.stars).length} saved so far.</p><button type="button" class="btn" data-close="deck">Back to the list</button></div>`;$('#deck-n').textContent='';return}
   const t=deck[di];$('#deck-n').textContent=`${di+1} of ${deck.length}`;
-  a.innerHTML=`<span class="hint yes">SAVE</span><span class="hint no">HIDE</span><article class="dcard" id="dcard">${thumb(t.img,clean(t.title))}<div class="b">
+  a.innerHTML=`<span class="hint yes">SAVE</span><span class="hint no">HIDE</span><article class="dcard" id="dcard">${t.is_new?'<span class="newb">NEW</span>':''}${thumb(t.img,clean(t.title))}<div class="b">
    <div class="l1"><span class="pr">${priceHTML(t)}</span>${plate(t)}</div>
    <div class="l2">${kmHTML(t)}${acHTML(t)}</div>
    <div class="l3"><span class="tag mk ${esc(mdl(t))}">${mdl(t)==='sambar'?'Subaru':'Honda'}</span>${statusTag(t)}${t.ha7==='confirmed'?`<span class="tag ok">${esc(t.chassis_code||'HA7')} ✓</span>`:''}</div>
