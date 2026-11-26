@@ -7,3 +7,7 @@ A daily-updated list of Honda Acty HA7 4WD and Subaru Sambar TT2 4WD manual (200
 - `.github/workflows/refresh.yml` runs both every morning and publishes `site/` to GitHub Pages.
 
 Run locally: `pip install requests beautifulsoup4 lxml pillow && python collector.py --dir . && python build.py --dir . --remote-images`, then serve `site/`.
+
+Saved-truck alerts: `saved_alert.py` reads the saved trucks from the page's secret sync gist
+(repository secret `SAVED_GIST_ID`) and opens an issue assigned to Josh when one is reserved,
+sold, taken down or available again. `collector.py` records each truck's availability in `state.json`.

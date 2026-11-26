@@ -44,6 +44,22 @@ jobs:
               --title "$n new kei truck$([ "$n" = 1 ] || echo s) $(TZ=America/Denver date +'%a %b %-d')" \
               --body-file "$RUNNER_TEMP/alert.md" || echo "Could not open the alert issue"
           fi
+      - name: Check saved trucks
+        # Reads Josh's saved trucks from his secret sync gist (secret
+        # SAVED_GIST_ID) and notes any that were reserved, sold or relisted.
+        env:
+          SAVED_GIST_ID: ${{ secrets.SAVED_GIST_ID }}
+          GH_TOKEN: ${{ github.token }}
+        run: python saved_alert.py --dir . --out "$RUNNER_TEMP/saved.md"
+      - name: Email Josh about saved trucks
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -s "$RUNNER_TEMP/saved.md" ]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --assignee jgriffin187 \
+              --title "$(cat "$RUNNER_TEMP/saved.md.title") $(TZ=America/Denver date +'%a %b %-d')" \
+              --body-file "$RUNNER_TEMP/saved.md" || echo "Could not open the saved-truck issue"
+          fi
       - name: Build site data
         run: python build.py --dir . --remote-images
       - name: Save history
