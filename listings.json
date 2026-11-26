@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-11-26T19:51+00:00",
+ "generated_at": "2026-11-26T20:24+00:00",
  "today": "2026-11-26",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.34,
  "source_counts": {
   "CAR FROM JAPAN": 55,
-  "SBT Japan": 125,
+  "SBT Japan": 126,
   "TCV": 21,
   "Goo-net Exchange": 98,
   "BE FORWARD": 80
@@ -17,7 +17,7 @@
   },
   "SBT Japan": {
    "acty": 52,
-   "sambar": 73
+   "sambar": 74
   },
   "TCV": {
    "acty": 5,
@@ -53,7 +53,9 @@
   }
  },
  "errors": {},
- "new_keys": [],
+ "new_keys": [
+  "SBT Japan|DAK6788"
+ ],
  "new_since": "2026-11-26T12:00+00:00",
  "first_run": false,
  "trucks": [
@@ -4349,6 +4351,42 @@
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
    "is_new": false
+  },
+  {
+   "source": "SBT Japan",
+   "sid": "DAK6788",
+   "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAK6788?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
+   "title": "2002/9 Subaru Sambar Truck",
+   "reg_year": 2002,
+   "reg_month": 9,
+   "mfg_year": null,
+   "km": 39441,
+   "price_usd": 3900,
+   "delivered_usd": 4988,
+   "delivered_to": "Long Beach",
+   "ac": null,
+   "drive": "4WD",
+   "chassis": "TT2",
+   "trans": "MANUAL",
+   "reserved": false,
+   "image": null,
+   "location": "Ehime, JAPAN",
+   "country": "Japan",
+   "seller": "SBT Japan",
+   "model": "sambar",
+   "chassis_code": "TT2",
+   "ha7": "confirmed",
+   "build_latest": "2002-09",
+   "build_month_known": true,
+   "legal_from": "2027-09",
+   "status": "watch",
+   "usd": 3900,
+   "low_km": true,
+   "key": "SBT Japan|DAK6788",
+   "also_on": [],
+   "first_seen": "2026-11-26T20:24+00:00",
+   "price_drop": false,
+   "is_new": true
   },
   {
    "source": "BE FORWARD",
