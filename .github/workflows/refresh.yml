@@ -23,7 +23,13 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
+      # Always start from the newest main, not the commit that triggered the
+      # run. A queued push run or a "Re-run" of an older run would otherwise
+      # collect with old code and old state.json, and its push would be
+      # rejected because main has moved on (2026-11-25 and 11-26 failures).
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -63,12 +69,36 @@ jobs:
       - name: Build site data
         run: python build.py --dir . --remote-images
       - name: Save history
+        # This run just rebuilt these three files. If someone merged to main
+        # while the run was collecting, lay this run's data on top of the
+        # newest main and push again instead of failing and skipping the
+        # deploy. This run's data wins for these three files.
         run: |
           git config user.name "kei-truck-bot"
           git config user.email "kei-truck-bot@users.noreply.github.com"
-          git add state.json listings.json site/data.json
-          git diff --cached --quiet || git commit -m "Daily listings $(date -u +%F)"
-          git push
+          data="$RUNNER_TEMP/data"
+          mkdir -p "$data/site"
+          cp state.json listings.json "$data/"
+          cp site/data.json "$data/site/"
+          for attempt in 1 2 3 4 5; do
+            git fetch --quiet --depth=1 origin main
+            git reset --quiet --hard origin/main
+            cp "$data/state.json" "$data/listings.json" .
+            cp "$data/site/data.json" site/
+            git add state.json listings.json site/data.json
+            if git diff --cached --quiet; then
+              echo "No listing changes to save"
+              exit 0
+            fi
+            git commit --quiet -m "Daily listings $(date -u +%F)"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "main moved during the push; trying again (attempt $attempt)"
+            sleep $((attempt * 5))
+          done
+          echo "Could not save history after 5 tries"
+          exit 1
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
