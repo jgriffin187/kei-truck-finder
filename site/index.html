@@ -154,7 +154,6 @@ table.src{border-collapse:collapse;width:100%;font-size:14px}table.src td,table.
   <button type="button" class="morebtn" id="fmore" aria-expanded="false" aria-controls="fpanel"><span class="lt">More filters</span><span class="st">More</span><span class="n" id="fmore-n" hidden></span></button>
  </div>
  <div class="wrap fpanel" id="fpanel" hidden>
-  <fieldset><legend>Show</legend><label class="ctl"><input type="checkbox" data-st="legal_now" checked> Legal now</label><label class="ctl"><input type="checkbox" data-st="on_arrival" checked> Legal on arrival</label><label class="ctl"><input type="checkbox" data-st="watch" checked> Coming up</label></fieldset>
   <label class="ctl">Year <select id="fy0" aria-label="Year from"><option value="0">Any</option></select> to <select id="fy1" aria-label="Year to"><option value="0">Any</option></select></label>
   <label class="ctl">Max miles <select id="fkm"><option value="0">Any</option><option value="48300">30,000 mi</option><option value="80000">50,000 mi</option><option value="120000">75,000 mi</option></select></label>
   <label class="ctl"><input type="checkbox" id="fconf"> Chassis confirmed only</label>
@@ -178,9 +177,7 @@ table.src{border-collapse:collapse;width:100%;font-size:14px}table.src td,table.
 </div></section>
 
 <main><div class="wrap">
-<section class="sec" id="sec-now"><h2>Legal to import now</h2><p class="note" id="p-now"></p><div class="list" id="g-now"></div></section>
-  <section class="sec" id="sec-arr"><h2>Legal on arrival</h2><p class="note">Turns 25 within two months, before a truck bought now would land. Time the arrival with your shipper.</p><div class="list" id="g-arr"></div></section>
-  <section class="sec" id="sec-watch"><details class="more"><summary><h2 id="s-watch">Coming up later</h2></summary><p class="note">Newer trucks that turn 25 within the next year.</p><div class="list" id="g-watch"></div></details></section>
+<section class="sec" id="sec-all"><h2 id="s-all">All trucks</h2><p class="note" id="p-all"></p><div class="list" id="g-all"></div></section>
   <section class="sec" id="sec-hid"><details class="more" id="d-hid"><summary><h2 id="s-hid">Hidden trucks</h2></summary><p class="note">Trucks you hid. They stay hidden after each refresh, also when the same truck shows up on another site.</p><div class="list" id="g-hid"></div></details></section>
 </div></main>
 
@@ -243,15 +240,14 @@ function plate(t){return `<span class="plate">${t.build_month_known?esc(t.build_
 const chassisChip=t=>{const c=esc(t.chassis_code||'HA7');return t.ha7==='confirmed'?`<span class="chip ok">${c} confirmed</span>`:t.ha7==='likely'?`<span class="chip">${c} likely</span>`:`<span class="chip warn">Check chassis is ${c}</span>`};
 const MODEL_NAMES={acty:'Honda Acty',sambar:'Subaru Sambar'},mdl=t=>t.model||'acty',byModel=t=>{const m=$('#fmodel').value;return m==='all'||mdl(t)===m};
 // Filters: make buttons, price and sort up top; the rest under More filters. All saved on this device.
-const STS=['legal_now','on_arrival','watch'],FDEF={make:'all',price:'0',sort:'best',st:STS,y0:'0',y1:'0',km:'0',conf:false,ac:false,star:false};
+const FDEF={make:'all',price:'0',sort:'best',y0:'0',y1:'0',km:'0',conf:false,ac:false,star:false};
 const priceOf=t=>t.delivered_usd??t.usd;
-const stOn=s=>!!document.querySelector(`[data-st="${s}"]`)?.checked;
-function getF(){return {make:$('#fmodel').value,price:$('#fprice').value,sort:$('#fsort').value,st:STS.filter(stOn),y0:$('#fy0').value,y1:$('#fy1').value,km:$('#fkm').value,conf:$('#fconf').checked,ac:$('#fac').checked,star:$('#fstar').checked}}
+function getF(){return {make:$('#fmodel').value,price:$('#fprice').value,sort:$('#fsort').value,y0:$('#fy0').value,y1:$('#fy1').value,km:$('#fkm').value,conf:$('#fconf').checked,ac:$('#fac').checked,star:$('#fstar').checked}}
 function setF(f){f={...FDEF,...f};$('#fmodel').value=f.make;document.querySelectorAll('[data-make]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.make===f.make));
-  $('#fprice').value=f.price;$('#fsort').value=f.sort;STS.forEach(s=>document.querySelector(`[data-st="${s}"]`).checked=f.st.includes(s));
+  $('#fprice').value=f.price;$('#fsort').value=f.sort;
   for(const k of ['y0','y1']){const el=$('#f'+k);if(![...el.options].some(o=>o.value===f[k]))el.add(new Option(f[k],f[k]));el.value=f[k]}
   $('#fkm').value=f.km;$('#fconf').checked=f.conf;$('#fac').checked=f.ac;$('#fstar').checked=f.star}
-function moreCount(f){return (f.st.length<STS.length)+(f.y0!=='0'||f.y1!=='0')+(f.km!=='0')+f.conf+f.ac+f.star}
+function moreCount(f){return (f.y0!=='0'||f.y1!=='0')+(f.km!=='0')+f.conf+f.ac+f.star}
 function onFilter(){const f=getF();try{localStorage.setItem('kei:filters',JSON.stringify(f))}catch(e){}
   const n=moreCount(f);$('#fmore-n').hidden=!n;$('#fmore-n').textContent=n;D&&render()}
 try{const f=JSON.parse(localStorage.getItem('kei:filters')||'null');const m=localStorage.getItem('kei:model');setF(f||(m?{make:m}:{}))}catch(e){}
@@ -259,7 +255,6 @@ document.querySelectorAll('[data-make]').forEach(b=>b.addEventListener('click',(
 $('#fmore').addEventListener('click',()=>{const o=$('#fpanel').hidden;$('#fpanel').hidden=!o;$('#fmore').setAttribute('aria-expanded',o)});
 $('#freset').addEventListener('click',()=>{setF(FDEF);onFilter()});
 ['#fprice','#fsort','#fy0','#fy1','#fkm','#fconf','#fac','#fstar'].forEach(s=>$(s).addEventListener('change',onFilter));
-document.querySelectorAll('[data-st]').forEach(c=>c.addEventListener('change',onFilter));
 function fillYears(){const ys=[...new Set(D.trucks.map(t=>t.reg_year).filter(Boolean))].sort();for(const k of ['y0','y1']){const el=$('#f'+k),v=el.value;
   el.innerHTML='<option value="0">Any</option>'+ys.map(y=>`<option>${y}</option>`).join('');if(v!=='0'&&!ys.includes(+v))el.add(new Option(v,v));el.value=v}}
 
@@ -345,17 +340,13 @@ function renderSaved(){
 function render(){
   renderSaved();
   renderNew();
-  [['legal_now','#sec-now'],['on_arrival','#sec-arr'],['watch','#sec-watch']].forEach(([k,id])=>$(id).hidden=!stOn(k));
-  const T=D.trucks.filter(byModel),by=s=>T.filter(t=>t.status===s);
-  const now=by('legal_now'),arr=by('on_arrival'),watch=by('watch');
+  const all=filt(D.trucks.filter(byModel)).filter(old);
   const cut=ym(D.cutoff_build);
-  const n=(l)=>filt(l).filter(old).length;
-  $('#kpis').innerHTML=[[n(now),'legal now','now'],[n(arr),'on arrival','arr']].map(([v,l])=>`<span class="stat"><b>${v}</b>${l}</span>`).join('');
+  $('#kpis').innerHTML=`<span class="stat"><b>${all.length}</b>truck${all.length===1?'':'s'}</span>`;
   $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'});
-  $('#p-now').textContent=`Built ${cut} or earlier, so it passes the 25-year rule today.`;
-  fill('#g-now',filt(now).filter(old),'Nothing matches your filters.');
-  fill('#g-arr',filt(arr).filter(old),'Nothing matches your filters.');
-  const w=filt(watch).filter(old);$('#s-watch').textContent=`Coming up later (${w.length})`;fill('#g-watch',w,'Nothing matches your filters.');
+  $('#s-all').textContent=`All trucks (${all.length})`;
+  $('#p-all').textContent=`Trucks built ${cut} or earlier pass the 25-year rule today. Each row shows the month a truck becomes legal to import.`;
+  fill('#g-all',all,'Nothing matches your filters.');
   $('#srcs tbody').innerHTML=Object.entries(D.source_counts).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v??'—'}</td><td>${D.errors[k]?'Could not read today':'OK'}</td></tr>`).join('');
   $('#fx').textContent=Math.round(D.jpy_per_usd*100)/100;
 }
@@ -363,8 +354,7 @@ function render(){
 const old=t=>!t.is_new;
 let newList=[];
 function renderNew(){
-  const so={legal_now:0,on_arrival:1,watch:2};// legal ones first, then the chosen sort
-  newList=filt(D.trucks.filter(t=>t.is_new&&byModel(t))).sort((a,b)=>(so[a.status]??3)-(so[b.status]??3));
+  newList=filt(D.trucks.filter(t=>t.is_new&&byModel(t)));
   const since=D.new_since?new Date(D.new_since):null;
   const when=since?since.toLocaleString('en-US',{timeZone:'America/Denver',weekday:'short',hour:'numeric'}).replace(/,/,''):'';
   $('#new-h').innerHTML=`<span class="dotred"></span>${since?`New since ${esc(when)}`:'New today'}`;
@@ -426,7 +416,7 @@ function openCompare(){
 function filt(list){const km=+$('#fkm').value,ac=$('#fac').checked,so=$('#fstar').checked,pr=+$('#fprice').value,cf=$('#fconf').checked;
   let y0=+$('#fy0').value,y1=+$('#fy1').value;if(y0&&y1&&y0>y1)[y0,y1]=[y1,y0];
   return list.filter(t=>(!km||(t.km!=null&&t.km<=km))&&(!ac||t.ac===true)&&(!so||isStar(t))&&!isHid(t)
-    &&(!pr||(priceOf(t)!=null&&priceOf(t)<=pr))&&(!cf||t.ha7==='confirmed')&&(!y0||t.reg_year>=y0)&&(!y1||t.reg_year<=y1)&&stOn(t.status)).sort(cmp)}
+    &&(!pr||(priceOf(t)!=null&&priceOf(t)<=pr))&&(!cf||t.ha7==='confirmed')&&(!y0||t.reg_year>=y0)&&(!y1||t.reg_year<=y1)).sort(cmp)}
 const fp=t=>t&&t.km?`${t.reg_year}|${t.km}|${t.country}`:null;
 const snap=t=>({t:t.title,u:t.url,i:t.img,p:t.usd,k:t.km,y:t.reg_year,b:t.build_month_known?t.build_latest:null,f:fp(t),ks:[t.key,...(t.also_on||[]).map(x=>x.key).filter(Boolean)],at:new Date().toISOString().slice(0,10)});
 // A truck can come back under another key when its cheapest listing moves to a different site,
