@@ -107,7 +107,6 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
   <label class="ctl">Max km <select id="fkm"><option value="0">Any</option><option value="48300">48,000 (30k mi)</option><option value="80000">80,000</option><option value="120000">120,000</option></select></label>
   <label class="ctl"><input type="checkbox" id="fac"> A/C listed</label>
   <label class="ctl"><input type="checkbox" id="fstar"> Saved only</label>
-  <label class="ctl"><input type="checkbox" id="fhid"> Show hidden</label>
   <label class="ctl">Sort <select id="fsort"><option value="best">Best match</option><option value="price">Lowest price</option><option value="km">Lowest km</option><option value="recent">Newest listed</option></select></label>
 </div></div>
 <section class="band fresh" id="fresh" aria-labelledby="new-h"><div class="wrap">
@@ -134,6 +133,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;b
   <section class="sec" id="sec-now"><h2>Legal to import now</h2><p id="p-now"></p><div class="grid" id="g-now"></div></section>
   <section class="sec" id="sec-arr"><h2>Legal on arrival</h2><p id="p-arr"></p><div class="grid" id="g-arr"></div></section>
   <section class="sec" id="sec-watch"><details class="more"><summary id="s-watch">Coming up later</summary><p class="note">Newer trucks that turn 25 within the next year. Worth watching if you can wait for a newer build.</p><div class="grid" id="g-watch"></div></details></section>
+  <section class="sec" id="sec-hid"><details class="more" id="d-hid"><summary id="s-hid">Hidden trucks (0)</summary><p class="note">Trucks you removed with ✕. They stay hidden after each morning's refresh, also when the same truck shows up on another site. Tap Unhide to bring one back.</p><div class="strip" id="g-hid"></div></details></section>
 </div></main>
 
 <section class="band plan" id="plan"><div class="wrap">
@@ -191,7 +191,7 @@ function cmp(a,b){const s=$('#fsort').value;
   if(s==='recent')return String(b.first_seen).localeCompare(String(a.first_seen));
   const x=rankKey(a),y=rankKey(b);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]-y[i];return 0}
 function card(t){
-  const st=!!saved.stars[t.key],hid=!!saved.hidden[t.key];
+  const st=isStar(t),hid=isHid(t);
   const ha=t.ha7==='confirmed'?'<span class="chip ok">HA7 confirmed</span>':t.ha7==='likely'?'<span class="chip">HA7 likely</span>':'<span class="chip warn">Check chassis is HA7</span>';
   const ac=t.ac===true?'<span class="chip ok">A/C</span>':t.ac===false?'<span class="chip">A/C not listed</span>':'<span class="chip">A/C unknown</span>';
   const also=(t.also_on||[]).filter(x=>x.url).map(x=>`<a href="${esc(safe(x.url))}" target="_blank" rel="noopener">${esc(x.source)}</a>${x.usd?' '+money(x.usd):''}`).join(', ');
@@ -210,11 +210,23 @@ function card(t){
     <button class="icon" data-star="${esc(t.key)}" aria-pressed="${st}" title="${st?'Remove from saved':'Save'}" aria-label="${st?'Remove from saved':'Save'}">★</button>
     <button class="icon" data-hide="${esc(t.key)}" aria-pressed="${hid}" title="${hid?'Unhide':'Hide'}">${hid?'↺':'✕'}</button></div>
   </div></article>`}
-function filt(list){const km=+$('#fkm').value,ac=$('#fac').checked,so=$('#fstar').checked,sh=$('#fhid').checked;
-  return list.filter(t=>(!km||(t.km!=null&&t.km<=km))&&(!ac||t.ac===true)&&(!so||saved.stars[t.key])&&(sh||!saved.hidden[t.key])).sort(cmp)}
+function filt(list){const km=+$('#fkm').value,ac=$('#fac').checked,so=$('#fstar').checked;
+  return list.filter(t=>(!km||(t.km!=null&&t.km<=km))&&(!ac||t.ac===true)&&(!so||isStar(t))&&!isHid(t)).sort(cmp)}
 function fill(id,list,emptyMsg){$(id).innerHTML=list.length?list.map(card).join(''):`<div class="empty">${emptyMsg}</div>`}
-const snap=t=>({t:t.title,u:t.url,i:t.img,p:t.usd,k:t.km,y:t.reg_year,b:t.build_month_known?t.build_latest:null,at:new Date().toISOString().slice(0,10)});
-function mini(k,t,v){
+const fp=t=>t&&t.km?`${t.reg_year}|${t.km}|${t.country}`:null;
+const snap=t=>({t:t.title,u:t.url,i:t.img,p:t.usd,k:t.km,y:t.reg_year,b:t.build_month_known?t.build_latest:null,f:fp(t),ks:[t.key,...(t.also_on||[]).map(x=>x.key).filter(Boolean)],at:new Date().toISOString().slice(0,10)});
+// A truck can come back under another key when its cheapest listing moves to a different site,
+// so match saved entries by key, by the keys of its other listings, and by year + exact km.
+function matchKey(map,t){if(!t)return null;if(map[t.key])return t.key;
+  const ks=[t.key,...(t.also_on||[]).map(x=>x.key).filter(Boolean)],f=fp(t);
+  for(const k of ks)if(map[k])return k;
+  for(const [k,v] of Object.entries(map))if(v&&typeof v==='object'&&((v.ks&&v.ks.some(x=>ks.includes(x)))||(f&&v.f===f)))return k;
+  return null}
+const isStar=t=>!!matchKey(saved.stars,t),isHid=t=>!!matchKey(saved.hidden,t);
+function resolve(map){const out=new Map();for(const t of D.trucks){const k=matchKey(map,t);if(k&&!out.has(k))out.set(k,t)}
+  let fixed=false;for(const [k,v] of Object.entries(map)){const t=out.get(k);if(t&&(typeof v!=='object'||!v||!v.ks))fixed=map[k]={...snap(t),at:(v&&v.at)||snap(t).at}}
+  return [out,fixed]}
+function mini(k,t,v,kind='star'){
   const gone=!t,o=typeof v==='object'&&v?v:{};
   const title=t?t.title:(o.t||k.split('|').pop().replace(/-/g,' '));
   const url=t?t.url:o.u,img=t?t.img:o.i,usd=t?t.usd:o.p,km=t?t.km:o.k;
@@ -228,17 +240,21 @@ function mini(k,t,v){
    <div class="chips">${chip}${was}</div>
    ${gone&&o.at?`<div class="sub">Saved ${esc(new Date(o.at+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}))}</div>`:''}
    <div class="acts">${url?`<a class="go" href="${esc(safe(url))}" target="_blank" rel="noopener">View listing</a>`:'<span style="flex:1"></span>'}
-    <button class="icon" data-star="${esc(k)}" aria-pressed="true" title="Remove from saved" aria-label="Remove ${esc(title)} from saved">★</button></div>
+    ${kind==='hide'?`<button class="icon" style="padding:0 14px" data-hide="${esc(k)}" aria-label="Unhide ${esc(title)}">Unhide</button>`:`<button class="icon" data-star="${esc(k)}" aria-pressed="true" title="Remove from saved" aria-label="Remove ${esc(title)} from saved">★</button>`}</div>
   </div></article>`}
+function rankCmp(a,b){const p=rankKey(a),q=rankKey(b);for(let i=0;i<3;i++)if(p[i]!==q[i])return p[i]-q[i];return 0}
+function orderKeys(map,res){return Object.keys(map).sort((a,b)=>{const x=res.get(a),y=res.get(b);if(!x!==!y)return x?-1:1;return x?rankCmp(x,y):0})}
 function renderSaved(){
-  const byKey=new Map(D.trucks.map(t=>[t.key,t]));let fixed=false;
-  for(const [k,v] of Object.entries(saved.stars)){const t=byKey.get(k);if(t&&(typeof v!=='object'||!v))fixed=saved.stars[k]=snap(t)}
-  if(fixed)try{localStorage.setItem('kei:prefs/trucks',JSON.stringify(saved))}catch(e){}
-  const keys=Object.keys(saved.stars).sort((a,b)=>{const x=byKey.get(a),y=byKey.get(b);if(!x!==!y)return x?-1:1;if(!x)return 0;const p=rankKey(x),q=rankKey(y);for(let i=0;i<3;i++)if(p[i]!==q[i])return p[i]-q[i];return 0});
-  const gone=keys.filter(k=>!byKey.has(k)).length;
+  const [rs,f1]=resolve(saved.stars),[rh,f2]=resolve(saved.hidden);
+  if(f1||f2)persistLocal();
+  const keys=orderKeys(saved.stars,rs),gone=keys.filter(k=>!rs.has(k)).length;
   $('#saved-n').textContent=keys.length?`${keys.length}${gone?` · ${gone} no longer listed`:''}`:'';
   $('#g-saved').className=keys.length?'strip':'';
-  $('#g-saved').innerHTML=keys.length?keys.map(k=>mini(k,byKey.get(k),saved.stars[k])).join(''):'<p class="savedempty">Tap ★ on any truck below to save it here.</p>';
+  $('#g-saved').innerHTML=keys.length?keys.map(k=>mini(k,rs.get(k),saved.stars[k])).join(''):'<p class="savedempty">Tap ★ on any truck below to save it here.</p>';
+  const hk=orderKeys(saved.hidden,rh),hl=hk.filter(k=>rh.has(k)).length;
+  $('#s-hid').textContent=`Hidden trucks (${hl}${hk.length>hl?`, plus ${hk.length-hl} no longer listed`:''})`;
+  $('#sec-hid').hidden=!hk.length;
+  $('#g-hid').innerHTML=hk.map(k=>mini(k,rh.get(k),saved.hidden[k],'hide')).join('');
 }
 function render(){
   renderSaved();
@@ -252,7 +268,7 @@ function render(){
   const lowNow=[...now,...us].filter(t=>t.low_km).length;
   $('#kpis').innerHTML=[[now.length,'Legal now'],[arr.length,'Legal on arrival'],[us.length,'In the US'],[lowNow,'Under 48,000 km'],[D.first_run?'—':D.trucks.filter(t=>t.is_new&&byModel(t)).length,'New']].map(([n,l])=>`<div class="kpi"><div class="big">${n}</div><span>${l}</span></div>`).join('');
   $('#updated').textContent='Updated '+new Date(D.generated_at).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'.';
-  const best=[...now,...us].filter(t=>!saved.hidden[t.key]).sort((a,b)=>{const x=rankKey(a),y=rankKey(b);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]-y[i];return 0})[0];
+  const best=[...now,...us].filter(t=>!isHid(t)).sort(rankCmp)[0];
   $('#hero').innerHTML=best?`${best.img?`<img referrerpolicy="no-referrer" onerror="this.removeAttribute('src')" src="${esc(best.img)}" alt="${esc(best.title)}">`:''}${plate(best)}<div class="body"><div class="tag">Best match today · ${esc(statusText(best))}</div><h2>${esc(best.title)}</h2><div class="row"><span class="price">${money(best.usd)}</span><span class="km">${best.km!=null?best.km.toLocaleString('en-US')+' km':''}</span><span class="sub">${best.ac?'A/C':'A/C not listed'} · ${esc(best.seller||best.source)}, ${esc(best.location||'')}</span></div><div class="acts"><a class="go" href="${esc(safe(best.url))}" target="_blank" rel="noopener">View listing</a></div></div>`:'';
   $('#p-now').textContent=`Built ${cut} or earlier. Prices are the exporter's price in Japan; shipping, duty and fees come on top.`;
   $('#p-arr').textContent=`Turns 25 within two months. Shipping takes about 4 to 8 weeks and the rule is checked when the truck lands, so time the arrival date with your shipper.`;
@@ -296,17 +312,19 @@ async function push(){if(!tok)return;const content=JSON.stringify({trucks:saved,
   try{if(!gid){const g=await gh('/gists',{method:'POST',body:JSON.stringify({description:DESC,public:false,files:{[FILE]:{content}}})});gid=g.id;try{localStorage.setItem('kei:gid',gid)}catch(e){}}
   else await gh('/gists/'+gid,{method:'PATCH',body:JSON.stringify({files:{[FILE]:{content}}})});syncMsg('Synced '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})+'.')}
   catch(e){syncMsg('Sync failed ('+e.message+'). Saved in this browser.')}}
+function persistLocal(){try{localStorage.setItem('kei:prefs/trucks',JSON.stringify(saved))}catch(e){}}
 function save(path,obj){try{localStorage.setItem('kei:'+path,JSON.stringify(obj));$('#savestate').textContent=tok?'Saved.':'Saved in this browser. Turn on sync at the bottom of the page to use it on other devices.'}catch(e){$('#savestate').textContent='This browser is not letting the page save.'}
   if(tok){clearTimeout(timer);timer=setTimeout(push,800)}}
 $('#syncform').addEventListener('submit',e=>{e.preventDefault();const v=$('#tok').value.trim();if(!v)return;tok=v;gid=null;try{localStorage.setItem('kei:tok',tok);localStorage.removeItem('kei:gid')}catch(x){}$('#tok').value='';syncMsg('Connecting…');pull()});
 $('#unsync').addEventListener('click',()=>{tok=gid=null;try{localStorage.removeItem('kei:tok');localStorage.removeItem('kei:gid')}catch(e){}syncMsg('Sync is off on this device. Stars and notes stay in this browser.')});
 document.addEventListener('click',e=>{const s=e.target.closest('[data-star]'),h=e.target.closest('[data-hide]');
-  if(s){const k=s.dataset.star;const t=D&&D.trucks.find(x=>x.key===k);saved.stars[k]?delete saved.stars[k]:saved.stars[k]=t?snap(t):1;save('prefs/trucks',saved);render()}
-  if(h){const k=h.dataset.hide;saved.hidden[k]?delete saved.hidden[k]:saved.hidden[k]=1;save('prefs/trucks',saved);render()}});
+  const tog=(map,k)=>{const t=D&&D.trucks.find(x=>x.key===k),m=map[k]?k:matchKey(map,t);if(m)delete map[m];else map[k]=t?snap(t):1;save('prefs/trucks',saved);render()};
+  if(s)tog(saved.stars,s.dataset.star);
+  if(h)tog(saved.hidden,h.dataset.hide)});
 document.addEventListener('change',e=>{const t=e.target;let id=t.dataset.step||t.dataset.vendor||t.dataset.note;if(!id)return;
   plan[id]=plan[id]||{};if(t.dataset.step){plan[id].done=t.checked;t.closest('.step').classList.toggle('done',t.checked)}
   if(t.dataset.vendor!=null)plan[id].vendor=t.value;if(t.dataset.note!=null)plan[id].note=t.value;save('prefs/plan',plan)});
-['#fkm','#fac','#fstar','#fhid','#fsort'].forEach(s=>$(s).addEventListener('change',()=>D&&render()));
+['#fkm','#fac','#fstar','#fsort'].forEach(s=>$(s).addEventListener('change',()=>D&&render()));
 renderPlan();
 fetch('data.json').then(r=>r.json()).then(d=>{D=d;render()}).catch(()=>{$('#headline').textContent='Could not load today’s listings.'});
 try{const a=JSON.parse(localStorage.getItem('kei:prefs/trucks')||'null');if(a)saved={stars:a.stars||{},hidden:a.hidden||{}};plan=JSON.parse(localStorage.getItem('kei:prefs/plan')||'{}')||{}}catch(e){}
