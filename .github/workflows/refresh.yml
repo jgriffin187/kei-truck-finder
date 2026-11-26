@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["site/index.html", "site/*.png", "site/icon.svg", "site/favicon.ico", "site/manifest.webmanifest", "us_leads.json", ".github/workflows/refresh.yml"]
+    paths: ["site/index.html", "site/*.png", "site/icon.svg", "site/favicon.ico", "site/manifest.webmanifest", ".github/workflows/refresh.yml"]
 
 permissions:
   contents: write

@@ -321,30 +321,7 @@ def field_block(t, label, n=1500):
 
 
 SOURCES = [("CAR FROM JAPAN", src_carfromjapan), ("SBT Japan", src_sbt), ("TCV", src_tcv),
-           ("Goo-net Exchange", src_goonet), ("BE FORWARD", src_beforward),
-           ("US dealer leads", lambda M: src_us_leads(M))]
-
-
-def src_us_leads(M):
-    """Trucks already in the US, found by the daily web search and saved to us_leads.json.
-
-    Each lead: {model ("acty" default, or "sambar"), url, title, reg_year, km, price_usd, ac,
-    chassis, drive, trans, location, seller, image, sold}. The daily run updates this file
-    before running the collector.
-    """
-    p = os.path.join(OUT_DIR, "us_leads.json")
-    if not os.path.exists(p):
-        return []
-    out = []
-    for v in json.load(open(p)):
-        if MODELS.get(v.get("model") or "acty") is not M:
-            continue
-        v = dict(v)
-        v.setdefault("source", "US dealer")
-        v.setdefault("sid", v["url"].rstrip("/").split("/")[-1])
-        v.setdefault("country", "United States")
-        out.append(v)
-    return out
+           ("Goo-net Exchange", src_goonet), ("BE FORWARD", src_beforward)]
 
 
 # ---------------------------------------------------------------- rules
@@ -395,10 +372,10 @@ def classify(t, today):
     t["legal_from"] = f"{ly}-{lm:02d}"
     now_i = today.year * 12 + today.month - 1
     leg_i = ly * 12 + lm - 1
-    in_na = t.get("country") in ("United States", "USA")
-    if in_na:
-        t["status"] = "in_us"
-    elif leg_i <= now_i:
+    # Josh is importing, so trucks already in the US are out of scope.
+    if t.get("country") in ("United States", "USA"):
+        return False
+    if leg_i <= now_i:
         t["status"] = "legal_now"
     elif leg_i <= now_i + 2:
         t["status"] = "on_arrival"
@@ -514,7 +491,7 @@ def main():
         t["is_new"] = (not rec.get("baseline") and rec["first_seen"] != model_start.get(t["model"])
                        and dt.datetime.fromisoformat(rec["first_seen"]) > since)
 
-    order = {"legal_now": 0, "in_us": 0, "on_arrival": 1, "watch": 2}
+    order = {"legal_now": 0, "on_arrival": 1, "watch": 2}
     merged.sort(key=lambda t: (order[t["status"]], -t["reg_year"],
                                t.get("km") or 10 ** 7, not t.get("ac")))
     data = {

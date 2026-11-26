@@ -6,7 +6,7 @@ Prints nothing (and the workflow skips the issue) when nothing is new.
 import argparse, json, os
 
 MON = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
-STATUS = {"legal_now": "Legal now", "in_us": "In the US", "on_arrival": "Legal on arrival", "watch": "Coming up"}
+STATUS = {"legal_now": "Legal now", "on_arrival": "Legal on arrival", "watch": "Coming up"}
 NAMES = {"acty": "Honda Acty", "sambar": "Subaru Sambar"}
 SITE = "https://jgriffin187.github.io/kei-truck-finder/"
 
@@ -29,7 +29,7 @@ def main():
     if d.get("first_run") or not d.get("new_keys"):
         return
     keys = set(d["new_keys"])
-    order = {"legal_now": 0, "in_us": 0, "on_arrival": 1, "watch": 2}
+    order = {"legal_now": 0, "on_arrival": 1, "watch": 2}
     new = sorted((t for t in d["trucks"] if t["key"] in keys), key=lambda t: order.get(t["status"], 3))
     if not new:
         return
