@@ -141,6 +141,9 @@ def src_carfromjapan(M):
             spec = c.get("specialities") if isinstance(c.get("specialities"), list) else []
             offer = c.get("offer") if isinstance(c.get("offer"), dict) else {}
             img = c.get("imagePreview") if isinstance(c.get("imagePreview"), dict) else {}
+            # "availability" is "reserved" while another buyer holds the truck
+            # (the listing says "This vehicle is currently reserved"), seen 2026-11-26.
+            avail = str(c.get("availability") or "").lower()
             out.append(dict(
                 source="CAR FROM JAPAN", sid=c["id"],
                 url="https://carfromjapan.com" + c["carUrl"],
@@ -152,6 +155,7 @@ def src_carfromjapan(M):
                 ac=True if "A/C" in spec else False,
                 drive=c.get("driveTypeKey"), chassis=chassis_of(c.get("modelCode"), c.get("VIN")),
                 vin=c.get("VIN"), trans=trans_of(c.get("transmissionKey")),
+                reserved=avail == "reserved", sold="sold" in avail,
                 image=(f"https://{img['cdnUri']}/{img['filename']}" if img.get("filename") else None),
                 location="Japan", country="Japan", seller="CAR FROM JAPAN"))
         page += 1
@@ -433,9 +437,10 @@ def main():
     if "CAR FROM JAPAN" in ERRORS and prev.get("jpy_per_usd"):
         JPY_PER_USD = prev["jpy_per_usd"]  # the live rate comes from that site; reuse the last good one
 
-    trucks = []
+    trucks, sold_keys = [], set()
     for t in raw:
         if t.get("sold"):
+            sold_keys.add(f"{t['source']}|{t['sid']}")
             continue
         if not classify(t, today):
             continue
@@ -490,6 +495,22 @@ def main():
         # clear the badge from trucks Josh hasn't seen yet.
         t["is_new"] = (not rec.get("baseline") and rec["first_seen"] != model_start.get(t["model"])
                        and dt.datetime.fromisoformat(rec["first_seen"]) > since)
+
+    # Availability of every truck we have seen, so saved_alert.py can tell Josh
+    # when a saved truck is reserved, sold or taken down. A truck only counts as
+    # gone when its site was read fine this run (a failed site keeps last run's).
+    listed = {t["key"]: t for t in trucks}
+    for k, rec in state["seen"].items():
+        t = listed.get(k)
+        if t is not None:
+            rec["avail"] = "reserved" if t.get("reserved") else "available"
+            rec.pop("gone", None)
+            rec["last_seen"] = now
+        elif k in sold_keys:
+            rec["avail"] = "sold"
+        elif not any(e.startswith(k.split("|")[0]) for e in ERRORS) and rec.get("avail") != "sold":
+            rec.setdefault("gone", now)
+            rec["avail"] = "gone"
 
     order = {"legal_now": 0, "on_arrival": 1, "watch": 2}
     merged.sort(key=lambda t: (order[t["status"]], -t["reg_year"],
