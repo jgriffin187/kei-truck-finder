@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-27T13:26+00:00",
+ "generated_at": "2026-11-27T13:29+00:00",
  "today": "2026-11-27",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.07,
@@ -53,10 +53,7 @@
   }
  },
  "errors": {},
- "new_keys": [
-  "CAR FROM JAPAN|6b0906b29e183775d6ecc4fe",
-  "CAR FROM JAPAN|6ad18f9c0e8c78eaad971fab"
- ],
+ "new_keys": [],
  "new_since": "2026-11-27T12:00+00:00",
  "first_run": false,
  "trucks": [
