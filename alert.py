@@ -9,9 +9,15 @@ WARN_AFTER runs in a row, so a blocked site doesn't go quiet unnoticed.
 The workflow opens the issue and assigns it to Josh, so GitHub emails him.
 Prints nothing (and the workflow skips the issue) when nothing is new, unless
 --summary is given: then a short "no new trucks" summary is written instead, so
-the daily run emails Josh every day.
+the daily run emails Josh every day. --auto-summary does the same for the first
+run after 1 AM Mountain each day.
 """
 import argparse, json, os
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+DENVER = ZoneInfo("America/Denver")
+SUMMARY_FROM_HOUR = 1  # the first run after 1 AM Mountain sends the daily summary
 
 MON = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 STATUS = {"legal_now": "Legal now", "on_arrival": "Legal on arrival", "watch": "Coming up"}
@@ -85,6 +91,9 @@ def main():
     ap.add_argument("--out", default="alert.md")
     ap.add_argument("--summary", action="store_true",
                     help="write a no-new-trucks summary instead of nothing")
+    ap.add_argument("--auto-summary", action="store_true",
+                    help="write the summary if this is the first run after 1 AM Mountain that "
+                         "hasn't sent one today (tracked as summary_sent_on in state.json)")
     ap.add_argument("--warn-out", default="", help="where to write a source-failure warning")
     a = ap.parse_args()
     d = json.load(open(os.path.join(a.dir, "listings.json")))
@@ -93,10 +102,28 @@ def main():
     keys = {t["key"] for t in d["trucks"] if t["key"] in keys and t.get("status") in ALERT_STATUSES}
     order = {"legal_now": 0, "on_arrival": 1, "watch": 2}
     new = sorted((t for t in d["trucks"] if t["key"] in keys), key=lambda t: order.get(t["status"], 3))
+    now = datetime.now(DENVER)
+    state_path = os.path.join(a.dir, "state.json")
+    try:
+        st = json.load(open(state_path))
+    except (OSError, ValueError):
+        st = None
+    today = now.date().isoformat()
+    due = (a.auto_summary and st is not None and now.hour >= SUMMARY_FROM_HOUR
+           and st.get("summary_sent_on") != today)
+
+    def mark_sent():
+        # Josh has heard from today's checks (a summary or a new-truck alert).
+        if st is not None and now.hour >= SUMMARY_FROM_HOUR:
+            st["summary_sent_on"] = today
+            json.dump(st, open(state_path, "w"), indent=1)
+
     if not new:
-        if a.summary:
+        if a.summary or due:
             write_summary(d, a.out)
+            mark_sent()
         return
+    mark_sent()
     lines = [f"@jgriffin187 {len(new)} new truck{'s' if len(new) > 1 else ''} just listed.", ""]
     for t in new:
         status = STATUS.get(t["status"], t["status"])
