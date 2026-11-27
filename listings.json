@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-27T16:47+00:00",
+ "generated_at": "2026-11-27T18:47+00:00",
  "today": "2026-11-27",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.07,
@@ -5469,8 +5469,8 @@
    "reg_year": 2002,
    "reg_month": 10,
    "km": 117000,
-   "price_usd": 3180,
-   "delivered_usd": 5009,
+   "price_usd": 2790,
+   "delivered_usd": 4619,
    "delivered_to": "Los Angeles",
    "ac": true,
    "drive": "4WD",
@@ -5488,7 +5488,7 @@
    "build_month_known": true,
    "legal_from": "2027-10",
    "status": "watch",
-   "usd": 3180,
+   "usd": 2790,
    "low_km": false,
    "key": "BE FORWARD|CF582052",
    "also_on": [
@@ -5506,7 +5506,7 @@
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
-   "price_drop": false,
+   "price_drop": true,
    "is_new": false
   },
   {
