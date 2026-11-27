@@ -1,14 +1,17 @@
 name: Truck refresh and watcher
 
 on:
+  # The 2-hourly checks are started by pacer.yml (GitHub skipped almost every
+  # scheduled run on Nov 26-27: one of ~9 fired). These crons stay as a backup.
   schedule:
-    # 09:17 UTC = 2:17 AM MST / 3:17 AM MDT, well before the 5 AM check. This
-    # is the daily run that always emails a summary.
     - cron: "17 9 * * *"
-    # The watcher: every 2 hours, all day, so a new truck is alerted soon
-    # after it's listed. GitHub often starts scheduled runs late or skips one.
     - cron: "47 */2 * * *"
   workflow_dispatch:
+    inputs:
+      summary:
+        description: "Always send a summary issue, even when nothing is new"
+        type: boolean
+        default: true
   push:
     branches: [main]
     paths: ["site/index.html", "site/*.png", "site/icon.svg", "site/favicon.ico", "site/manifest.webmanifest", ".github/workflows/refresh.yml"]
@@ -41,13 +44,14 @@ jobs:
       - name: Collect listings
         run: python collector.py --dir .
       - name: Write new-truck alert
-        # The daily 09:17 run and manual runs always write a summary, so Josh
-        # hears from every daily run even when nothing is new. Watcher runs
-        # (every 2 hours) and runs started by a merge only write one when they
-        # find new trucks that are legal now or within 2 months.
+        # Any run writes an issue when it finds new trucks that are legal now or
+        # within 2 months. The first run after 1 AM Mountain each day also
+        # writes a "no new trucks" summary when nothing is new (--auto-summary),
+        # so Josh hears from the checks every morning whichever run gets there.
+        # Manual runs always write the summary unless summary is unticked.
         run: >-
-          python alert.py --dir . --out "$RUNNER_TEMP/alert.md" --warn-out "$RUNNER_TEMP/warn.md"
-          ${{ ((github.event_name == 'schedule' && github.event.schedule == '17 9 * * *') || github.event_name == 'workflow_dispatch') && '--summary' || '' }}
+          python alert.py --dir . --out "$RUNNER_TEMP/alert.md" --warn-out "$RUNNER_TEMP/warn.md" --auto-summary
+          ${{ (github.event_name == 'workflow_dispatch' && inputs.summary) && '--summary' || '' }}
       - name: Email Josh about new trucks
         # An issue assigned to Josh makes GitHub email him, the same way its
         # run-failure emails reach him.

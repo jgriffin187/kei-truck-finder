@@ -1,0 +1,51 @@
+name: Truck watcher pacer
+
+# GitHub's own schedule skipped almost every 2-hourly run on Nov 26-27, 2026
+# (one of ~9 fired), so the page went stale overnight. This keeps time itself:
+# each run sleeps until the next even hour at :47 UTC, starts the truck
+# refresh, then starts the next pacer run. The repo is public, so the waiting
+# runner costs nothing.
+#
+# Only one pacer chain can exist: the concurrency group lets one run go and
+# holds at most one waiting; a newer waiting run replaces an older one. The
+# cron below restarts the chain if it ever breaks.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 */6 * * *"
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: pacer
+  cancel-in-progress: false
+
+jobs:
+  pace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Wait for the next check time
+        run: |
+          secs=$(python3 -c '
+          import datetime as d
+          now = d.datetime.now(d.timezone.utc)
+          t = now.replace(minute=47, second=0, microsecond=0)
+          while t.hour % 2 or t <= now + d.timedelta(minutes=5):
+              t += d.timedelta(hours=1)
+          print(int((t - now).total_seconds()))')
+          echo "Sleeping $secs s until the next check"
+          sleep "$secs"
+      - name: Start the truck refresh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref main -f summary=false
+      - name: Start the next pacer run
+        # Not after a manual cancel, so cancelling a run stops the chain.
+        if: success() || failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pacer.yml --repo "$GITHUB_REPOSITORY" --ref main
