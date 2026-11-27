@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-11-27T18:59+00:00",
+ "generated_at": "2026-11-27T20:47+00:00",
  "today": "2026-11-27",
  "cutoff_build": "2001-11",
  "jpy_per_usd": 158.07,
  "source_counts": {
   "CAR FROM JAPAN": 56,
-  "SBT Japan": 126,
+  "SBT Japan": 124,
   "TCV": 21,
   "Goo-net Exchange": 95,
   "BE FORWARD": 81
@@ -17,7 +17,7 @@
   },
   "SBT Japan": {
    "acty": 53,
-   "sambar": 73
+   "sambar": 71
   },
   "TCV": {
    "acty": 5,
@@ -5493,16 +5493,16 @@
    "key": "BE FORWARD|CF582052",
    "also_on": [
     {
+     "source": "SBT Japan",
+     "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBK6778?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
+     "usd": 3440,
+     "key": "SBT Japan|DBK6778"
+    },
+    {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700081003630261119001/",
      "usd": 3505,
      "key": "Goo-net Exchange|700081003630261119001"
-    },
-    {
-     "source": "SBT Japan",
-     "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBK6778?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 3890,
-     "key": "SBT Japan|DBK6778"
     }
    ],
    "first_seen": "2026-11-26T03:37+00:00",
@@ -5864,7 +5864,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700100298930261121001/",
-     "usd": 5523,
+     "usd": 5801,
      "key": "Goo-net Exchange|700100298930261121001"
     }
    ],
@@ -5950,14 +5950,7 @@
    "usd": 1730,
    "low_km": false,
    "key": "BE FORWARD|CE228942",
-   "also_on": [
-    {
-     "source": "SBT Japan",
-     "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DBK2859?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 2400,
-     "key": "SBT Japan|DBK2859"
-    }
-   ],
+   "also_on": [],
    "first_seen": "2026-11-26T03:37+00:00",
    "price_drop": false,
    "is_new": false
