@@ -10,10 +10,13 @@ name: Truck watcher pacer
 # holds at most one waiting; a newer waiting run replaces an older one. The
 # cron below restarts the chain if it ever breaks.
 
+# Turned off 2026-11-27: Josh found his truck. The chain only restarts if
+# someone runs this workflow by hand (Actions > Truck watcher pacer > Run
+# workflow); to bring back the automatic restart, uncomment the schedule.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "23 */6 * * *"
+  # schedule:
+  #   - cron: "23 */6 * * *"
 
 permissions:
   actions: write

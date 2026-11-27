@@ -3,9 +3,10 @@ name: Truck refresh and watcher
 on:
   # The 2-hourly checks are started by pacer.yml (GitHub skipped almost every
   # scheduled run on Nov 26-27: one of ~9 fired). These crons stay as a backup.
-  schedule:
-    - cron: "17 9 * * *"
-    - cron: "47 */2 * * *"
+  # Turned off 2026-11-27: Josh found his truck. Uncomment to turn back on.
+  # schedule:
+  #   - cron: "17 9 * * *"
+  #   - cron: "47 */2 * * *"
   workflow_dispatch:
     inputs:
       summary:
@@ -14,7 +15,7 @@ on:
         default: true
   push:
     branches: [main]
-    paths: ["site/index.html", "site/*.png", "site/icon.svg", "site/favicon.ico", "site/manifest.webmanifest", ".github/workflows/refresh.yml"]
+    paths: ["site/index.html", "site/*.png", "site/icon.svg", "site/favicon.ico", "site/manifest.webmanifest"]
 
 permissions:
   contents: write
