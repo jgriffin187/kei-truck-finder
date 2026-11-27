@@ -1,23 +1,23 @@
 {
- "generated_at": "2026-11-26T20:46+00:00",
- "today": "2026-11-26",
+ "generated_at": "2026-11-27T03:18+00:00",
+ "today": "2026-11-27",
  "cutoff_build": "2001-11",
- "jpy_per_usd": 158.34,
+ "jpy_per_usd": 158.07,
  "source_counts": {
-  "CAR FROM JAPAN": 55,
-  "SBT Japan": 126,
+  "CAR FROM JAPAN": 56,
+  "SBT Japan": 125,
   "TCV": 21,
-  "Goo-net Exchange": 98,
-  "BE FORWARD": 80
+  "Goo-net Exchange": 97,
+  "BE FORWARD": 81
  },
  "model_counts": {
   "CAR FROM JAPAN": {
    "acty": 29,
-   "sambar": 26
+   "sambar": 27
   },
   "SBT Japan": {
    "acty": 52,
-   "sambar": 74
+   "sambar": 73
   },
   "TCV": {
    "acty": 5,
@@ -25,11 +25,11 @@
   },
   "Goo-net Exchange": {
    "acty": 36,
-   "sambar": 62
+   "sambar": 61
   },
   "BE FORWARD": {
    "acty": 5,
-   "sambar": 75
+   "sambar": 76
   }
  },
  "models": {
@@ -52,7 +52,9 @@
    "manual_only": true
   }
  },
- "errors": {},
+ "errors": {
+  "Goo-net Exchange (some details)": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700020451730260225003/: HTTP 404"
+ },
  "new_keys": [],
  "new_since": "2026-11-26T12:00+00:00",
  "first_run": false,
@@ -118,7 +120,7 @@
    "build_month_known": true,
    "legal_from": "2026-07",
    "status": "legal_now",
-   "usd": 2482,
+   "usd": 2486,
    "low_km": true,
    "key": "Goo-net Exchange|700055011830261010001",
    "also_on": [
@@ -239,7 +241,7 @@
    "build_month_known": true,
    "legal_from": "2026-08",
    "status": "legal_now",
-   "usd": 1863,
+   "usd": 1866,
    "low_km": false,
    "key": "Goo-net Exchange|700920003330260708001",
    "also_on": [],
@@ -272,7 +274,7 @@
    "build_month_known": true,
    "legal_from": "2026-09",
    "status": "legal_now",
-   "usd": 3000,
+   "usd": 3005,
    "low_km": false,
    "key": "Goo-net Exchange|700080020530251203001",
    "also_on": [],
@@ -415,7 +417,7 @@
    "build_month_known": true,
    "legal_from": "2026-04",
    "status": "legal_now",
-   "usd": 4749,
+   "usd": 4757,
    "low_km": false,
    "key": "Goo-net Exchange|700090420930230710002",
    "also_on": [],
@@ -536,7 +538,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700104006330261030006/",
-     "usd": 3311,
+     "usd": 3317,
      "key": "Goo-net Exchange|700104006330261030006"
     },
     {
@@ -704,13 +706,13 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700052063530261120001/",
-     "usd": 2366,
+     "usd": 2370,
      "key": "Goo-net Exchange|700052063530261120001"
     },
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2001-for-sale-6b00d3b01336ed5c412c10f8",
-     "usd": 2429,
+     "usd": 2434,
      "key": "CAR FROM JAPAN|6b00d3b01336ed5c412c10f8"
     }
    ],
@@ -824,7 +826,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700070313430261021001/",
-     "usd": 8848,
+     "usd": 8863,
      "key": "Goo-net Exchange|700070313430261021001"
     }
    ],
@@ -983,7 +985,7 @@
    "build_month_known": true,
    "legal_from": "2025-07",
    "status": "legal_now",
-   "usd": 3568,
+   "usd": 3574,
    "low_km": true,
    "key": "Goo-net Exchange|700110199030261021001",
    "also_on": [],
@@ -1164,7 +1166,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 6000,
+   "usd": 6010,
    "low_km": false,
    "key": "Goo-net Exchange|962026032601300047020",
    "also_on": [],
@@ -1244,7 +1246,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700120128030241024001/",
-     "usd": 2046,
+     "usd": 2050,
      "key": "Goo-net Exchange|700120128030241024001"
     }
    ],
@@ -1516,7 +1518,7 @@
    "build_month_known": true,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 4579,
+   "usd": 4587,
    "low_km": false,
    "key": "Goo-net Exchange|700104006730260613001",
    "also_on": [],
@@ -1584,7 +1586,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 5305,
+   "usd": 5314,
    "low_km": false,
    "key": "Goo-net Exchange|962025070401300047012",
    "also_on": [],
@@ -1791,7 +1793,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700040329130260822001/",
-     "usd": 4194,
+     "usd": 4201,
      "key": "Goo-net Exchange|700040329130260822001"
     }
    ],
@@ -1871,7 +1873,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700094006430260825004/",
-     "usd": 2617,
+     "usd": 2621,
      "key": "Goo-net Exchange|700094006430260825004"
     },
     {
@@ -2001,7 +2003,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700055109630261107001/",
-     "usd": 3151,
+     "usd": 3157,
      "key": "Goo-net Exchange|700055109630261107001"
     }
    ],
@@ -2034,7 +2036,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 6694,
+   "usd": 6706,
    "low_km": false,
    "key": "Goo-net Exchange|962026071701300047005",
    "also_on": [],
@@ -2067,7 +2069,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 2290,
+   "usd": 2294,
    "low_km": false,
    "key": "Goo-net Exchange|700110095630261018002",
    "also_on": [
@@ -2161,7 +2163,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700012668530260817001/",
-     "usd": 3561,
+     "usd": 3567,
      "key": "Goo-net Exchange|700012668530260817001"
     }
    ],
@@ -2340,7 +2342,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 3221,
+   "usd": 3226,
    "low_km": false,
    "key": "Goo-net Exchange|962025050901300047010",
    "also_on": [],
@@ -2408,7 +2410,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 3068,
+   "usd": 3073,
    "low_km": false,
    "key": "Goo-net Exchange|700100223230261115001",
    "also_on": [
@@ -2521,7 +2523,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 3252,
+   "usd": 3258,
    "low_km": false,
    "key": "Goo-net Exchange|700070001030261111001",
    "also_on": [],
@@ -2637,7 +2639,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 6694,
+   "usd": 6706,
    "low_km": false,
    "key": "Goo-net Exchange|962025080701300047011",
    "also_on": [],
@@ -2670,7 +2672,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 1503,
+   "usd": 1506,
    "low_km": false,
    "key": "Goo-net Exchange|700090263730251007006",
    "also_on": [],
@@ -2703,7 +2705,7 @@
    "build_month_known": false,
    "legal_from": "2025-12",
    "status": "legal_now",
-   "usd": 2165,
+   "usd": 2169,
    "low_km": false,
    "key": "Goo-net Exchange|700020099530250728001",
    "also_on": [],
@@ -2772,7 +2774,7 @@
    "build_month_known": false,
    "legal_from": "2024-12",
    "status": "legal_now",
-   "usd": 6000,
+   "usd": 6010,
    "low_km": false,
    "key": "Goo-net Exchange|962026031301300047019",
    "also_on": [],
@@ -2805,7 +2807,7 @@
    "build_month_known": true,
    "legal_from": "2024-06",
    "status": "legal_now",
-   "usd": 4958,
+   "usd": 4966,
    "low_km": false,
    "key": "Goo-net Exchange|700104006720130627001",
    "also_on": [],
@@ -2912,7 +2914,7 @@
    "build_month_known": false,
    "legal_from": "2024-12",
    "status": "legal_now",
-   "usd": 2617,
+   "usd": 2621,
    "low_km": false,
    "key": "Goo-net Exchange|700120036630250310002",
    "also_on": [
@@ -2972,7 +2974,7 @@
    "reg_month": null,
    "mfg_year": null,
    "km": 99800,
-   "price_usd": 4934,
+   "price_usd": 4926,
    "ac": null,
    "drive": "4WD",
    "chassis": "HA7",
@@ -2989,7 +2991,7 @@
    "build_month_known": false,
    "legal_from": "2024-12",
    "status": "legal_now",
-   "usd": 4934,
+   "usd": 4926,
    "low_km": false,
    "key": "TCV|43126308",
    "also_on": [
@@ -3002,13 +3004,13 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/962026061801300047018/",
-     "usd": 5305,
+     "usd": 5314,
      "key": "Goo-net Exchange|962026061801300047018"
     },
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-honda-acty-truck-1999-for-sale-6a35ce8aee76996b50368eb1",
-     "usd": 5662,
+     "usd": 5672,
      "key": "CAR FROM JAPAN|6a35ce8aee76996b50368eb1"
     }
    ],
@@ -3025,8 +3027,8 @@
    "reg_month": 1,
    "mfg_year": null,
    "km": 104000,
-   "price_usd": 1998,
-   "delivered_usd": 4301,
+   "price_usd": 1997,
+   "delivered_usd": 4300,
    "delivered_to": "Long Beach/Los Angeles",
    "ac": false,
    "drive": "4WD",
@@ -3046,7 +3048,7 @@
    "build_month_known": true,
    "legal_from": "2024-01",
    "status": "legal_now",
-   "usd": 1998,
+   "usd": 1997,
    "low_km": false,
    "key": "CAR FROM JAPAN|6a6ba1a63c3ed8cda2db3079",
    "also_on": [],
@@ -3149,7 +3151,7 @@
    "build_month_known": false,
    "legal_from": "2024-12",
    "status": "legal_now",
-   "usd": 4263,
+   "usd": 4270,
    "low_km": false,
    "key": "Goo-net Exchange|700090420930251128001",
    "also_on": [
@@ -3262,7 +3264,7 @@
    "build_month_known": true,
    "legal_from": "2027-01",
    "status": "on_arrival",
-   "usd": 3276,
+   "usd": 3282,
    "low_km": false,
    "key": "Goo-net Exchange|700090409530261018004",
    "also_on": [
@@ -3311,7 +3313,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700120128030260802001/",
-     "usd": 2678,
+     "usd": 2682,
      "key": "Goo-net Exchange|700120128030260802001"
     }
    ],
@@ -3492,7 +3494,7 @@
    "build_month_known": false,
    "legal_from": "2026-12",
    "status": "on_arrival",
-   "usd": 2937,
+   "usd": 2942,
    "low_km": false,
    "key": "Goo-net Exchange|700903005830261115001",
    "also_on": [],
@@ -3957,23 +3959,26 @@
    "is_new": false
   },
   {
-   "source": "Goo-net Exchange",
-   "sid": "700100269730260928001",
-   "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700100269730260928001/",
-   "title": "HONDA ACTY TRUCK\n                                SDX",
+   "source": "SBT Japan",
+   "sid": "DCC2258",
+   "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DCC2258?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
+   "title": "2001 Honda Acty Truck Sdx",
    "reg_year": 2001,
    "reg_month": null,
+   "mfg_year": 2001,
    "km": 132560,
-   "price_jpy": 694800,
-   "ac": false,
+   "price_usd": 4390,
+   "delivered_usd": 5481,
+   "delivered_to": "Long Beach",
+   "ac": null,
    "drive": "4WD",
-   "trans": "MANUAL",
    "chassis": "HA7",
-   "vin": "HA7-120****",
-   "image": "https://picture1.goo-net.com/J13/J1302R0/O/J1302R04226J1302englishNR.jpg",
-   "location": "Hiroshima, Japan",
+   "trans": "MANUAL",
+   "reserved": false,
+   "image": "https://img.sbtjapan.com/dealercarphoto/DCC2258/f.jpg?v=20261127&imwidth=300",
+   "location": "Hiroshima, JAPAN",
    "country": "Japan",
-   "seller": "Goo-net Exchange dealer",
+   "seller": "SBT Japan",
    "model": "acty",
    "chassis_code": "HA7",
    "ha7": "confirmed",
@@ -3981,19 +3986,19 @@
    "build_month_known": false,
    "legal_from": "2026-12",
    "status": "on_arrival",
-   "usd": 4388,
+   "usd": 4390,
    "low_km": false,
-   "key": "Goo-net Exchange|700100269730260928001",
+   "key": "SBT Japan|DCC2258",
    "also_on": [
     {
-     "source": "SBT Japan",
-     "url": "https://www.sbtjapan.com/used-cars/honda/acty-truck/DCC2258?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-     "usd": 4390,
-     "key": "SBT Japan|DCC2258"
+     "source": "Goo-net Exchange",
+     "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700100269730260928001/",
+     "usd": 4396,
+     "key": "Goo-net Exchange|700100269730260928001"
     }
    ],
-   "first_seen": "2026-11-22T14:48+00:00",
-   "price_drop": false,
+   "first_seen": "2026-11-23T21:27+00:00",
+   "price_drop": true,
    "is_new": false
   },
   {
@@ -4021,7 +4026,7 @@
    "build_month_known": false,
    "legal_from": "2026-12",
    "status": "on_arrival",
-   "usd": 3290,
+   "usd": 3296,
    "low_km": false,
    "key": "Goo-net Exchange|700080385130260806003",
    "also_on": [],
@@ -4143,13 +4148,13 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/962026092401300047011/",
-     "usd": 7389,
+     "usd": 7402,
      "key": "Goo-net Exchange|962026092401300047011"
     },
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2001-for-sale-6ab6febba271f33c898c180b",
-     "usd": 7954,
+     "usd": 7968,
      "key": "CAR FROM JAPAN|6ab6febba271f33c898c180b"
     }
    ],
@@ -4342,7 +4347,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700100275330260702001/",
-     "usd": 6139,
+     "usd": 6149,
      "key": "Goo-net Exchange|700100275330260702001"
     }
    ],
@@ -4351,26 +4356,25 @@
    "is_new": false
   },
   {
-   "source": "SBT Japan",
-   "sid": "DAK6788",
-   "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAK6788?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
-   "title": "2002/9 Subaru Sambar Truck",
+   "source": "BE FORWARD",
+   "sid": "CC163143",
+   "url": "https://www.beforward.jp/subaru/sambar-truck/cc163143/id/14180547/?mfg_year_from=2000",
+   "title": "2002 SUBARU SAMBAR TRUCK",
    "reg_year": 2002,
    "reg_month": 9,
-   "mfg_year": null,
    "km": 39441,
-   "price_usd": 3900,
-   "delivered_usd": 4988,
-   "delivered_to": "Long Beach",
-   "ac": null,
+   "price_usd": 3510,
+   "delivered_usd": 5279,
+   "delivered_to": "Los Angeles",
+   "ac": true,
    "drive": "4WD",
    "chassis": "TT2",
    "trans": "MANUAL",
-   "reserved": false,
-   "image": "https://img.sbtjapan.com/dealercarphoto/DAK6788/f.jpg?v=20261127&imwidth=300",
-   "location": "Ehime, JAPAN",
+   "sold": false,
+   "image": "https://image-cdn.beforward.jp/medium/202602/14180547/CC163143_1cc43c45.jpg?w=200",
+   "location": "Kobe, Japan",
    "country": "Japan",
-   "seller": "SBT Japan",
+   "seller": "BE FORWARD",
    "model": "sambar",
    "chassis_code": "TT2",
    "ha7": "confirmed",
@@ -4378,13 +4382,26 @@
    "build_month_known": true,
    "legal_from": "2027-09",
    "status": "watch",
-   "usd": 3900,
+   "usd": 3510,
    "low_km": true,
-   "key": "SBT Japan|DAK6788",
-   "also_on": [],
-   "first_seen": "2026-11-26T20:24+00:00",
+   "key": "BE FORWARD|CC163143",
+   "also_on": [
+    {
+     "source": "SBT Japan",
+     "url": "https://www.sbtjapan.com/used-cars/subaru/sambar-truck/DAK6788?country=85&port=212&shipment=1&currency=usd&freight=0&inspection=0&insurance=1",
+     "usd": 3900,
+     "key": "SBT Japan|DAK6788"
+    },
+    {
+     "source": "CAR FROM JAPAN",
+     "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2002-for-sale-6993a469cc25a14c1a6bf5b4",
+     "usd": 4141,
+     "key": "CAR FROM JAPAN|6993a469cc25a14c1a6bf5b4"
+    }
+   ],
+   "first_seen": "2026-11-27T03:18+00:00",
    "price_drop": false,
-   "is_new": true
+   "is_new": false
   },
   {
    "source": "BE FORWARD",
@@ -4420,7 +4437,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700090382930260819001/",
-     "usd": 3846,
+     "usd": 3853,
      "key": "Goo-net Exchange|700090382930260819001"
     }
    ],
@@ -4453,7 +4470,7 @@
    "build_month_known": true,
    "legal_from": "2027-09",
    "status": "watch",
-   "usd": 5305,
+   "usd": 5314,
    "low_km": true,
    "key": "Goo-net Exchange|700131008430260525001",
    "also_on": [],
@@ -4496,7 +4513,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700050023830231023001/",
-     "usd": 12912,
+     "usd": 12934,
      "key": "Goo-net Exchange|700050023830231023001"
     }
    ],
@@ -4529,7 +4546,7 @@
    "build_month_known": true,
    "legal_from": "2027-03",
    "status": "watch",
-   "usd": 2173,
+   "usd": 2176,
    "low_km": true,
    "key": "Goo-net Exchange|700054140130260629002",
    "also_on": [],
@@ -4707,7 +4724,7 @@
    "build_month_known": true,
    "legal_from": "2027-04",
    "status": "watch",
-   "usd": 4055,
+   "usd": 4061,
    "low_km": false,
    "key": "Goo-net Exchange|700110150330241220001",
    "also_on": [
@@ -4803,7 +4820,7 @@
     {
      "source": "CAR FROM JAPAN",
      "url": "https://carfromjapan.com/cheap-used-subaru-sambar-truck-2002-for-sale-68607bda46c3e259dfb1ae7b",
-     "usd": 7572,
+     "usd": 7585,
      "key": "CAR FROM JAPAN|68607bda46c3e259dfb1ae7b"
     }
    ],
@@ -4845,7 +4862,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700120137330260609001/",
-     "usd": 3568,
+     "usd": 3574,
      "key": "Goo-net Exchange|700120137330260609001"
     },
     {
@@ -4920,7 +4937,7 @@
    "build_month_known": true,
    "legal_from": "2027-09",
    "status": "watch",
-   "usd": 2678,
+   "usd": 2682,
    "low_km": false,
    "key": "Goo-net Exchange|700120128030261028001",
    "also_on": [],
@@ -4953,7 +4970,7 @@
    "build_month_known": true,
    "legal_from": "2027-11",
    "status": "watch",
-   "usd": 2179,
+   "usd": 2183,
    "low_km": false,
    "key": "Goo-net Exchange|700050023330261112001",
    "also_on": [],
@@ -5001,7 +5018,7 @@
     {
      "source": "TCV",
      "url": "https://www.tc-v.com/used_car/subaru/sambar%20truck/43869577/",
-     "usd": 7467,
+     "usd": 7455,
      "key": "TCV|43869577"
     }
    ],
@@ -5034,7 +5051,7 @@
    "build_month_known": true,
    "legal_from": "2027-06",
    "status": "watch",
-   "usd": 2798,
+   "usd": 2803,
    "low_km": false,
    "key": "Goo-net Exchange|700090088530260624001",
    "also_on": [],
@@ -5067,7 +5084,7 @@
    "build_month_known": true,
    "legal_from": "2027-08",
    "status": "watch",
-   "usd": 5444,
+   "usd": 5453,
    "low_km": false,
    "key": "Goo-net Exchange|700100228530250329001",
    "also_on": [],
@@ -5145,7 +5162,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700040411030260623001/",
-     "usd": 2353,
+     "usd": 2357,
      "key": "Goo-net Exchange|700040411030260623001"
     },
     {
@@ -5184,7 +5201,7 @@
    "build_month_known": true,
    "legal_from": "2027-05",
    "status": "watch",
-   "usd": 2621,
+   "usd": 2625,
    "low_km": false,
    "key": "Goo-net Exchange|700123068930261101003",
    "also_on": [],
@@ -5217,7 +5234,7 @@
    "build_month_known": true,
    "legal_from": "2027-03",
    "status": "watch",
-   "usd": 3000,
+   "usd": 3005,
    "low_km": false,
    "key": "Goo-net Exchange|700100314130260929001",
    "also_on": [],
@@ -5250,7 +5267,7 @@
    "build_month_known": true,
    "legal_from": "2027-08",
    "status": "watch",
-   "usd": 3695,
+   "usd": 3701,
    "low_km": false,
    "key": "Goo-net Exchange|700123065530260928004",
    "also_on": [],
@@ -5283,7 +5300,7 @@
    "build_month_known": true,
    "legal_from": "2027-04",
    "status": "watch",
-   "usd": 2672,
+   "usd": 2677,
    "low_km": false,
    "key": "Goo-net Exchange|700100246130261021001",
    "also_on": [],
@@ -5402,7 +5419,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700080519430260718001/",
-     "usd": 3068,
+     "usd": 3073,
      "key": "Goo-net Exchange|700080519430260718001"
     }
    ],
@@ -5450,7 +5467,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700081003630261119001/",
-     "usd": 3916,
+     "usd": 3922,
      "key": "Goo-net Exchange|700081003630261119001"
     }
    ],
@@ -5493,7 +5510,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700070900030260904004/",
-     "usd": 4958,
+     "usd": 4966,
      "key": "Goo-net Exchange|700070900030260904004"
     }
    ],
@@ -5571,7 +5588,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700084038130260205002/",
-     "usd": 2735,
+     "usd": 2739,
      "key": "Goo-net Exchange|700084038130260205002"
     },
     {
@@ -5717,7 +5734,7 @@
    "build_month_known": true,
    "legal_from": "2027-02",
    "status": "watch",
-   "usd": 2482,
+   "usd": 2486,
    "low_km": false,
    "key": "Goo-net Exchange|700100278330261016001",
    "also_on": [],
@@ -5765,7 +5782,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700040399230260829002/",
-     "usd": 2874,
+     "usd": 2878,
      "key": "Goo-net Exchange|700040399230260829002"
     }
    ],
@@ -5813,7 +5830,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700100298930261121001/",
-     "usd": 5513,
+     "usd": 5523,
      "key": "Goo-net Exchange|700100298930261121001"
     }
    ],
@@ -5861,7 +5878,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700080359130261009004/",
-     "usd": 2109,
+     "usd": 2113,
      "key": "Goo-net Exchange|700080359130261009004"
     }
    ],
@@ -5903,7 +5920,7 @@
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/SUBARU/SAMBAR_TRUCK/700110115530260728001/",
-     "usd": 2318,
+     "usd": 2322,
      "key": "Goo-net Exchange|700110115530260728001"
     },
     {
@@ -5926,8 +5943,8 @@
    "reg_month": 7,
    "mfg_year": null,
    "km": 196000,
-   "price_usd": 1444,
-   "delivered_usd": 3747,
+   "price_usd": 1446,
+   "delivered_usd": 3749,
    "delivered_to": "Long Beach/Los Angeles",
    "ac": false,
    "drive": "4WD",
@@ -5947,14 +5964,14 @@
    "build_month_known": true,
    "legal_from": "2027-07",
    "status": "watch",
-   "usd": 1444,
+   "usd": 1446,
    "low_km": false,
    "key": "CAR FROM JAPAN|6afe3051afbd77c61343836a",
    "also_on": [
     {
      "source": "Goo-net Exchange",
      "url": "https://www.goo-net-exchange.com/usedcars/HONDA/ACTY_TRUCK/700050361230261115003/",
-     "usd": 1470,
+     "usd": 1473,
      "key": "Goo-net Exchange|700050361230261115003"
     },
     {
